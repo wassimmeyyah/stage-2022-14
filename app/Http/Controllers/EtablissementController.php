@@ -107,14 +107,13 @@ class EtablissementController extends Controller
                 'SPECode' => $_POST['SPECode'],
                 'VILCode' => $_POST['VILCode']
             ]);
+            return redirect('/etablissement')->with("successAjout", "l'etablissement' '$request->ETABNom'a été ajouté avec succès"); 
     
         }
                 catch(QueryException $q){  
-                    ddd($q);
+                    return redirect('/etablissement/ajouter')->with("echecAjout", "Le numero RNE existe deja");
         }
 
-
-        return redirect('/etablissement')->with("successAjout", "l'etablissement' '$request->ETABNom'a été ajouté avec succès") or redirect('/etablissement/ajouter')->with("echecAjout", "Numero RNE existe deja");
     }
 
     /**
