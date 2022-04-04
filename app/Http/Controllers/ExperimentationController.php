@@ -290,9 +290,6 @@ class ExperimentationController extends Controller
         return view("experimentationAffichage", compact("experimentation",'etablissement','groupethematique','thematique','palier','territoire','type','specialite','ville','coordonnee'));
     }
 
-
-
-
     public function telechargerPdf($id3){
 
         $etablissements= Etablissement::all();

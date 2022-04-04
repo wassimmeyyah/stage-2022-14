@@ -165,3 +165,5 @@ Route::get('/recherche2', [UsersController::class, 'recherche'])->name("goUserRe
 Route::get('/thematique/ajouter',[ThematiqueController::class, 'create'])->name("goThematiqueAjouter");
 
 Route::post('/thematique/ajouter',[ThematiqueController::class, 'store'])->name("goThematiqueAjouter");
+
+Route::get('/etablissementtest', [EtablissementController::class, 'fake']);

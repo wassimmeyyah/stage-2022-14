@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Porteur;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Etablissement extends Model
 {
@@ -25,47 +27,58 @@ class Etablissement extends Model
     }
     use HasFactory;
 
-    protected $table='etablissement';
-    protected $primaryKey ='ETABCode';
+    protected $table = 'etablissement';
+    protected $primaryKey = 'ETABCode';
 
 
     protected $keyType = 'string';
-    public $incrementing ='false';
-    protected $connection ='mysql';
+    public $incrementing = 'false';
+    protected $connection = 'mysql';
     /**
      * @var mixed
      */
 
-   /* public function territoire(){
+    /* public function territoire(){
         return $this->hasOne(Territoire::class);
     }*/
-    public function territoire() {
+    public function territoire()
+    {
         return $this->belongsTo('territoire', 'TERRCode');
     }
 
-    public function specialite(){
+    public function specialite()
+    {
         return $this->hasOne(Specialite::class);
     }
 
-    public function type(){
-        return $this->belongsTo('type','TYPCode');
+    public function type()
+    {
+        return $this->belongsTo('type', 'TYPCode');
     }
 
-    public function ville(){
+    public function ville()
+    {
         return $this->hasOne(Ville::class);
     }
 
-    public function porteur() {
-        return $this->belongsTo('porteur', 'ETABCode');
+    public function porteur()
+    {
+        // return $this->belongsTo('porteur', 'ETABCode');
+
+        // return $this->belongsTo('porteur', 'ETABCode');
+        return $this->belongsToMany(Porteur::class, 'coordination', 'ETABCode', 'PORTCode');
     }
 
-    public function coordination() {
+    public function inspecteur()
+    {
+        // return $this->belongsTo('porteur', 'ETABCode');
+
+        // return $this->belongsTo('porteur', 'ETABCode');
+        return $this->belongsToMany(Inspecteur::class, 'coordination', 'ETABCode', 'PORTCode');
+    }
+
+    public function coordination()
+    {
         return $this->belongsTo('coordination', 'ETABCode');
     }
-
-
-
-
-
-
 }

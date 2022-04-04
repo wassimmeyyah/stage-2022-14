@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Porteur extends Model
 {
+
+    use HasFactory;
     /**
      * @return string
      */
@@ -22,7 +24,7 @@ class Porteur extends Model
     {
         $this->primaryKey = $primaryKey;
     }
-    use HasFactory;
+
 
     protected $table='porteur';
     protected $primaryKey ='PORTCode';
@@ -35,4 +37,9 @@ class Porteur extends Model
      * @var mixed
      */
 
+    public function etablissement()
+    {
+        return $this->belongsToMany(Etablissement::class, 'coordination', 'PORTCode', 'ETABCode');
+
+    }
 }
