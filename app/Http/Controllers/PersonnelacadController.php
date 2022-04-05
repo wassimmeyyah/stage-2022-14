@@ -69,13 +69,13 @@ class PersonnelacadController extends Controller
 
         $res = DB::table('personnelacad')->insert([
 
-            'PANom' => $_POST['PANom'],
-            'PAPrenom' => $_POST['PAPrenom'],
-            'PAMail' => $_POST['PAMail'],
-            'PADiscipline' => $_POST['PADiscipline'],
-            'PAAdressePerso' => $_POST['PAAdressePerso'],
-            'PATel' => $_POST['PATel'],
-            'ETABCode' => $_POST['ETABCode']
+            'PANom' => $request->input('PANom'),
+            'PAPrenom' => $request->input('PAPrenom'),
+            'PAMail' => $request->input('PAMail'),
+            'PADiscipline' => $request->input('PADiscipline'),
+            'PAAdressePerso' => $request->input('PAAdressePerso'),
+            'PATel' => $request->input('PATel'),
+            'ETABCode' => $request->input('ETABCode')
         ]);
 
 
@@ -123,14 +123,14 @@ class PersonnelacadController extends Controller
         $personnelacad->delete($personnelacad);
 
         $personnelacad->insert([
-            'PACode' => $_POST['PACode'],
-            'PANom' => $_POST['PANom'],
-            'PAPrenom' => $_POST['PAPrenom'],
-            'PAMail' => $_POST['PAMail'],
-            'PADiscipline' => $_POST['PADiscipline'],
-            'PAAdressePerso' => $_POST['PAAdressePerso'],
-            'PATel' => $_POST['PATel'],
-            'ETABCode' => $_POST['ETABCode']
+            'PACode' => $request->input('PACode'),
+            'PANom' => $request->input('PANom'),
+            'PAPrenom' => $request->input('PAPrenom'),
+            'PAMail' => $request->input('PAMail'),
+            'PADiscipline' => $request->input('PADiscipline'),
+            'PAAdressePerso' => $request->input('PAAdressePerso'),
+            'PATel' => $request->input('PATel'),
+            'ETABCode' => $request->input('ETABCode')
         ]);
 
         return redirect('/personnelacad')->with("successModify", "La personne' '$request->PANom' a été mise à jour avec succès");

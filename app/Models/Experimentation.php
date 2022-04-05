@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Experimentation extends Model
 {
 
+    use HasFactory;
+    public $timestamps = false;
     /**
      * @return string
      */
@@ -23,7 +25,7 @@ class Experimentation extends Model
     {
         $this->primaryKey = $primaryKey;
     }
-    use HasFactory;
+
 
     protected $table='experimentation';
     protected $primaryKey ='EXPCode';
@@ -36,7 +38,24 @@ class Experimentation extends Model
      * @var mixed
      */
 
+    public function porteur()
+    {
 
+        return $this->belongsToMany(Porteur::class, 'accompagnement', 'EXPCode', 'PORTCode');
+
+    }
+    public function personelacad()
+    {
+
+        return $this->belongsToMany(Personnelacad::class, 'accompagnement', 'EXPCode', 'PACode');
+
+    }
+    public function thematique()
+    {
+
+        return $this->belongsToMany(Thematique::class, 'thematique_abordee', 'EXPCode', 'THEMACode');
+
+    }
 
 
 

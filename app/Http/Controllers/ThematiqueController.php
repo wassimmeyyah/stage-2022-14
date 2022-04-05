@@ -24,8 +24,8 @@ class ThematiqueController extends Controller
 
         $res = DB::table('thematique')->insert([
 
-            'THEMACode' => $_POST['THEMACode'],
-            'THEMALibelle' => $_POST['THEMALibelle']
+            'THEMACode' => $request->input('THEMACode'),
+            'THEMALibelle' => $request->input('THEMALibelle')
         ]);
 
 

@@ -140,42 +140,47 @@
                 @endforeach
             </select>
         </div>
+        <script type="text/javascript">
 
-        <div id="porteur">
-            <div class="contener1">
-                <form name="add_porteur" id="add_porteur" method="post" action="">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dynamic_field">
-                            <tr>
-                                <td>
-                                    <label for="PORTNom">Nom du porteur </label>
-                                    <input type="text" name="name[]" placeholder="Entrez le nom du porteur..." class="form-control name_list">
-                                </td>
-                                <td>
-                                    <label for="PORTMail">Mail du porteur </label>
-                                    <input type="text" name="mail[]" placeholder="Entrez le mail du porteur ..." class="form-control name_list">
-                                </td>
-                                <td>
-                                    <label for="PORTTel">Numéro de téléphone du porteur</label>
-                                    <input type="text" name="telephone[]" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list">
-                                </td>
+            $('#parent_id').on('change',function(){
+                $(".some").hide();
+                var some = $(this).find('option:selected').val();
+                $("#some_" + some).show();
+            });
+        </script>
 
-                                <td>
-                                    <button type="button" name="add" id="add" class="btn btn-primary">Ajouter</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </form>
+        <div class="form-group" name="add_porteur" id="add_porteur">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dynamic_field">
+                    <tr>
+                        <td>
+                            <label for="PORTNom">Nom du porteur </label>
+                            <input type="text" name="PORTNom0" placeholder="Entrez le nom du porteur..." class="form-control name_list">
+                        </td>
+                        <td>
+                            <label for="PORTMail">Mail du porteur </label>
+                            <input type="text" name="PORTMail0" placeholder="Entrez le mail du porteur ..." class="form-control name_list">
+                        </td>
+                        <td>
+                            <label for="PORTTel">Numéro de téléphone du porteur</label>
+                            <input type="text" name="PORTTel0" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list">
+                        </td>
+
+                        <td>
+                            <button type="button" name="add" id="add" class="btn btn-primary">Ajouter</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <script type="text/javascript">
             $(document).ready(function() {
-                var i = 1;
+                var i = 0;
                 $('#add').click(function() {
                     i++;
-                    $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="name[]" placeholder="Entrez le nom du porteur ..." class="form-control name_list" /></td><td><input type="text" name="mail[]" placeholder="Entrez le mail du porteur ..." class="form-control name_list" /></td><td><input type="text" name="telephone[]" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
-                });
+                    if(i<3){
+                        $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="PORTNom' + i + '" placeholder="Entrez le nom du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTMail' + i + '" placeholder="Entrez le mail du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTTel' + i + '" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                    }});
                 $(document).on('click', '.btn_remove', function() {
                     var button_id = $(this).attr('id');
                     $('#row' + button_id + '').remove();
@@ -195,34 +200,31 @@
         </script>
 
 
-        <div id="porteur">
-            <div class="contener1">
-                <form name="add_personnelacad" id="add_personnelacad" method="post" action="">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dynamic_fieldAP">
-                            <tr>
-                                <td>
-                                    <label for="PORTNom">Nom de l'accompagnateur </label>
-                                    <select class="form-control" name="PACode">
-                                        <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <button type="button" name="addAP" id="addAP" class="btn btn-primary">Ajouter</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </form>
+        <div class="group-form" name="add_personnelacad" id="add_personnelacad">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dynamic_fieldAP">
+                    <tr>
+                        <td>
+                            <label for="PANom0">Nom de l'accompagnateur </label>
+                            <select class="form-control" name="PANom0">
+                                <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <button type="button" name="addAP" id="addAP" class="btn btn-primary">Ajouter</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <script type="text/javascript">
             $(document).ready(function() {
-                var i = 1;
+                var i = 0;
                 $('#addAP').click(function() {
                     i++;
-                    $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PACode"> <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach </select></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
-                });
+                    if(i<3) {
+                        $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PANom' + i + '"> <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach </select></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                    }});
                 $(document).on('click', '.btn_remove', function() {
                     var button_id = $(this).attr('id');
                     $('#row' + button_id + '').remove();
@@ -240,6 +242,7 @@
                 });
             });
         </script>
+
 
 
         <div class="btn-group">

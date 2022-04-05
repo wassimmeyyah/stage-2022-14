@@ -9,6 +9,7 @@ class Porteur extends Model
 {
 
     use HasFactory;
+    public $timestamps = false;
     /**
      * @return string
      */

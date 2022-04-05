@@ -96,22 +96,22 @@ class EtablissementController extends Controller
 
         try{
             $res = DB::table('etablissement')->insert([
-                'ETABCode' => $_POST['ETABCode'],
-                'ETABNom' => $_POST['ETABNom'],
-                'ETABMail' => $_POST['ETABMail'],
-                'ETABChef' => $_POST['ETABChef'],
-                'ETABAdresse' => $_POST['ETABAdresse'],
-                'ETABTel' => $_POST['ETABTel'],
-                'TERRCode' => $_POST['TERRCode'],
-                'TYPCode' => $_POST['TYPCode'],
-                'SPECode' => $_POST['SPECode'],
-                'VILCode' => $_POST['VILCode']
+                'ETABCode' => $request->input('ETABCode'),
+                'ETABNom' => $request->input('ETABNom'),
+                'ETABMail' => $request->input('ETABMail'),
+                'ETABChef' => $request->input('ETABChef'),
+                'ETABAdresse' => $request->input('ETABAdresse'),
+                'ETABTel' => $request->input('ETABTel'),
+                'TERRCode' => $request->input('TERRCode'),
+                'TYPCode' => $request->input('TYPCode'),
+                'SPECode' => $request->input('SPECode'),
+                'VILCode' => $request->input('VILCode')
             ]);
-            return redirect('/etablissement')->with("successAjout", "l'etablissement' '$request->ETABNom'a été ajouté avec succès"); 
-    
+            return redirect('/etablissement')->with("successAjout", "l'etablissement' '$request->ETABNom'a été ajouté avec succès");
+
         }
-                catch(QueryException $q){  
-                    return redirect('/etablissement/ajouter')->with("echecAjout", "Le numero RNE existe deja");
+                catch(QueryException $q){
+                    return redirect('/etablissement/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
         }
 
     }
@@ -157,16 +157,16 @@ class EtablissementController extends Controller
         $etablissement->delete($etablissement);
 
         $etablissement->insert([
-            'ETABCode' => $_POST['ETABCode'],
-            'ETABNom' => $_POST['ETABNom'],
-            'ETABMail' => $_POST['ETABMail'],
-            'ETABChef' => $_POST['ETABChef'],
-            'ETABAdresse' => $_POST['ETABAdresse'],
-            'ETABTel' => $_POST['ETABTel'],
-            'TERRCode' => $_POST['TERRCode'],
-            'TYPCode' => $_POST['TYPCode'],
-            'SPECode' => $_POST['SPECode'],
-            'VILCode' => $_POST['VILCode']
+            'ETABCode' => $request->input('ETABCode'),
+            'ETABNom' => $request->input('ETABNom'),
+            'ETABMail' => $request->input('ETABMail'),
+            'ETABChef' => $request->input('ETABChef'),
+            'ETABAdresse' => $request->input('ETABAdresse'),
+            'ETABTel' => $request->input('ETABTel'),
+            'TERRCode' => $request->input('TERRCode'),
+            'TYPCode' => $request->input('TYPCode'),
+            'SPECode' => $request->input('SPECode'),
+            'VILCode' => $request->input('VILCode')
         ]);
 
         return redirect('/etablissement')->with("successModify", "L'etablissement' '$request->ETABNom' a été mise à jour avec succès");

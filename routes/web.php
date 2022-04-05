@@ -118,7 +118,7 @@ Route::get('/experimentation',[ExperimentationController::class, 'show'])->name(
 
 Route::get('/experimentation/ajouter',[ExperimentationController::class, 'create'])->name("goExperimentationAjouter");
 
-Route::post('/experimentation/ajouter',[ExperimentationController::class, 'store'])->name("goExperimentationAjouter");
+Route::post('/experimentation/ajouter',[ExperimentationController::class, 'store'])->name("goExperimentationAjouter2");
 
 Route::get('/experimentation/{experimentation}',[ExperimentationController::class, 'edit'])->name("goExperimentationModifier");
 

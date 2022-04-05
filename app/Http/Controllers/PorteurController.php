@@ -73,10 +73,10 @@ class PorteurController extends Controller
 
         $res = DB::table('porteur')->insert([
 
-            'PORTNom' => $_POST['PORTNom'],
-            'PORTMail' => $_POST['PORTMail'],
-            'PORTTel' => $_POST['PORTTel'],
-            'ETABCode' => $_POST['ETABCode']
+            'PORTNom' => $request->input('PORTNom'),
+            'PORTMail' => $request->input('PORTMail'),
+            'PORTTel' => $request->input('PORTTel'),
+            'ETABCode' => $request->input('ETABCode')
         ]);
 
 
@@ -120,11 +120,11 @@ class PorteurController extends Controller
         $porteur->delete($porteur);
 
         $porteur->insert([
-            'PORTCode' => $_POST['PORTCode'],
-            'PORTNom' => $_POST['PORTNom'],
-            'PORTMail' => $_POST['PORTMail'],
-            'PORTTel' => $_POST['PORTTel'],
-            'ETABCode' => $_POST['ETABCode']
+            'PORTCode' => $request->input('PORTCode'),
+            'PORTNom' => $request->input('PORTNom'),
+            'PORTMail' => $request->input('PORTMail'),
+            'PORTTel' => $request->input('PORTTel'),
+            'ETABCode' => $request->input('ETABCode')
         ]);
 
         return redirect('/porteur')->with("successModify", "Le porteur' '$request->PORTNom' a été mis à jour avec succès");
