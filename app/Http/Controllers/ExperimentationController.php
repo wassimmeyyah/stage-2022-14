@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use PDF;
 use App\Models\Type;
 use App\Models\Ville;
@@ -111,10 +112,10 @@ class ExperimentationController extends Controller
         $specialites  = Specialite::all();
         $villes = Ville::all();
         $accompagnements = Accompagnement::all();
-        $id = #some_;
 
 
 
+        try {
             $res = DB::table('experimentation')->insert([
 
                 'EXPTitre' => $request->input('EXPTitre'),
@@ -125,188 +126,190 @@ class ExperimentationController extends Controller
                 'PALCode' => $request->input('PALCode')
             ]);
 
-        $res2 = DB::table('etablissement')->insert([
-            'ETABCode' => $request->input('ETABCode'),
-            'ETABNom' => $request->input('ETABNom'),
-            'ETABMail' => $request->input('ETABMail'),
-            'ETABChef' => $request->input('ETABChef'),
-            'ETABAdresse' => $request->input('ETABAdresse'),
-            'ETABTel' => $request->input('ETABTel'),
-            'TERRCode' => $request->input('TERRCode'),
-            'TYPCode' => $request->input('TYPCode'),
-            'SPECode' => $request->input('SPECode'),
-            'VILCode' => $request->input('VILCode')
-        ]);
-
-        if (null !== $request->input('PORTNom0')) {
-            $res3 = DB::table('porteur')->insert([
-
-
-                'PORTNom' => $request->input('PORTNom0'),
-                'PORTMail' => $request->input('PORTMail0'),
-                'PORTTel' => $request->input('PORTTel0'),
-                'ETABCode' => $request->input('ETABCode')
-
+            $res2 = DB::table('etablissement')->insert([
+                'ETABCode' => $request->input('ETABCode'),
+                'ETABNom' => $request->input('ETABNom'),
+                'ETABMail' => $request->input('ETABMail'),
+                'ETABChef' => $request->input('ETABChef'),
+                'ETABAdresse' => $request->input('ETABAdresse'),
+                'ETABTel' => $request->input('ETABTel'),
+                'TERRCode' => $request->input('TERRCode'),
+                'TYPCode' => $request->input('TYPCode'),
+                'SPECode' => $request->input('SPECode'),
+                'VILCode' => $request->input('VILCode')
             ]);
-        }
-        if (null !== $request->input('PORTNom1')) {
-            $res5 = DB::table('porteur')->insert([
+
+            if (null !== $request->input('PORTNom0')) {
+                $res3 = DB::table('porteur')->insert([
 
 
-                'PORTNom' => $request->input('PORTNom1'),
-                'PORTMail' => $request->input('PORTMail1'),
-                'PORTTel' => $request->input('PORTTel1'),
-                'ETABCode' => $request->input('ETABCode')
-            ]);
-        }
+                    'PORTNom' => $request->input('PORTNom0'),
+                    'PORTMail' => $request->input('PORTMail0'),
+                    'PORTTel' => $request->input('PORTTel0'),
+                    'ETABCode' => $request->input('ETABCode')
 
-        if (null !== $request->input('PORTNom2')) {
-            $res6 = DB::table('porteur')->insert([
-
-
-                'PORTNom' => $request->input('PORTNom2'),
-                'PORTMail' => $request->input('PORTMail2'),
-                'PORTTel' => $request->input('PORTTel2'),
-                'ETABCode' => $request->input('ETABCode')
-            ]);
-        }
+                ]);
+            }
+            if (null !== $request->input('PORTNom1')) {
+                $res5 = DB::table('porteur')->insert([
 
 
+                    'PORTNom' => $request->input('PORTNom1'),
+                    'PORTMail' => $request->input('PORTMail1'),
+                    'PORTTel' => $request->input('PORTTel1'),
+                    'ETABCode' => $request->input('ETABCode')
+                ]);
+            }
 
-        if (null !== $request->input('THEMALibelle0')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle0')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle1')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle1')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle2')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle2')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle3')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle3')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle4')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle4')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle5')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle5')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle6')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle6')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle7')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle7')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle8')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle8')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle9')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle9')
-            ]);
-        }
-        if (null !== $request->input('THEMALibelle10')) {
-            $res4 = DB::table('thematique_abordee')->insert([
-
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                'THEMACode' => $request->input('THEMALibelle10')
-            ]);
-        }
+            if (null !== $request->input('PORTNom2')) {
+                $res6 = DB::table('porteur')->insert([
 
 
+                    'PORTNom' => $request->input('PORTNom2'),
+                    'PORTMail' => $request->input('PORTMail2'),
+                    'PORTTel' => $request->input('PORTTel2'),
+                    'ETABCode' => $request->input('ETABCode')
+                ]);
+            }
 
 
-        //ddd($request->input('PANom1'));
-        //ddd(DB::table('porteur')->latest('PORTCode')->limit($id)->get());
+            if (null !== $request->input('THEMALibelle0')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle0')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle1')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle1')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle2')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle2')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle3')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle3')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle4')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle4')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle5')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle5')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle6')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle6')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle7')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle7')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle8')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle8')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle9')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle9')
+                ]);
+            }
+            if (null !== $request->input('THEMALibelle10')) {
+                $res4 = DB::table('thematique_abordee')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'THEMACode' => $request->input('THEMALibelle10')
+                ]);
+            }
 
 
-        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
-            if ($e->ETABCode == $request->input('ETABCode')) {
-                if (null !== $request->input('PANom0')) {
-                    $res4 = DB::table('accompagnement')->insert([
+            //ddd($request->input('PANom1'));
+            //ddd(DB::table('porteur')->latest('PORTCode')->limit($id)->get());
 
-                        'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                        'PORTCode' => $e->PORTCode,
-                        'PACode' => $request->input('PANom0')
-                    ]);
+
+            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+                if ($e->ETABCode == $request->input('ETABCode')) {
+                    if (null !== $request->input('PANom0')) {
+                        $res4 = DB::table('accompagnement')->insert([
+
+                            'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                            'PORTCode' => $e->PORTCode,
+                            'PACode' => $request->input('PANom0')
+                        ]);
+                    }
                 }
             }
-        }
 
-        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
-            if ($e->ETABCode == $request->input('ETABCode')) {
-                if (null !== $request->input('PANom1')) {
-                    $res4 = DB::table('accompagnement')->insert([
+            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+                if ($e->ETABCode == $request->input('ETABCode')) {
+                    if (null !== $request->input('PANom1')) {
+                        $res4 = DB::table('accompagnement')->insert([
 
-                        'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                        'PORTCode' => $e->PORTCode,
-                        'PACode' => $request->input('PANom1')
-                    ]);
+                            'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                            'PORTCode' => $e->PORTCode,
+                            'PACode' => $request->input('PANom1')
+                        ]);
+                    }
                 }
             }
-        }
 
 
-        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
-            if ($e->ETABCode == $request->input('ETABCode')) {
-                if (null !== $request->input('PANom2')) {
-                    $res4 = DB::table('accompagnement')->insert([
+            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+                if ($e->ETABCode == $request->input('ETABCode')) {
+                    if (null !== $request->input('PANom2')) {
+                        $res4 = DB::table('accompagnement')->insert([
 
-                        'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                        'PORTCode' => $e->PORTCode,
-                        'PACode' => $request->input('PANom2')
-                    ]);
+                            'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                            'PORTCode' => $e->PORTCode,
+                            'PACode' => $request->input('PANom2')
+                        ]);
+                    }
                 }
             }
-        }
 
 
-        //$res7 = Porteur::whereNull('PORTNom') ->delete();
+            //$res7 = Porteur::whereNull('PORTNom') ->delete();
+
 
 
 
 
 
         return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
-    }
+    }catch(QueryException $q){
+            return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
+
+        }}
+
 
     /**
      * Display the specified resource.
@@ -425,6 +428,7 @@ class ExperimentationController extends Controller
         $q = request()->input('q');
         $p = request()->input('p');
         $r = request()->input('r');
+        $s = request()->input('s');
         $experimentation = DB::table('experimentation as e')->select(
             'e.EXPCode as expID',
             'e.EXPTitre',
@@ -437,13 +441,19 @@ class ExperimentationController extends Controller
             'e.THEMACode',
             'e.PALCode',
             'et.TERRCode',
-            'et.TYPCode'
+            'et.TYPCode',
+            'ta.THEMACode as themaID',
+            't.THEMACode',
+            'e.EXPCode'
         )
 
             ->leftjoin('etablissement as et', 'et.ETABCode', '=', 'e.ETABCode')
+            ->leftjoin('thematique_abordee as ta', 'ta.EXPCode', '=', 'e.EXPCode')
+            ->leftjoin('thematique as t', 't.THEMACode', '=', 'ta.THEMACode')
             ->where('et.TERRCode', 'LIKE', "%$q%")
             ->Where('et.TYPCode', 'LIKE', "%$p%")
             ->Where('e.EXPArchivage', 'like', "%$r%")
+            ->Where('t.THEMACode', 'LIKE', "%$s%")
             ->get();
 
 //ddd($experimentation);

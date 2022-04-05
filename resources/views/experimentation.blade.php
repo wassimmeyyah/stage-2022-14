@@ -74,12 +74,12 @@
         </div>
 
         <div class="form-group mr-3 d-flex justify-content-end p-2">
-            <label for="filtreRegion">Filtrer par thematique :</label>
+            <label for="filtreThematique">Filtrer par thematique :</label>
 
-            <select id="THEMACode" class="selectpicker " multiple data-live-search="true" name="THEMACode">
-                <option value=""></option>
+            <select name="s" id="THEMACode" wire:model="filtreRegion" style="min-width:110px;">
+                <option name="s" class="form-control" value=""></option>
                 @foreach($thematiques as $thematique)
-                <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option>
+                <option name="s" class="form-control" value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option>
                 @endforeach
             </select>
         </div>

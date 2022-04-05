@@ -30,6 +30,13 @@
         </ul>
     </div>
     @endif
+
+        @if(session()->has("echecAjout"))
+            <div class="alert alert-danger">
+                <h3>{{session()->get('echecAjout')}}</h3>
+            </div>
+        @endif
+
 </div>
 
 <div class="container">
