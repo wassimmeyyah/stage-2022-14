@@ -32,6 +32,11 @@
                                 </ul>
                             </div><br />
                             @endif
+                                @if(session()->has("echecAjout"))
+                                    <div class="alert alert-danger">
+                                        <h3>{{session()->get('echecAjout')}}</h3>
+                                    </div>
+                                @endif
 
 
                             <form method="post" action="{{ route('goThematiqueAjouter') }}">

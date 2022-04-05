@@ -487,7 +487,7 @@ class ExperimentationController extends Controller
 
             ->Where('ta.THEMACode', 'LIKE', "%$s%")->get();
 
-ddd($experimentation);
+//ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
