@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Accompagnement;
 use PDF;
 use App\Models\Type;
 use App\Models\Ville;
 use App\Models\Palier;
+use App\Models\Archive;
 use App\Models\Porteur;
 use App\Models\Coordonnee;
 use App\Models\Specialite;
@@ -16,14 +16,15 @@ use Illuminate\Http\Request;
 
 use App\Models\Etablissement;
 use App\Models\Personnelacad;
+use App\Models\Accompagnement;
 use App\Models\Experimentation;
 use App\Models\Groupethematique;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Console\Input\Input;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class ExperimentationController extends Controller
 {
@@ -378,6 +379,17 @@ class ExperimentationController extends Controller
         }
 
         $nometab = $experimentation->EXPTitre;
+
+        $res = DB::table('experimentation')->insert([
+
+            'EXPTitre' => $experimentation->EXPTitre,
+            'EXPLienInternet' => $experimentation->EXPLienInternet,
+            'EXPLienDrive' => $experimentation->EXPLienDrive,
+            'EXPDateDebut' => $experimentation->EXPDateDebut,
+            'ETABCode' => $experimentation->ETABCode,
+            'PALCode' => $experimentation->PALCode
+        ]);
+
         $experimentation->delete($experimentation);
 
         return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
@@ -409,21 +421,33 @@ class ExperimentationController extends Controller
 
     public function filtre()
     {
+
         $q = request()->input('q');
         $p = request()->input('p');
-        $etablissements2 = Etablissement::Where('TERRCode', 'LIKE', "%$q%")
-            ->Where('TYPCode', 'LIKE', "%$p%")
+        $r = request()->input('r');
+        $experimentation = DB::table('experimentation as e')->select(
+            'e.EXPCode as expID',
+            'e.EXPTitre',
+            'e.EXPLienInternet',
+            'e.EXPLienDrive',
+            'e.EXPDateDebut',
+            'e.EXPArchivage',
+            'e.ETABCode',
+            'e.GTCode',
+            'e.THEMACode',
+            'e.PALCode',
+            'et.TERRCode',
+            'et.TYPCode'
+        )
+
+            ->leftjoin('etablissement as et', 'et.ETABCode', '=', 'e.ETABCode')
+            ->where('et.TERRCode', 'LIKE', "%$q%")
+            ->Where('et.TYPCode', 'LIKE', "%$p%")
+            ->Where('e.EXPArchivage', 'like', "%$r%")
             ->get();
 
-        $etablissements = $etablissements2->where('ETABCode', '!=', "Aucun");
-        $experimentations = new Experimentation();
-        foreach ($etablissements as $etablissement) {
-            $exper = Experimentation::where('ETABCode', $etablissement->ETABCode);
-            $experimentations->push($exper);
-        }
-
-
-        return view('experimentationFiltre')->with('experimentations', $experimentations);
+//ddd($experimentation);
+        return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
     public function affiche($id2)
@@ -434,18 +458,53 @@ class ExperimentationController extends Controller
 
         $etablissement = Etablissement::where('ETABCode', $experimentation->ETABCode)->first();
         $groupethematique = Groupethematique::where('GTCode', $experimentation->GTCode)->first();
-        $thematique  = Thematique::where('THEMACode', $experimentation->THEMACode)->first();
+        //$thematique  = Thematique::where('THEMACode', $experimentation->THEMACode)->first();
         $palier = Palier::where('PALCode', $experimentation->PALCode)->first();
-        // $porteurs = Porteur::where('PORTCode', $accompagnements->PACode)->get();
+        //$porteurs = Porteur::all();
         // $personnelacads=Personnelacad::where('PACode', $accompagnements->PACode)->get();
         $porteurs = DB::table('porteur as p')->select(
             'p.PORTCode as porteurID',
             'p.PORTNom',
             'p.PORTMail',
             'p.PORTTel',
-            'p.ETABCode'
+            'p.ETABCode',
+            'e.EXPCode'
         )
-            ->where('porteur.PORTCode', '=', 'accompagnement.PORTCode')->get();
+            ->leftjoin('accompagnement as a', 'a.PORTCode', '=', 'p.PORTCode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+            ->where( 'e.EXPCode',$id2)
+            ->get();
+
+        $personnelacads = DB::table('personnelacad as pe')->select(
+            'pe.PACode as personneID',
+            'pe.PANom',
+            'pe.PAPrenom',
+            'pe.PAMail',
+            'pe.PADiscipline',
+            'pe.PAAdressePerso',
+            'pe.PATel',
+            'pe.ETABCode',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('accompagnement as a', 'a.PACode', '=', 'pe.PACode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+
+            ->where( 'e.EXPCode',$id2)
+            ->get();
+
+        $thematiques= DB::table('thematique as t')->select(
+            't.THEMACode as themaID',
+            't.THEMALibelle',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
+            ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
+
+            ->where( 'e.EXPCode',$id2)
+            ->get();
+
 
         $territoire = Territoire::where('TERRCode', $etablissement->TERRCode)->first();
         $type = Type::where('TYPCode', $etablissement->TYPCode)->first();
@@ -455,7 +514,7 @@ class ExperimentationController extends Controller
 
 
 
-        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematique', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs','personnelacads'));
     }
 
     public function telechargerPdf($id3)
@@ -471,4 +530,30 @@ class ExperimentationController extends Controller
         $pdf = FacadePdf::loadView('telechargement4', compact("experimentation", 'etablissements', 'groupethematiques', 'thematiques', 'paliers'));
         return $pdf->download('telechargement4.pdf');
     }
+
+
+    public function archiver(Experimentation $experimentation)
+    {
+        if (Gate::denies('updateDelete-users')) {
+            return redirect()->route('goExperimentation');
+        }
+
+        $nometab = $experimentation->EXPTitre;
+
+        $res = DB::table('experimentation')->insert([
+
+            'EXPTitre' => $experimentation->EXPTitre,
+            'EXPLienInternet' => $experimentation->EXPLienInternet,
+            'EXPLienDrive' => $experimentation->EXPLienDrive,
+            'EXPDateDebut' => $experimentation->EXPDateDebut,
+            'ETABCode' => $experimentation->ETABCode,
+            'PALCode' => $experimentation->PALCode
+        ]);
+
+        $experimentation->delete($experimentation);
+
+        return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
+    }
+
+
 }

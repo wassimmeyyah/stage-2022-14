@@ -1,13 +1,14 @@
 <?php
 
+use App\Models\Thematique;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\PorteurController;
+use App\Http\Controllers\ThematiqueController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\PersonnelacadController;
 use App\Http\Controllers\ExperimentationController;
-use App\Http\Controllers\ThematiqueController;
-use App\Models\Thematique;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::get('/etablissement/{etablissement}/affichage', [EtablissementController:
 
 Route::get('search1', [EtablissementController::class, 'search'])->name("goEtablissementSearch");
 
-Route::get('/filtre', [EtablissementController::class, 'filtre'])->name("goEtablissementFiltre");
+Route::get('/filtre2', [EtablissementController::class, 'filtre'])->name("goEtablissementFiltre");
 
 Route::get('/recherche2', [EtablissementController::class, 'recherche'])->name("goEtablissementRecherche");
 
@@ -130,6 +131,8 @@ Route::get('/experimentation/{experimentation}/affichage', [ExperimentationContr
 
 Route::get('/search4', [ExperimentationController::class, 'search'])->name("goExperimentationSearch");
 
+Route::get('/filtre', [ExperimentationController::class, 'filtre'])->name("goExperimentationFiltre");
+
 
 
 Route::get('/recherche', [ExperimentationController::class, 'recherche'])->name("goExperimentationRecherche");
@@ -167,3 +170,20 @@ Route::get('/thematique/ajouter',[ThematiqueController::class, 'create'])->name(
 Route::post('/thematique/ajouter',[ThematiqueController::class, 'store'])->name("goThematiqueAjouter");
 
 Route::get('/etablissementtest', [EtablissementController::class, 'fake']);
+
+
+Route::get('/archive2', function () {return view('archiveRecherche');})->name("goArchive2");
+
+Route::get('/archive',[ExperimentationController::class, 'archive'])->name("goArchive");
+
+Route::get('/archive/ajouter',[ArchiveController::class, 'create'])->name("goArchiveAjouter");
+
+Route::post('/archive/ajouter',[ArchiveController::class, 'store'])->name("goArchiveAjouter2");
+
+Route::get('/archive/{archive}',[ArchiveController::class, 'edit'])->name("goArchiveModifier");
+
+Route::put('/archive/{archive}',[ArchiveController::class, 'update'])->name("goArchiveModifier");
+
+Route::delete('/archive/{archive}',[ArchiveController::class, 'delete'])->name("goArchiveSupprimer");
+
+Route::get('/archive/{archive}/affichage', [ArchiveController::class, 'affiche'])->name("goArchiveAffichage");

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+
 <head>
     <meta charset="UTF-8">
     <!-- si on veut lier à un fichier css -->
@@ -15,11 +16,10 @@
 <div class="container">
     @include('layouts.navigation')
     <div class="card " style="text-align: center;">
-        <h3 class="card-header text-center font-weight-bold text-uppercase py-4 p-3 mb-2 bg-light text-primary">Les experimentations</h3>
+        <h3 class="card-header text-center font-weight-bold text-uppercase py-4 p-3 mb-2 bg-light text-primary">Les archives</h3>
     </div>
     <div class="d-flex justify-content-between">
-        {{$experimentations->links()}}
-        @include('partials.search4')
+        {{$archives->links()}}
         <p align="center">
             @can('manage-users')
             <a class="btn btn-primary " type="button" href="{{route('goThematiqueAjouter')}}">
@@ -27,8 +27,8 @@
             </a>
             @endcan
             @can('create-users')
-            <a class="btn btn-primary " type="button" href="{{route('goExperimentationAjouter')}}">
-                Ajouter une experimentation
+            <a class="btn btn-primary " type="button" href="{{route('goArchiveAjouter')}}">
+                Ajouter une archive
             </a>
             @endcan
         </p>
@@ -36,24 +36,11 @@
 
     </div>
 
-    <form action="{{route('goExperimentationFiltre')}}" class=" d-flex mr-3">
-
-        <!-- <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Afficher les expérimentations archivées</label>
-        </div> -->
 
 
+    <form action="" class=" d-flex mr-3">
         <div class="form-group mr-3 d-flex justify-content-end p-2">
-            <label for="filtreArchivage"> Expérimentations archivées : </label>
-            <select name="r" id="filtreType" wire:model="filtreType" style="min-width:110px;">
-                <option name="r" class="form-control" value="0">En cours</option>
-                <option name="r" class="form-control" value="1">Archivés</option>
-            </select>
-        </div>
-
-        <div class="form-group mr-3 d-flex justify-content-end p-2">
-            <label for="filtreType">Filtrer par région : </label>
+            <label for="filtreType">Filtrer par région </label>
             <select name="q" id="filtreType" wire:model="filtreType" style="min-width:110px;">
                 <option name="q" class="form-control" value=""></option>
                 <option name="q" class="form-control" value="RHO">Rhône</option>
@@ -64,7 +51,7 @@
 
         </div>
         <div class="form-group mr-3 d-flex justify-content-end p-2">
-            <label for="filtreRegion">Filtrer par type : </label>
+            <label for="filtreRegion">Filtrer par type </label>
             <select name="p" id="filtreRegion" wire:model="filtreRegion" style="min-width:110px;">
                 <option name="p" class="form-control" value=""></option>
                 <option name="p" class="form-control" value="ECL">Ecole</option>
@@ -74,7 +61,7 @@
         </div>
 
         <div class="form-group mr-3 d-flex justify-content-end p-2">
-            <label for="filtreRegion">Filtrer par thematique :</label>
+            <label for="filtreRegion">Filtrer par thematique</label>
 
             <select id="THEMACode" class="selectpicker " multiple data-live-search="true" name="THEMACode">
                 <option value=""></option>
@@ -84,9 +71,9 @@
             </select>
         </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary"><i class="bi bi-funnel"></i></button>
-        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-funnel"></i></button>
+
+
 
     </form>
 
@@ -110,7 +97,7 @@
     @endif
 
     <div class="card-deck">
-        @foreach($experimentations as $experimentation)
+        @foreach($archives as $archive)
 
         <div class="row mb-2">
             <div class="col-md-6">
@@ -118,30 +105,12 @@
                     <div class="card-body d-flex flex-column align-items-start">
 
                         <h3 class="mb-0">
-                            <a class="text-dark" href="#">{{$experimentation->EXPTitre}}</a>
+                            <a class="text-dark" href="#">{{$archive->EXPTitre}}</a>
                         </h3>
-                        <div class="mb-1 text-muted">Date de debut {{$experimentation->EXPDateDebut}}</div>
-                        <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a><br>
+                        <div class="mb-1 text-muted">Date de debut {{$archive->EXPDateDebut}}</div>
+                        <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$archive->EXPLienDrive}}">{{$archive->EXPLienDrive}}</a><br>
 
-                        <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentation->EXPCode])}}">Voir plus </a></td><br>
-
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            @can('updateDelete-users')
-                            <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}">Modifier</a></td>
-                            @endcan
-
-                            @can('updateDelete-users')
-                            <td>
-                                <a href="#" class="btn btn-light text-primary class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentation->EXPCode}}').submit() }">Supprimer</a>
-                                <form id="{{$experimentation->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->EXPCode])}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="delete">
-                                </form>
-                            </td>
-                            @endcan
-                        </div>
-
-
+                        <td><a href="{{route('goArchiveAffichage', ['archive'=>$archive->EXPCode])}}">Voir plus </a></td><br>
 
                     </div>
 

@@ -35,7 +35,7 @@
             </ul>
         </div>
     </nav>
-    <div  class="card " style="text-align: center;">
+    <div class="card " style="text-align: center;">
         <h3 class="card-header text-center font-weight-bold text-uppercase py-4 p-3 mb-2 bg-light text-primary">Les experimentations</h3>
     </div>
     <div class="d-flex justify-content-between">
@@ -58,54 +58,58 @@
 
 
     @if(session()->has("successDelete"))
-        <div class="alert alert-success">
-            <h3>{{session()->get('successDelete')}}</h3>
-        </div>
+    <div class="alert alert-success">
+        <h3>{{session()->get('successDelete')}}</h3>
+    </div>
     @endif
     @if(session()->has("successAjout"))
-        <div class="alert alert-success">
-            <h3>{{session()->get('successAjout')}}</h3>
-        </div>
+    <div class="alert alert-success">
+        <h3>{{session()->get('successAjout')}}</h3>
+    </div>
     @endif
     @if(session()->has("successModify"))
-        <div class="alert alert-success">
-            <h3>{{session()->get('successModify')}}</h3>
-        </div>
+    <div class="alert alert-success">
+        <h3>{{session()->get('successModify')}}</h3>
+    </div>
+    @endif
+    @if(request()->input())
+    <h6>{{$experimentation->count()}} résultat(s) pour la recherche </h6>
     @endif
 
     <div class="card-deck">
-        @foreach($experimentations as $experimentation)
+        @foreach($experimentation as $experimentations)
 
-            <div class="row mb-2">
-                <div class="col-md-6">
-                    <div class="card flex-md-row mb-4 box-shadow h-md-250" style="width: 204%">
-                        <div class="card-body d-flex flex-column align-items-start">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="card flex-md-row mb-4 box-shadow h-md-250" style="width: 204%">
+                    <div class="card-body d-flex flex-column align-items-start">
 
-                            <h3 class="mb-0">
-                                <a class="text-dark" href="#">{{$experimentation->EXPTitre}}</a>
-                            </h3>
-                            <div class="mb-1 text-muted">Date de debut {{$experimentation->EXPDateDebut}}</div>
-                            <p class="card-text mb-auto" >Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a><br>
+                        <h3 class="mb-0">
+                            <a class="text-dark" href="#">{{$experimentations->EXPTitre}}</a>
+                        </h3>
+                        <div class="mb-1 text-muted">Date de debut {{$experimentations->EXPDateDebut}}</div>
+                        <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentations->EXPLienDrive}}">{{$experimentations->EXPLienDrive}}</a><br>
 
-                            <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentation->EXPCode])}}">Voir plus </a></td><br>
+                        <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->expID])}}">Voir plus </a></td><br>
 
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}">Modifier</a></td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentations->expID])}}">Modifier</a></td>
 
-                                <td><a href="#" class="btn btn-light text-primary class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentation->EXPCode}}').submit() }">Supprimer</a>
-                                    <form id="{{$experimentation->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->EXPCode])}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="_method" value="delete">
-                                    </form>
-                                </td></div>
-
-
-
+                            <td><a href="#" class="btn btn-light text-primary class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
+                                <form id="{{$experimentations->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->expID])}}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="delete">
+                                </form>
+                            </td>
                         </div>
 
-                        </div>
+
+
+                    </div>
+
                 </div>
             </div>
+        </div>
         @endforeach
 
     </div>
