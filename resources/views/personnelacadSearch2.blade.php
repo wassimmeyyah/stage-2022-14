@@ -40,6 +40,7 @@
     @endif
     @if(request()->input())
         <h6>{{$personnelacad->count()}} résultat(s) pour la recherche </h6>
+        <br>
     @endif
 
 
@@ -67,7 +68,7 @@
 
                                     </a></td>
                                 <td>
-                                    <a  href="#" class="btn btn-light text-primary" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce personnelacad ?')){document.getElementById('{{$personnelacads->PACode}}').submit() }" >
+                                    <a  href="#" class="btn btn-danger" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce personnelacad ?')){document.getElementById('{{$personnelacads->PACode}}').submit() }" >
                                         Supprimer
 
                                     </a>

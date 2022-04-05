@@ -20,7 +20,7 @@
         @include('partials.search2')
         <div class="btn-group">
             <p align="center">
-                <a class="btn btn-light text-primary " type="button" href="{{route('goPorteurMail')}}">Contacts des personnes</a>
+                <a class="btn btn-danger " type="button" href="{{route('goPorteurMail')}}">Contacts des personnes</a>
                 @can('create-users')
                 <a class="btn btn-primary " type="button" href="{{route('goPorteurAjouter')}}">
                     Ajouter un porteur
@@ -70,7 +70,7 @@
                             @endcan
                             @can('updateDelete-users')
                             <td>
-                                <a href="#" class="btn btn-light text-primary" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteur->PORTCode}}').submit() }">
+                                <a href="#" class="btn btn-danger" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteur->PORTCode}}').submit() }">
                                     Supprimer
                                 </a>
                                 <form id="{{$porteur->PORTCode}}" action="{{route('goPorteurSupprimer',['porteur'=>$porteur->PORTCode])}}" method="post">

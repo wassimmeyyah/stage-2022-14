@@ -49,7 +49,7 @@
 
                                     </a></td>
                                 <td>
-                                    <a  href="#" class="btn btn-light text-primary" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce personnelacad ?')){document.getElementById('{{$personnelacad->PACode}}').submit() }" >
+                                    <a  href="#" class="btn btn-danger" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce personnelacad ?')){document.getElementById('{{$personnelacad->PACode}}').submit() }" >
                                         Supprimer
 
                                     </a>

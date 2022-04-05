@@ -366,7 +366,7 @@ class ExperimentationController extends Controller
             'PALCode' => $_POST['PALCode']
         ]);
 
-        return redirect('/experimentation')->with("successModify", "L'experimentation' '$request->EXPTitre' a été mis à jour avec succès");
+        return redirect('/experimentation')->with("successModify", "L'experimentation' '$request->EXPTitre' a été mise à jour avec succès");
     }
 
     /**

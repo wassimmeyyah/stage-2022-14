@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Etablissement extends Model
 {
+    use HasFactory;
 
     /**
      * @return string
@@ -25,7 +26,7 @@ class Etablissement extends Model
     {
         $this->primaryKey = $primaryKey;
     }
-    use HasFactory;
+
 
     protected $table = 'etablissement';
     protected $primaryKey = 'ETABCode';
@@ -61,6 +62,7 @@ class Etablissement extends Model
         return $this->hasOne(Ville::class);
     }
 
+    
     public function porteur()
     {
         // return $this->belongsTo('porteur', 'ETABCode');

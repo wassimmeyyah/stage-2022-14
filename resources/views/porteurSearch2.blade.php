@@ -40,6 +40,7 @@
     @endif
     @if(request()->input())
         <h6>{{$porteur->count()}} résultat(s) pour la recherche </h6>
+        <br>
     @endif
 
     <div class="card-deck">
@@ -63,7 +64,7 @@
 
                                     </a></td>
                                 <td>
-                                    <a  href="#" class="btn btn-light text-primary" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteurs->PORTCode}}').submit() }" >
+                                    <a  href="#" class="btn btn-danger" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteurs->PORTCode}}').submit() }" >
                                         Supprimer
 
                                     </a>

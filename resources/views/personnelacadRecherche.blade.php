@@ -29,7 +29,7 @@
 
     </form>
 
-    <a type="button" class="btn btn-light text-primary " href="{{route('goPersonnelacad')}}">Afficher tout le personnel</a>
+    <a type="button" class="btn btn-danger " href="{{route('goPersonnelacad')}}">Afficher tout le personnel</a>
 
 
     </body>

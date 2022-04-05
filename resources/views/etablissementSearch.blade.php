@@ -8,78 +8,94 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<div class="container">
-    @include('layouts.navigation')
-    <div class="card " style="text-align: center;">
-        <h3 class="card-header text-center font-weight-bold text-uppercase py-4 p-3 mb-2 bg-light text-primary">Les etablissements</h3>
-    </div>
-    <div class="d-flex justify-content-between">
-        @include('partials.search')
-        <p align="center">
-            <a class="btn btn-primary " type="button" href="{{route('goEtablissementAjouter')}}">
-                Ajouter un etablissement
+<body>
+    <div class="container">
+        <x-app-layout>
+            <x-slot name="header">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+                    {{ __('Les établissements recherchés') }}
+                </h2>
+            </x-slot>
 
-            </a>
-        </p>
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            <div class="d-flex justify-content-between">
+                                @include('partials.search')
+                                <p align="center">
+                                    <a class="btn btn-primary " href="{{route('goEtablissementAjouter')}}">
+                                        Ajouter un etablissement
 
-    </div>
+                                    </a>
+                                </p>
 
-    @if(session()->has("successDelete"))
-    <div class="alert alert-success">
-        <h3>{{session()->get('successDelete')}}</h3>
-    </div>
-    @endif
-    @if(session()->has("successAjout"))
-    <div class="alert alert-success">
-        <h3>{{session()->get('successAjout')}}</h3>
-    </div>
-    @endif
-    @if(session()->has("successModify"))
-    <div class="alert alert-success">
-        <h3>{{session()->get('successModify')}}</h3>
-    </div>
-    @endif
-    @if(request()->input())
-    <h6>{{$etablissement->count()}} résultat(s) pour la recherche </h6>
-    @endif
+                            </div>
 
-    <div class="card-deck">
-        @foreach($etablissement as $etablissements)
+                            @if(session()->has("successDelete"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successDelete')}}</h3>
+                            </div>
+                            @endif
+                            @if(session()->has("successAjout"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successAjout')}}</h3>
+                            </div>
+                            @endif
+                            @if(session()->has("successModify"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successModify')}}</h3>
+                            </div>
+                            @endif
+                            @if(request()->input())
+                            <h6>{{$etablissement->count()}} résultat(s) pour la recherche </h6>
+                            <br>
+                            @endif
 
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <div class="card flex-md-row mb-4 box-shadow h-md-250" style="width: 204%">
-                    <div class="card-body d-flex flex-column align-items-start">
+                            <div class="card-deck">
+                                @foreach($etablissement as $etablissements)
 
-                        <h3 class="mb-0">
-                            <a class="text-dark" href="#">{{$etablissements->ETABNom}}</a>
-                        </h3>
-                        <div class="mb-1 text-muted"> Numero RNE : {{$etablissements->getKey()}}</div>
-                        <p class="card-text mb-auto">Adresse Mail de l'etablissement : {{$etablissements->ETABMail}}</p>
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <div class="card flex-md-row mb-4 box-shadow h-md-250" style="width: 204%">
+                                            <div class="card-body d-flex flex-column align-items-start">
 
-                        <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissements->ETABCode])}}">Voir plus </a></td><br>
+                                                <h3 class="mb-0">
+                                                    <a class="text-dark" href="#">{{$etablissements->ETABNom}}</a>
+                                                </h3>
+                                                <div class="mb-1 text-muted"> Numero RNE : {{$etablissements->getKey()}}</div>
+                                                <p class="card-text mb-auto">Adresse Mail de l'etablissement : {{$etablissements->ETABMail}}</p>
 
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissements->ETABCode])}}">Modifier</a></td>
+                                                <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissements->ETABCode])}}">Voir plus </a></td><br>
 
-                            <td><a href="#" class="btn btn-light text-primary class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissements->ETABCode}}').submit() }">Supprimer</a>
-                                <form id="{{$etablissements->ETABCode}}" action="{{route('goEtablissementSupprimer',['etablissement'=>$etablissements->ETABCode])}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="_method" value="delete">
-                                </form>
-                            </td>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <td><br><a class="btn btn-primary class=pull-left" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissements->ETABCode])}}">Modifier</a></td>
+
+                                                    <td><a href="#" class="btn btn-danger class=pull-right"  onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissements->ETABCode}}').submit() }">Supprimer</a>
+                                                        <form id="{{$etablissements->ETABCode}}" action="{{route('goEtablissementSupprimer',['etablissement'=>$etablissements->ETABCode])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="_method" value="delete">
+                                                        </form>
+                                                    </td>
+                                                </div>
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            </div>
+                            <a  class="btn btn-secondary " href="{{route('goEtablissement')}}">Revenir aux etablissements</a><br>
                         </div>
-
-
-
                     </div>
-
                 </div>
             </div>
-        </div>
-        @endforeach
 
+
+        </x-app-layout>
     </div>
-    <a type="button" class="btn btn-secondary " href="{{route('goEtablissement')}}">Revenir aux etablissements</a><br>
-</div>
-</div>
+</body>

@@ -65,7 +65,7 @@
                         @endcan
                         @can('manage-users')
                         <td>
-                                <a href="#" class="btn btn-light text-primary" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet utilisateur ?')){document.getElementById('{{$user->id}}').submit() }">
+                                <a href="#" class="btn btn-danger" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet utilisateur ?')){document.getElementById('{{$user->id}}').submit() }">
                                     Supprimer
                                 </a>
                                 <form id="{{$user->id}}" action="{{route('goUserSupprimer',['user'=>$user->id])}}" method="post">

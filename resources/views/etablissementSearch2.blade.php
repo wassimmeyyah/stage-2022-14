@@ -40,6 +40,7 @@
     @endif
     @if(request()->input())
         <h6>{{$etablissement->count()}} résultat(s) pour la recherche </h6>
+        <br>
     @endif
 
     <div class="card-deck">
@@ -61,7 +62,7 @@
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissements->ETABCode])}}">Modifier</a></td>
 
-                                <td><a href="#" class="btn btn-light text-primary class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissements->ETABCode}}').submit() }">Supprimer</a>
+                                <td><a href="#" class="btn btn-danger class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissements->ETABCode}}').submit() }">Supprimer</a>
                                     <form id="{{$etablissements->ETABCode}}" action="{{route('goEtablissementSupprimer',['etablissement'=>$etablissements->ETABCode])}}" method="post">
                                         @csrf
                                         <input type="hidden" name="_method" value="delete">

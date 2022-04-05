@@ -29,7 +29,7 @@
 
     </form>
 
-    <a type="button" class="btn btn-light text-primary " href="{{route('goPorteur')}}">Afficher tous les porteurs</a>
+    <a type="button" class="btn btn-danger " href="{{route('goPorteur')}}">Afficher tous les porteurs</a>
 
 
     </body>

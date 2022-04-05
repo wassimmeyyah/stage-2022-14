@@ -21,17 +21,15 @@ use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 class EtablissementController extends Controller
 {
 
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function  show(Request $request)
     {
-        //$msg = "Hello";
-
-        //$etablissement=Etablissement::where('ETABCode',' 0690076H ')->first();
-        //ddd($etablissement->ETABCode);
-        //ddd($etablissement->getKey());
-
-
-
-        $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABCode", "asc")->paginate(10);
+       $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABCode", "asc")->paginate(10);
         //return view("etablissement", ["etablissements" => $etablissements]);
 
 
@@ -169,7 +167,7 @@ class EtablissementController extends Controller
             'VILCode' => $request->input('VILCode')
         ]);
 
-        return redirect('/etablissement')->with("successModify", "L'etablissement' '$request->ETABNom' a été mise à jour avec succès");
+        return redirect('/etablissement')->with("successModify", "L'etablissement' '$request->ETABNom' a été mis à jour avec succès");
     }
 
     /**
