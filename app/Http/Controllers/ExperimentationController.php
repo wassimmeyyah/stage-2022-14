@@ -63,10 +63,10 @@ class ExperimentationController extends Controller
             ->leftjoin('experimentation as ex', 'ex.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('territoire as t', 't.TERRCode', '=', 'e.TERRCode')
 
-            ->Orderby("ETABNom","asc")->paginate(10);
+            ->OrderBy("ETABNom", "asc")->paginate(10);
+        // ddd($experimentations);
 
-
-        return view("experimentation", ["experimentations" => $experimentations], compact( 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
+        return view("experimentation", ["experimentations" => $experimentations], compact('groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
     public function index()
@@ -320,11 +320,11 @@ class ExperimentationController extends Controller
 
 
 
-        return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
-    }catch(QueryException $q){
+            return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
+        } catch (QueryException $q) {
             return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
-
-        }}
+        }
+    }
 
 
     /**
@@ -472,7 +472,7 @@ class ExperimentationController extends Controller
             ->Where('t.THEMACode', 'LIKE', "%$s%")
             ->get();
 
-//ddd($experimentation);
+        //ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
@@ -498,7 +498,7 @@ class ExperimentationController extends Controller
         )
             ->leftjoin('accompagnement as a', 'a.PORTCode', '=', 'p.PORTCode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
-            ->where( 'e.EXPCode',$id2)
+            ->where('e.EXPCode', $id2)
             ->get();
 
         $personnelacads = DB::table('personnelacad as pe')->select(
@@ -516,10 +516,10 @@ class ExperimentationController extends Controller
             ->leftjoin('accompagnement as a', 'a.PACode', '=', 'pe.PACode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
 
-            ->where( 'e.EXPCode',$id2)
+            ->where('e.EXPCode', $id2)
             ->get();
 
-        $thematiques= DB::table('thematique as t')->select(
+        $thematiques = DB::table('thematique as t')->select(
             't.THEMACode as themaID',
             't.THEMALibelle',
             'e.EXPCode'
@@ -528,7 +528,7 @@ class ExperimentationController extends Controller
             ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
             ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
 
-            ->where( 'e.EXPCode',$id2)
+            ->where('e.EXPCode', $id2)
             ->get();
 
 
@@ -538,7 +538,7 @@ class ExperimentationController extends Controller
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
         $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
 
-        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs','personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
     }
 
     public function telechargerPdf($id3)
@@ -578,6 +578,4 @@ class ExperimentationController extends Controller
 
         return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
     }
-
-
 }

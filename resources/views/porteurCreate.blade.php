@@ -11,46 +11,59 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<div class="card uper">
-    <div class="card-header">
-        Ajouter un porteur
+<body>
+    <div class="container">
+        <x-app-layout>
+            <x-slot name="header">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+                    {{ __('Ajouter un porteur') }}
+                </h2>
+            </x-slot>
+
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div><br />
+                            @endif
+
+
+                            <form method="post" action="{{ route('goPorteurAjouter') }}">
+                                @csrf
+
+
+                                <div class="form-group">
+                                    <label for="PORTNom">Nom du porteur :</label>
+                                    <input type="text" class="form-control" name="PORTNom" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="PORTMail">Adresse Mail du porteur :</label>
+                                    <input type="text" class="form-control" name="PORTMail" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="PORTChef">Téléphone du porteur : </label>
+                                    <input type="text" class="form-control" name="PORTTel" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="PORTAdresse">Numero RNE de l'etablissement du porteur :</label>
+                                    <input type="text" class="form-control" name="ETABCode" />
+                                </div>
+
+                                <br>
+                                <button  class="btn btn-light text-primary">Ajouter</button>
+                                <a class="btn btn-danger" href="{{route('goPorteur')}}">Annuler</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </x-app-layout>
     </div>
-
-    <div class="card-body">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div><br />
-        @endif
-
-
-        <form method="post" action="{{ route('goPorteurAjouter') }}">
-            @csrf
-
-
-            <div class="form-group">
-                <label for="PORTNom">Nom du porteur :</label>
-                <input type="text" class="form-control" name="PORTNom" />
-            </div>
-            <div class="form-group">
-                <label for="PORTMail">Adresse Mail du porteur :</label>
-                <input type="text" class="form-control" name="PORTMail" />
-            </div>
-            <div class="form-group">
-                <label for="PORTChef">Téléphone du porteur : </label>
-                <input type="text" class="form-control" name="PORTTel" />
-            </div>
-            <div class="form-group">
-                <label for="PORTAdresse">Numero RNE de l'etablissement du porteur :</label>
-                <input type="text" class="form-control" name="ETABCode" />
-            </div>
-
-            <button type="submit" class="btn btn-light text-primary">Ajouter</button>
-            <a class="btn btn-light text-danger" href="{{route('goPorteur')}}">Annuler</a>
-        </form>
-    </div>
-</div>
+</body>

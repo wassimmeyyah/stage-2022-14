@@ -9,7 +9,7 @@
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler"  data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse  bg-light " id="navbarTogglerDemo01">
@@ -42,7 +42,7 @@
 
         @include('partials.search4')
         <p align="center">
-            <a class="btn btn-light text-primary " type="button" href="{{route('goExperimentationAjouter')}}">
+            <a class="btn btn-light text-primary "  href="{{route('goExperimentationAjouter')}}">
                 Ajouter une experimentation
             </a>
         </p>
@@ -93,9 +93,9 @@
                         <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->expID])}}">Voir plus </a></td><br>
 
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <td><br><a class="btn btn-light text-primary class=pull-left" type="button" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentations->expID])}}">Modifier</a></td>
+                            <td><br><a class="btn btn-light text-primary class=pull-left"  href="{{route('goExperimentationModifier', ['experimentation'=>$experimentations->expID])}}">Modifier</a></td>
 
-                            <td><a href="#" class="btn btn-danger class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
+                            <td><a href="#" class="btn btn-danger class=pull-right"  onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
                                 <form id="{{$experimentations->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->expID])}}" method="post">
                                     @csrf
                                     <input type="hidden" name="_method" value="delete">
@@ -115,6 +115,6 @@
     </div>
 </div>
 </div>
-<a type="button" class="btn btn-secondary " href="{{route('goExperimentation')}}">Revenir aux experimentations</a><br>
+<a  class="btn btn-secondary " href="{{route('goExperimentation')}}">Revenir aux experimentations</a><br>
 </div>
 </div>

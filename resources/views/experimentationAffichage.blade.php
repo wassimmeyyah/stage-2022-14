@@ -184,7 +184,13 @@
 
                                                 <div class="flex-center position-ref -full-height">
 
-                                                    <h2>Carte</h2>
+                                                    <br>
+
+                                                    <center>
+                                                        <i>Emplacement de l'établissement</i>
+                                                    </center>
+
+                                                    <br>
 
                                                     <div class="map" id="app">
                                                         <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 100%; height: 350px;">
@@ -204,20 +210,22 @@
                                                             <gmap-marker :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" :clickable="true" :draggable="false" @click="infoWindowOpened = true"></gmap-marker>
 
                                                         </gmap-map>
+                                                        <br>
+                                                        <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}">Telecharger en PDF</a>
+
 
                                                     </div>
-
 
                                                 </div>
                                                 <script src="{{mix('js/app.js')}}"></script>
                                             </div>
                                         </div>
                                     </div>
+                                </main>
                         </div>
                     </div>
                 </div>
             </div>
-            <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}">Telecharger en PDF</a>
     </div>
 
     </x-app-layout>
