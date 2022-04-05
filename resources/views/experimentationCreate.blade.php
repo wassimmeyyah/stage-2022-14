@@ -131,21 +131,47 @@
                 </select>
             </div>
         </div><br>
-        <div class="form-group">
-            <label for="THEMACode">Thematique </label>
-            <select id="THEMACode" class="selectpicker " multiple data-live-search="true" name="THEMACode">
-                <option value=""></option>
-                @foreach($thematiques as $thematique)
-                <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option>
-                @endforeach
-            </select>
+        <div class="group-form" name="add_thematique" id="add_thematique">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dynamic_fieldTH">
+                    <tr>
+                        <td>
+                            <label for="THEMALibelle0"> Thématique : </label>
+                            <select class="form-control" name="THEMALibelle0">
+                                <option value=""></option> @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <button type="button" name="addTH" id="addTH" class="btn btn-primary">Ajouter</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <script type="text/javascript">
-
-            $('#parent_id').on('change',function(){
-                $(".some").hide();
-                var some = $(this).find('option:selected').val();
-                $("#some_" + some).show();
+            $(document).ready(function() {
+                var i = 0;
+                $('#addTH').click(function() {
+                    i++;
+                    if (i < 7) {
+                        $('#dynamic_fieldTH').append('<tr id="row' + i + '"><td><select class="form-control" name="THEMALibelle' + i + '"> <option value=""></option> @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach </select></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                    }
+                });
+                $(document).on('click', '.btn_remove', function() {
+                    var button_id = $(this).attr('id');
+                    $('#row' + button_id + '').remove();
+                });
+                $('submit').click(function() {
+                    $.ajax({
+                        url: "back.php",
+                        method: "POST",
+                        data: $('#add_thematique').serialize(),
+                        success: function(data) {
+                            alert(data);
+                            $('#add_thematique')[0].reset();
+                        }
+                    });
+                });
             });
         </script>
 
@@ -178,9 +204,10 @@
                 var i = 0;
                 $('#add').click(function() {
                     i++;
-                    if(i<3){
+                    if (i < 3) {
                         $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="PORTNom' + i + '" placeholder="Entrez le nom du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTMail' + i + '" placeholder="Entrez le mail du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTTel' + i + '" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list" /></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
-                    }});
+                    }
+                });
                 $(document).on('click', '.btn_remove', function() {
                     var button_id = $(this).attr('id');
                     $('#row' + button_id + '').remove();
@@ -222,9 +249,10 @@
                 var i = 0;
                 $('#addAP').click(function() {
                     i++;
-                    if(i<3) {
+                    if (i < 3) {
                         $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PANom' + i + '"> <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach </select></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
-                    }});
+                    }
+                });
                 $(document).on('click', '.btn_remove', function() {
                     var button_id = $(this).attr('id');
                     $('#row' + button_id + '').remove();
