@@ -44,7 +44,7 @@ class ExperimentationController extends Controller
         $villes = Ville::all();
 
 
-        $experimentations = DB::table('etablissement as e')->select(
+        $experimentations = DB::table('experimentation as ex')->select(
             'e.ETABCode as ETABCode',
             'e.ETABNom as ETABNom',
             'e.ETABMail as ETABMail',
@@ -60,13 +60,13 @@ class ExperimentationController extends Controller
             'ex.PALCode as PALCode'
 
         )
-            ->leftjoin('experimentation as ex', 'ex.ETABCode', '=', 'e.ETABCode')
+            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('territoire as t', 't.TERRCode', '=', 'e.TERRCode')
 
-            ->OrderBy("ETABNom", "asc")->paginate(10);
-        // ddd($experimentations);
+            ->Orderby("EXPCode","asc")->paginate(10);
 
-        return view("experimentation", ["experimentations" => $experimentations], compact('groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
+
+        return view("experimentation", ["experimentations" => $experimentations], compact( 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
     public function index()
@@ -320,11 +320,11 @@ class ExperimentationController extends Controller
 
 
 
-            return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
-        } catch (QueryException $q) {
+        return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
+    }catch(QueryException $q){
             return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
-        }
-    }
+
+        }}
 
 
     /**
@@ -417,9 +417,27 @@ class ExperimentationController extends Controller
     public function search()
     {
         $q = request()->input('q');
-        $experimentations = Experimentation::where('EXPCode', 'like', "%$q%")
-            ->orWhere('EXPTitre', 'like', "%$q%")
-            ->orWhere('ETABCode', 'like', "%$q%")
+        $experimentations = DB::table('experimentation as ex')->select(
+            'e.ETABCode as ETABCode',
+            'e.ETABNom as ETABNom',
+            'e.ETABMail as ETABMail',
+            'e.TERRCode as TERRCode',
+            'ex.EXPCode as EXPCode',
+            't.TERRCode',
+            't.TERRNom as TERRNom',
+            'ex.EXPTitre as EXPTitre',
+            'ex.EXPLienInternet as EXPLienInternet',
+            'ex.EXPLienDrive as EXPLienDrive',
+            'ex.EXPDateDebut as EXPDateDebut',
+            'ex.EXPArchivage as EXPArchivage',
+            'ex.PALCode as PALCode'
+
+        )
+            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
+            ->leftjoin('territoire as t', 't.TERRCode', '=', 'e.TERRCode')
+            ->orWhere('ex.EXPTitre', 'like', "%$q%")
+            ->orWhere('e.ETABNom', 'like', "%$q%")
+            ->orWhere('t.TERRNom', 'like', "%$q%")
             ->get();
 
         return view('experimentationSearch')->with('experimentation', $experimentations);
@@ -443,7 +461,6 @@ class ExperimentationController extends Controller
 
         $q = request()->input('q');
         $p = request()->input('p');
-        $r = request()->input('r');
         $s = request()->input('s');
         $experimentation = DB::table('experimentation as e')->select(
             'e.EXPCode as expID',
@@ -453,26 +470,51 @@ class ExperimentationController extends Controller
             'e.EXPDateDebut',
             'e.EXPArchivage',
             'e.ETABCode',
-            'e.GTCode',
-            'e.THEMACode',
             'e.PALCode',
-            'et.TERRCode',
-            'et.TYPCode',
-            'ta.THEMACode as themaID',
             't.THEMACode',
-            'e.EXPCode'
+            'e.EXPCode',
+            'et.ETABNom as ETABNom',
+            'te.TERRNom as TERRNom'
         )
 
             ->leftjoin('etablissement as et', 'et.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('thematique_abordee as ta', 'ta.EXPCode', '=', 'e.EXPCode')
             ->leftjoin('thematique as t', 't.THEMACode', '=', 'ta.THEMACode')
+            ->leftjoin('territoire as te', 'te.TERRCode', '=', 'et.TERRCode')
             ->where('et.TERRCode', 'LIKE', "%$q%")
             ->Where('et.TYPCode', 'LIKE', "%$p%")
-            ->Where('e.EXPArchivage', 'like', "%$r%")
-            ->Where('t.THEMACode', 'LIKE', "%$s%")
-            ->get();
 
-        //ddd($experimentation);
+            ->Where('ta.THEMACode', 'LIKE', "%$s%")->get();
+
+ddd($experimentation);
+        return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
+    }
+
+    public function filtreArchivage()
+    {
+
+
+        $r = request()->input('r');
+        $experimentation = DB::table('experimentation as e')->select(
+            'e.EXPCode as expID',
+            'e.EXPTitre',
+            'e.EXPLienInternet',
+            'e.EXPLienDrive',
+            'e.EXPDateDebut',
+            'e.EXPArchivage',
+            'e.ETABCode',
+            'e.PALCode',
+            't.THEMACode',
+            'e.EXPCode',
+            'et.ETABNom as ETABNom',
+            'te.TERRNom as TERRNom'
+        )
+
+            ->leftjoin('etablissement as et', 'et.ETABCode', '=', 'e.ETABCode')
+            ->leftjoin('territoire as te', 'te.TERRCode', '=', 'et.TERRCode')
+            ->Where('e.EXPArchivage', 'like', "%$r%")->get();
+
+        ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
@@ -498,7 +540,7 @@ class ExperimentationController extends Controller
         )
             ->leftjoin('accompagnement as a', 'a.PORTCode', '=', 'p.PORTCode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
-            ->where('e.EXPCode', $id2)
+            ->where( 'e.EXPCode',$id2)
             ->get();
 
         $personnelacads = DB::table('personnelacad as pe')->select(
@@ -516,10 +558,10 @@ class ExperimentationController extends Controller
             ->leftjoin('accompagnement as a', 'a.PACode', '=', 'pe.PACode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
 
-            ->where('e.EXPCode', $id2)
+            ->where( 'e.EXPCode',$id2)
             ->get();
 
-        $thematiques = DB::table('thematique as t')->select(
+        $thematiques= DB::table('thematique as t')->select(
             't.THEMACode as themaID',
             't.THEMALibelle',
             'e.EXPCode'
@@ -528,7 +570,7 @@ class ExperimentationController extends Controller
             ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
             ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
 
-            ->where('e.EXPCode', $id2)
+            ->where( 'e.EXPCode',$id2)
             ->get();
 
 
@@ -538,7 +580,7 @@ class ExperimentationController extends Controller
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
         $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
 
-        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs','personnelacads'));
     }
 
     public function telechargerPdf($id3)
@@ -578,4 +620,6 @@ class ExperimentationController extends Controller
 
         return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
     }
+
+
 }
