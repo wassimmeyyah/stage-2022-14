@@ -27,29 +27,28 @@ use Symfony\Component\Console\Input\Input;
 
 class ExperimentationController extends Controller
 {
-    public function  show(Request $request){
+    public function  show(Request $request)
+    {
 
-        $etablissements= Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom","asc");
+        $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom", "asc");
         $groupethematiques = Groupethematique::all();
         $thematiques  = Thematique::all();
         $paliers = Palier::all();
         $porteurs = Porteur::all();
-        $personnelacads=Personnelacad::all();
-        $territoires= Territoire::all();
+        $personnelacads = Personnelacad::all();
+        $territoires = Territoire::all();
         $types = Type::all();
         $specialites  = Specialite::all();
         $villes = Ville::all();
 
-        if(isset($request->Recherche)) {
+        if (isset($request->Recherche)) {
             $searchValue = $request->Recherche;
-            $experimentations = \App\Models\experimentation::where('EXPCode','LIKE', $searchValue . '%')->get();
-
-        }else {
-            $experimentations = \App\Models\experimentation::orderBy("EXPCode","asc")->paginate(10);
-
+            $experimentations = \App\Models\experimentation::where('EXPCode', 'LIKE', $searchValue . '%')->get();
+        } else {
+            $experimentations = \App\Models\experimentation::orderBy("EXPCode", "asc")->paginate(10);
         }
 
-        return view("experimentation", ["experimentations" => $experimentations], compact('etablissements','groupethematiques','thematiques','paliers','porteurs','personnelacads','territoires','types','specialites','villes'));
+        return view("experimentation", ["experimentations" => $experimentations], compact('etablissements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
     public function index()
@@ -66,24 +65,24 @@ class ExperimentationController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create-users') ) {
+        if (Gate::denies('create-users')) {
             return redirect()->route('goExperimentation');
         }
 
-        $etablissements= Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom","asc")->get();
+        $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom", "asc")->get();
         $groupethematiques = Groupethematique::all();
         $thematiques  = Thematique::all();
         $paliers = Palier::all();
         $porteurs = Porteur::all();
         $porteurs2 = Porteur::whereNull('PORTNom');
-        $personnelacads=Personnelacad::all();
-        $territoires= Territoire::all();
+        $personnelacads = Personnelacad::all();
+        $territoires = Territoire::all();
         $types = Type::all();
         $specialites  = Specialite::all();
         $villes = Ville::all();
-        $accompagnements= Accompagnement::all();
+        $accompagnements = Accompagnement::all();
 
-        return view('experimentationCreate', compact('accompagnements','etablissements','groupethematiques','thematiques','paliers','porteurs','personnelacads','territoires','types','specialites','villes'));
+        return view('experimentationCreate', compact('accompagnements', 'etablissements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
     public function up(Experimentation $experimentation)
@@ -100,30 +99,30 @@ class ExperimentationController extends Controller
      */
     public function store(Request $request)
     {
-        $etablissements= Etablissement::orderBy("ETABNom","asc");
+        $etablissements = Etablissement::orderBy("ETABNom", "asc");
         $groupethematiques = Groupethematique::all();
-        $thematiques2  = Thematique::all();
+        $thematiques  = Thematique::all();
         $paliers = Palier::all();
         $porteurs = Porteur::all();
-        $personnelacads=Personnelacad::all();
-        $territoires= Territoire::all();
+        $personnelacads = Personnelacad::all();
+        $territoires = Territoire::all();
         $types = Type::all();
         $specialites  = Specialite::all();
         $villes = Ville::all();
-        $accompagnements= Accompagnement::all();
-        $id=#some_;
+        $accompagnements = Accompagnement::all();
+        $id = #some_;
 
 
 
-        $res = DB::table('experimentation')->insert([
+            $res = DB::table('experimentation')->insert([
 
-            'EXPTitre' => $request->input('EXPTitre'),
-            'EXPLienInternet' => $request->input('EXPLienInternet'),
-            'EXPLienDrive' => $request->input('EXPLienDrive'),
-            'EXPDateDebut' => $request->input('EXPDateDebut'),
-            'ETABCode' => $request->input('ETABCode'),
-            'PALCode' => $request->input('PALCode')
-        ]);
+                'EXPTitre' => $request->input('EXPTitre'),
+                'EXPLienInternet' => $request->input('EXPLienInternet'),
+                'EXPLienDrive' => $request->input('EXPLienDrive'),
+                'EXPDateDebut' => $request->input('EXPDateDebut'),
+                'ETABCode' => $request->input('ETABCode'),
+                'PALCode' => $request->input('PALCode')
+            ]);
 
         $res2 = DB::table('etablissement')->insert([
             'ETABCode' => $request->input('ETABCode'),
@@ -138,49 +137,49 @@ class ExperimentationController extends Controller
             'VILCode' => $request->input('VILCode')
         ]);
 
-        if(null !==$request->input('PORTNom0')){
-        $res3 = DB::table('porteur')->insert([
+        if (null !== $request->input('PORTNom0')) {
+            $res3 = DB::table('porteur')->insert([
 
 
-            'PORTNom' => $request->input('PORTNom0'),
-            'PORTMail' => $request->input('PORTMail0'),
-            'PORTTel' => $request->input('PORTTel0'),
-            'ETABCode' => $request->input('ETABCode')
+                'PORTNom' => $request->input('PORTNom0'),
+                'PORTMail' => $request->input('PORTMail0'),
+                'PORTTel' => $request->input('PORTTel0'),
+                'ETABCode' => $request->input('ETABCode')
 
-            ]);}
-        if(null !==$request->input('PORTNom1')){
-        $res5 = DB::table('porteur')->insert([
-
-
-            'PORTNom' => $request->input('PORTNom1'),
-            'PORTMail' => $request->input('PORTMail1'),
-            'PORTTel' => $request->input('PORTTel1'),
-            'ETABCode' => $request->input('ETABCode')
-        ]);}
-
-        if(null !==$request->input('PORTNom2')){
-        $res6 = DB::table('porteur')->insert([
+            ]);
+        }
+        if (null !== $request->input('PORTNom1')) {
+            $res5 = DB::table('porteur')->insert([
 
 
-            'PORTNom' => $request->input('PORTNom2'),
-            'PORTMail' => $request->input('PORTMail2'),
-            'PORTTel' => $request->input('PORTTel2'),
-            'ETABCode' => $request->input('ETABCode')
-        ]);}
+                'PORTNom' => $request->input('PORTNom1'),
+                'PORTMail' => $request->input('PORTMail1'),
+                'PORTTel' => $request->input('PORTTel1'),
+                'ETABCode' => $request->input('ETABCode')
+            ]);
+        }
 
-        $thematique = $request->input('THEMACode');
-
-        ddd($thematique);
-
-        foreach ($thematiques as $thema){
-
-        $res6 = DB::table('thematique_abordee')->insert([
+        if (null !== $request->input('PORTNom2')) {
+            $res6 = DB::table('porteur')->insert([
 
 
+                'PORTNom' => $request->input('PORTNom2'),
+                'PORTMail' => $request->input('PORTMail2'),
+                'PORTTel' => $request->input('PORTTel2'),
+                'ETABCode' => $request->input('ETABCode')
+            ]);
+        }
 
-            'THEMACode'=> $thema->THEMACode,
-            'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode
-        ]);}
+        
+
+            $res6 = DB::table('thematique_abordee')->insert([
+
+
+
+                'THEMACode' => $request->input('THEMACode'),
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode
+            ]);
+        
 
 
 
@@ -188,36 +187,45 @@ class ExperimentationController extends Controller
         //ddd(DB::table('porteur')->latest('PORTCode')->limit($id)->get());
 
 
-            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e){
-                if($e->ETABCode==$request->input('ETABCode')){
-                    if(null !==$request->input('PANom0')){
+        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+            if ($e->ETABCode == $request->input('ETABCode')) {
+                if (null !== $request->input('PANom0')) {
                     $res4 = DB::table('accompagnement')->insert([
 
                         'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
                         'PORTCode' => $e->PORTCode,
                         'PACode' => $request->input('PANom0')
-                    ]);}}}
+                    ]);
+                }
+            }
+        }
 
-            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e){
-                if($e->ETABCode==$request->input('ETABCode')){
-                    if(null !==$request->input('PANom1')){
+        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+            if ($e->ETABCode == $request->input('ETABCode')) {
+                if (null !== $request->input('PANom1')) {
                     $res4 = DB::table('accompagnement')->insert([
 
                         'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
                         'PORTCode' => $e->PORTCode,
                         'PACode' => $request->input('PANom1')
-                    ]);}}}
+                    ]);
+                }
+            }
+        }
 
 
-            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e){
-                if($e->ETABCode==$request->input('ETABCode')){
-                    if(null !==$request->input('PANom2')){
+        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+            if ($e->ETABCode == $request->input('ETABCode')) {
+                if (null !== $request->input('PANom2')) {
                     $res4 = DB::table('accompagnement')->insert([
 
                         'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
                         'PORTCode' => $e->PORTCode,
                         'PACode' => $request->input('PANom2')
-                    ]);}}}
+                    ]);
+                }
+            }
+        }
 
 
         //$res7 = Porteur::whereNull('PORTNom') ->delete();
@@ -226,7 +234,7 @@ class ExperimentationController extends Controller
 
 
 
-        return redirect()->route('goExperimentation', compact('etablissements','accompagnements','groupethematiques','thematiques','paliers','porteurs','personnelacads','territoires','types','specialites','villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
+        return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
     }
 
     /**
@@ -245,18 +253,17 @@ class ExperimentationController extends Controller
      */
     public function edit($id)
     {
-        if(Gate::denies('updateDelete-users') ) {
+        if (Gate::denies('updateDelete-users')) {
             return redirect()->route('goExperimentation');
         }
 
-        $etablissements= Etablissement::all();
+        $etablissements = Etablissement::all();
         $groupethematiques = Groupethematique::all();
         $thematiques  = Thematique::all();
         $paliers = Palier::all();
 
         $experimentation = Experimentation::findOrFail($id);
-        return view('experimentationUpdate', compact("experimentation",'etablissements','groupethematiques','thematiques','paliers'));
-
+        return view('experimentationUpdate', compact("experimentation", 'etablissements', 'groupethematiques', 'thematiques', 'paliers'));
     }
 
     /**
@@ -296,7 +303,7 @@ class ExperimentationController extends Controller
      */
     public function delete(Experimentation $experimentation)
     {
-        if(Gate::denies('updateDelete-users') ) {
+        if (Gate::denies('updateDelete-users')) {
             return redirect()->route('goExperimentation');
         }
 
@@ -306,20 +313,22 @@ class ExperimentationController extends Controller
         return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
     }
 
-    public function search(){
+    public function search()
+    {
         $q = request()->input('q');
-        $experimentations = Experimentation::where('EXPCode','like',"%$q%")
-            ->orWhere('EXPTitre','like',"%$q%")
-            ->orWhere('ETABCode','like',"%$q%")
+        $experimentations = Experimentation::where('EXPCode', 'like', "%$q%")
+            ->orWhere('EXPTitre', 'like', "%$q%")
+            ->orWhere('ETABCode', 'like', "%$q%")
             ->get();
 
         return view('experimentationSearch')->with('experimentation', $experimentations);
     }
-    public function recherche(){
+    public function recherche()
+    {
         $q = request()->input('q');
-        $experimentations = Experimentation::where('EXPCode','like',"%$q%")
-            ->orWhere('EXPTitre','like',"%$q%")
-            ->orWhere('ETABCode','like',"%$q%")
+        $experimentations = Experimentation::where('EXPCode', 'like', "%$q%")
+            ->orWhere('EXPTitre', 'like', "%$q%")
+            ->orWhere('ETABCode', 'like', "%$q%")
             ->get();
 
 
@@ -328,16 +337,17 @@ class ExperimentationController extends Controller
         return view('experimentationSearch2')->with('experimentation', $experimentations);
     }
 
-    public function filtre(){
+    public function filtre()
+    {
         $q = request()->input('q');
         $p = request()->input('p');
-        $etablissements2 = Etablissement::Where('TERRCode','LIKE',"%$q%")
-            ->Where('TYPCode','LIKE',"%$p%")
+        $etablissements2 = Etablissement::Where('TERRCode', 'LIKE', "%$q%")
+            ->Where('TYPCode', 'LIKE', "%$p%")
             ->get();
 
-        $etablissements = $etablissements2 -> where('ETABCode','!=',"Aucun");
-        $experimentations= new Experimentation();
-        foreach($etablissements as $etablissement) {
+        $etablissements = $etablissements2->where('ETABCode', '!=', "Aucun");
+        $experimentations = new Experimentation();
+        foreach ($etablissements as $etablissement) {
             $exper = Experimentation::where('ETABCode', $etablissement->ETABCode);
             $experimentations->push($exper);
         }
@@ -346,12 +356,13 @@ class ExperimentationController extends Controller
         return view('experimentationFiltre')->with('experimentations', $experimentations);
     }
 
-    public function affiche($id2){
+    public function affiche($id2)
+    {
 
         $experimentation = Experimentation::find($id2);
         $accompagnements = Accompagnement::where('EXPCode', $experimentation->EXPCode);
 
-        $etablissement= Etablissement::where('ETABCode', $experimentation->ETABCode)->first();
+        $etablissement = Etablissement::where('ETABCode', $experimentation->ETABCode)->first();
         $groupethematique = Groupethematique::where('GTCode', $experimentation->GTCode)->first();
         $thematique  = Thematique::where('THEMACode', $experimentation->THEMACode)->first();
         $palier = Palier::where('PALCode', $experimentation->PALCode)->first();
@@ -366,7 +377,7 @@ class ExperimentationController extends Controller
         )
             ->where('porteur.PORTCode', '=', 'accompagnement.PORTCode')->get();
 
-        $territoire= Territoire::where('TERRCode', $etablissement->TERRCode)->first();
+        $territoire = Territoire::where('TERRCode', $etablissement->TERRCode)->first();
         $type = Type::where('TYPCode', $etablissement->TYPCode)->first();
         $specialite  = Specialite::where('SPECode', $etablissement->SPECode)->first();
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
@@ -374,20 +385,20 @@ class ExperimentationController extends Controller
 
 
 
-        return view("experimentationAffichage", compact("experimentation",'accompagnements','etablissement','groupethematique','thematique','palier','territoire','type','specialite','ville','coordonnee','porteurs','personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematique', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
     }
 
-    public function telechargerPdf($id3){
+    public function telechargerPdf($id3)
+    {
 
-        $etablissements= Etablissement::all();
+        $etablissements = Etablissement::all();
         $groupethematiques = Groupethematique::all();
         $thematiques  = Thematique::all();
         $paliers = Palier::all();
 
         $experimentation = Experimentation::findOrFail($id3);
 
-        $pdf = FacadePdf::loadView('telechargement4', compact("experimentation",'etablissements','groupethematiques','thematiques','paliers'));
+        $pdf = FacadePdf::loadView('telechargement4', compact("experimentation", 'etablissements', 'groupethematiques', 'thematiques', 'paliers'));
         return $pdf->download('telechargement4.pdf');
     }
 }
-
