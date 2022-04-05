@@ -60,8 +60,8 @@
                                         <div class="card flex-md-row mb-4 box-shadow h-md-250" style="width: 204%">
                                             <div class="card-body d-flex flex-column align-items-start">
 
-                                                <h3 class="mb-0">
-                                                    <a class="text-dark" href="#">{{$experimentations->EXPTitre}}</a>
+                                            <h3 class="mb-0">
+                                                    <a class="text-dark" href="#">{{$experimentations->EXPTitre}} <br> Etablissement : {{$experimentations->ETABNom}} <br> Departement : {{$experimentations->TERRNom}} </a>
                                                 </h3>
                                                 <div class="mb-1 text-muted">Date de debut {{$experimentations->EXPDateDebut}}</div>
                                                 <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentations->EXPLienDrive}}">{{$experimentations->EXPLienDrive}}</a><br>

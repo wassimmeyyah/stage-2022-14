@@ -440,6 +440,7 @@ class ExperimentationController extends Controller
             ->orWhere('t.TERRNom', 'like', "%$q%")
             ->get();
 
+
         return view('experimentationSearch')->with('experimentation', $experimentations);
     }
     public function recherche()
