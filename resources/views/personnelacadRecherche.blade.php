@@ -24,7 +24,7 @@
 
         <input type="text" name="q" class="form-signin"  value="{{request()->q ?? ''}}">
 
-        <button type="submit" class="btn btn-primary mb-3  "><i class="bi bi-search">  Rechercher une personne  </i></button>
+        <button type="submit" class="btn btn-light text-primary mb-3  "><i class="bi bi-search">  Rechercher une personne  </i></button>
 
 
     </form>

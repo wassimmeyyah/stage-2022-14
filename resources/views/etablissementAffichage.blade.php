@@ -57,7 +57,7 @@
 
                                                         <p>L'etablissement {{$etablissement->ETABNom}} se situe dans la région du {{$territoire->TERRNom}} . Il s'agit d'un etablissement de type {{$type->TYPNom}} et de spécialité {{$specialite->SPENom}}. Son chef d'etablissement est {{$etablissement->ETABChef}}. </p>
                                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                                            <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}">Modifier</a></td>
+                                                            <td><br><a class="btn btn-light text-primary class=pull-left" type="button" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}">Modifier</a></td>
 
                                                             <td><a href="#" class="btn btn-danger class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissement->ETABCode}}').submit() }">Supprimer</a>
                                                                 <form id="{{$etablissement->ETABCode}}" action="{{route('goEtablissementSupprimer',['etablissement'=>$etablissement->ETABCode])}}" method="post">

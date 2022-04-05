@@ -28,6 +28,6 @@
             </select>
         </div>
 
-        <button class="btn btn-primary"><i class="bi bi-funnel"></i></button>
+        <button class="btn btn-light text-primary"><i class="bi bi-funnel"></i></button>
     </form>
 </div>

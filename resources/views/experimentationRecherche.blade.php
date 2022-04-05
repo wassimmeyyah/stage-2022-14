@@ -24,12 +24,12 @@
 
                             <input type="text" name="q" class="form-signin"  value="{{request()->q ?? ''}}">
 
-                        <button type="submit" class="btn btn-primary mb-3  "><i class="bi bi-search">  Rechercher une experimentation  </i></button>
+                        <button type="submit" class="btn btn-light text-primary mb-3  "><i class="bi bi-search">  Rechercher une experimentation  </i></button>
 
 
                 </form>
 
-            <a type="button" class="btn btn-light text-primary " href="{{route('goExperimentation')}}">Afficher toutes les experimentations</a>
+            <a type="button" class="btn btn-danger " href="{{route('goExperimentation')}}">Afficher toutes les experimentations</a>
 
 
         </body>

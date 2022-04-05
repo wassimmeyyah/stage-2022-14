@@ -36,7 +36,7 @@
         </select>
     </div>
 
-    <button type="submit" class="btn btn-primary"><i class="bi bi-funnel"></i></button>
+    <button type="submit" class="btn btn-light text-primary"><i class="bi bi-funnel"></i></button>
 
 
 

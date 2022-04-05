@@ -66,8 +66,6 @@ class ExperimentationController extends Controller
             ->Orderby("ETABNom","asc")->paginate(10);
 
 
-
-
         return view("experimentation", ["experimentations" => $experimentations], compact( 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
@@ -539,8 +537,6 @@ class ExperimentationController extends Controller
         $specialite  = Specialite::where('SPECode', $etablissement->SPECode)->first();
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
         $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
-
-
 
         return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs','personnelacads'));
     }

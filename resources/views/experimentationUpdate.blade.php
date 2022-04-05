@@ -80,7 +80,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Modifier</button>
+            <button type="submit" class="btn btn-light text-primary">Modifier</button>
             <a class="btn btn-light text-danger" href="{{route('goExperimentation')}}">Annuler</a>
         </form>
     </div>

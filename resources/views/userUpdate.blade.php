@@ -26,7 +26,7 @@
                         <label for="{{ $role->id }}" class="form-check-label">{{ $role->name }}</label>
                     </div>
                     @endforeach
-                    <button type="submit" class="btn btn-primary">Modifier les rôles</button>
+                    <button type="submit" class="btn btn-light text-primary">Modifier les rôles</button>
 
                 </form>
             </div>

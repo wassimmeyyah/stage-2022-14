@@ -107,7 +107,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <button class="btn btn-primary">Ajouter</button>
+                                <button class="btn btn-light text-primary">Ajouter</button>
                                 <a class="btn btn-danger" href="{{route('goEtablissement')}}">Annuler</a>
                             </form>
                         </div>

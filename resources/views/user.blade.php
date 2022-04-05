@@ -58,7 +58,7 @@
                     <td class="pt-3-half"> {{$user->email}} </td>
                     <td class="pt-3-half"> {{ implode(', ', $user->roles()->get()->pluck('name')->toArray() )}} </td> </td>
                     @can('manage-users')
-                    <td><a class="btn btn-primary" type="button" href="{{route('goUserModifier', $user->id)}}">
+                    <td><a class="btn btn-light text-primary" type="button" href="{{route('goUserModifier', $user->id)}}">
                             Modifier
                         </a></td>
                     <td>

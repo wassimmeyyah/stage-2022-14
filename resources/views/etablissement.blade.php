@@ -32,12 +32,12 @@
                                     <div class="form-group mb-0 mr-1">
                                         <input type="text" name="q" class="form-control" value="{{request()->q ?? ''}}">
                                     </div>
-                                    <button class="btn btn-primary mb-3  "><i class="bi bi-search"></i></button>
+                                    <button class="btn btn-light text-primary mb-3  "><i class="bi bi-search"></i></button>
 
                                 </form>
                                 <p align="center">
                                     @can('create-users')
-                                    <a class="btn btn-primary " href="{{route('goEtablissementAjouter')}} ">
+                                    <a class="btn btn-light text-primary " href="{{route('goEtablissementAjouter')}} ">
                                         Ajouter un etablissement
                                     </a>
                                     @endcan
@@ -82,7 +82,7 @@
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @can('updateDelete-users')
-                                                    <td><br><a class="btn btn-primary class=pull-left" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}">Modifier</a></td>
+                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}">Modifier</a></td>
                                                     @endcan
 
                                                     @can('updateDelete-users')

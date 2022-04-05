@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Accompagnement extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-
-    protected $table = 'accompagnement';
-    protected $primaryKey = array('EXPCode', 'PORTCode', 'PACode');
+    protected $table='accompagnement';
+    protected $primaryKey = array('EXPCode', 'PORTCode','PACode');
 
 
     protected $keyType = 'int';
-    public $incrementing = 'false';
-    protected $connection = 'mysql';
+    public $incrementing ='false';
+    protected $connection ='mysql';
+    /**
+     * @var mixed
+     */
 }

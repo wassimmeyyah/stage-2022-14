@@ -8,6 +8,6 @@
     <div class="form-group mb-0 mr-1">
         <input type="text" name="q" class="form-control" value="{{request()->q ?? ''}}">
     </div>
-    <button class="btn btn-primary mb-3  "><i class="bi bi-search"></i></button>
+    <button class="btn btn-light text-primary mb-3  "><i class="bi bi-search"></i></button>
 
 </form>

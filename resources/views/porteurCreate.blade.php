@@ -49,7 +49,7 @@
                 <input type="text" class="form-control" name="ETABCode" />
             </div>
 
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+            <button type="submit" class="btn btn-light text-primary">Ajouter</button>
             <a class="btn btn-light text-danger" href="{{route('goPorteur')}}">Annuler</a>
         </form>
     </div>

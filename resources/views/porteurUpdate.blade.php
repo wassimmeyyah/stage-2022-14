@@ -51,7 +51,7 @@
                     <label for="PORTAdresse">Numero RNE de l'etablissement du porteur :</label>
                     <input type="text" class="form-control" name="ETABCode" value="{{$porteur->PORTAdresse}}"/>
                 </div>
-            <button type="submit" class="btn btn-primary">Modifier</button>
+            <button type="submit" class="btn btn-light text-primary">Modifier</button>
             <a class="btn btn-light text-danger" href="{{route('goEtablissement')}}">Annuler</a>
         </form>
     </div>

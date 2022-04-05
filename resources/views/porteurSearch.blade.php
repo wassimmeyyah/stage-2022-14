@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-between">
         @include('partials.search2')
         <p align="center">
-            <a class="btn btn-primary " type="button" href="{{route('goPorteurAjouter')}}">
+            <a class="btn btn-light text-primary " type="button" href="{{route('goPorteurAjouter')}}">
                 Ajouter un porteur
 
             </a>
@@ -59,7 +59,7 @@
 
                             <td><a href="{{route('goPorteurAffichage', ['porteur'=>$porteurs->PORTCode])}}">Voir plus </a></td><br>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <td><br><a class="btn btn-primary" type="button" href="{{route('goPorteurModifier', ['porteur'=>$porteurs->PORTCode])}}">
+                                <td><br><a class="btn btn-light text-primary" type="button" href="{{route('goPorteurModifier', ['porteur'=>$porteurs->PORTCode])}}">
                                     Modifier
 
                                 </a></td>

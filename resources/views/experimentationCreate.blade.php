@@ -149,7 +149,7 @@
                             </select>
                         </td>
                         <td>
-                            <button type="button" name="addTH" id="addTH" class="btn btn-primary">Ajouter une thématique</button>
+                            <button type="button" name="addTH" id="addTH" class="btn btn-light text-primary">Ajouter une thématique</button>
                         </td>
                     </tr>
                 </table>
@@ -200,7 +200,7 @@
                         </td>
 
                         <td>
-                            <button type="button" name="add" id="add" class="btn btn-primary">Ajouter un porteur</button>
+                            <button type="button" name="add" id="add" class="btn btn-light text-primary">Ajouter un porteur</button>
                         </td>
                     </tr>
                 </table>
@@ -245,7 +245,7 @@
                             </select>
                         </td>
                         <td>
-                            <button type="button" name="addAP" id="addAP" class="btn btn-primary">Ajouter un accompagnateur</button>
+                            <button type="button" name="addAP" id="addAP" class="btn btn-light text-primary">Ajouter un accompagnateur</button>
                         </td>
                     </tr>
                 </table>
@@ -281,8 +281,8 @@
 
 
         <div class="btn-group">
-            <button type="submit" name="submit" id="submit" class="btn btn-primary">Ajouter l'expérimentation</button>
-            <a class="btn btn-light text-primary" href="{{route('goExperimentation')}}">Annuler</a>
+            <button type="submit" name="submit" id="submit" class="btn btn-light text-primary">Ajouter l'expérimentation</button>
+            <a class="btn btn-danger" href="{{route('goExperimentation')}}">Annuler</a>
         </div>
     </form>
 </div>

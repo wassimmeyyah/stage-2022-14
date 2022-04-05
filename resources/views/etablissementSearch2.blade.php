@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-between">
         @include('partials.search')
         <p align="center">
-            <a class="btn btn-primary " type="button" href="{{route('goEtablissementAjouter')}}">
+            <a class="btn btn-light text-primary " type="button" href="{{route('goEtablissementAjouter')}}">
                 Ajouter un etablissement
 
             </a>
@@ -60,7 +60,7 @@
                             <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissements->ETABCode])}}">Voir plus </a></td><br>
 
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <td><br><a class="btn btn-primary class=pull-left" type="button" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissements->ETABCode])}}">Modifier</a></td>
+                                <td><br><a class="btn btn-light text-primary class=pull-left" type="button" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissements->ETABCode])}}">Modifier</a></td>
 
                                 <td><a href="#" class="btn btn-danger class=pull-right" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissements->ETABCode}}').submit() }">Supprimer</a>
                                     <form id="{{$etablissements->ETABCode}}" action="{{route('goEtablissementSupprimer',['etablissement'=>$etablissements->ETABCode])}}" method="post">

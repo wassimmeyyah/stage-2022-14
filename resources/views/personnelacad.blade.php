@@ -30,7 +30,7 @@
                                     <p align="center">
                                         <a class="btn btn-danger " href="{{route('goPersonnelacadMail')}}">Contacts des personnes</a>
                                         @can('create-users')
-                                        <a class="btn btn-primary " href="{{route('goPersonnelacadAjouter')}}">
+                                        <a class="btn btn-light text-primary " href="{{route('goPersonnelacadAjouter')}}">
                                             Ajouter une personne
                                         </a>
                                         @endcan
@@ -77,7 +77,7 @@
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @can('updateDelete-users')
-                                                    <td><a class="btn btn-primary" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}">
+                                                    <td><a class="btn btn-light text-primary" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}">
                                                             Modifier
 
                                                         </a></td>

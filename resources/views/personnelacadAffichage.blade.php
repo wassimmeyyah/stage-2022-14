@@ -44,7 +44,7 @@
                             </p>
 
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <td><a class="btn btn-primary" type="button" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}">
+                                <td><a class="btn btn-light text-primary" type="button" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}">
                                         Modifier
 
                                     </a></td>

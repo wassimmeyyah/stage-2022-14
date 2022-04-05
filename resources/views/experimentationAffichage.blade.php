@@ -10,143 +10,184 @@
 </head>
 
 <body>
-
     <div class="container">
-        @include('layouts.navigation')
-        <div class="card " style="text-align: center;">
-            <h3 class="card-header text-center font-weight-bold text-uppercase py-4 p-3 mb-2 bg-light text-primary">Les experimentations</h3>
-        </div>
+        <x-app-layout>
+            <x-slot name="header">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+                    {{ __($experimentation->EXPTitre) }}
+                </h2>
+            </x-slot>
 
-        <div class="card-body">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div><br />
-            @endif
+            <div class="py-12" margin="auto" width="10%">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 bg-white border-b border-gray-200">
 
-
-            <form method="get" action="{{route('goExperimentationAffichage',['experimentation'=>$experimentation->EXPCode])}}">
-
-
-                <main role="main" class="container">
-                    <div class="row">
-                        <div class="col-md-8 blog-main">
-                            <h2 class="pb-3 mb-4 font-italic border-bottom">
-                                {{$experimentation->EXPTitre}}
-                            </h2>
-
-                            <div class="blog-post">
-                                <h2 class="blog-post-title">{{$experimentation->EXPDateDebut}}</h2>
-                                <p class="blog-post-meta"><a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</p>
-                                <p class="blog-post-meta"><a class="card-text mb-auto" href="{{$experimentation->EXPLienInternet}}">{{$experimentation->EXPLienInternet}}</p>
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div><br />
+                            @endif
 
 
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <td><br><a class="btn btn-primary" type="button" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}">
-                                            Modifier
+                            <form method="get" action="{{route('goExperimentationAffichage',['experimentation'=>$experimentation->EXPCode])}}" position="center">
 
-                                        </a></td>
-                                    <td>
-                                        <a href="#" class="btn btn-light text-primary" type="button" onclick="if(confirm('Voulez-vous vraiment supprimer cet experience ?')){document.getElementById('{{$experimentation->EXPCode}}').submit() }">
-                                            Supprimer
-
-                                        </a>
-                                        <form id="{{$experimentation->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->EXPCode])}}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="delete">
-                                        </form>
-
-                                    </td>
-                                </div><br>
-                                <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" src="/Image/imageacad2.jpg" width="320" height="220" alt="/Image/imageacad2.jpg">
-                                <hr>
-
-                                <main role="main" class=" card h-100 ">
-                                    <div class="">
-                                        <div class="row ">
+                                <main role="main" class="container card h-100 justify-content-center">
+                                    <div class="justify-content-center">
+                                        <div class="row justify-content-center">
                                             <div class="col-md-8 blog-main">
-                                                <h3 class="pb-3 mb-4 font-italic border-bottom ">
-                                                    Etablissement : {{$etablissement->ETABNom}}
+                                                <br>
+
+                                                <center>
+                                                    <i>Informations de l'expérimentation</i>
+                                                </center>
+
+                                                <br>
+
+                                                <table class="table table-bordered table-responsive-md table-striped text-center">
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half">Titre de l'expérimentation</th>
+                                                        <td class="pt-3-half"> <strong> {{$experimentation->EXPTitre}} </strong> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half">Date de début de l'expérimentation</th>
+                                                        <td class="pt-3-half"> {{$experimentation->EXPDateDebut}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Palier actuel de l'expérimentation</th>
+                                                        <td class="blog-post-title">{{$palier->PALLibelle}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half">Thématique(s) de l'expérimentation</th>
+                                                        <td class="blog-post-title">@foreach($thematiques as $thematique) {{$thematique->THEMALibelle}} - @endforeach
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Etablissement concerné </th>
+                                                        <td class="pt-3-half"> <strong> {{$type->TYPNom}} {{$etablissement->ETABNom}} </strong> - {{$etablissement->ETABAdresse}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Mail de l'établissement </th>
+                                                        <td class="blog-post-title">{{$etablissement->ETABMail}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Région de l'établissement </th>
+                                                        <td class="blog-post-title">{{$territoire->TERRNom}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Ville de l'établissement </th>
+                                                        <td class="blog-post-title">{{$ville->VILNom}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Type d'établissement </th>
+                                                        <td class="blog-post-title">{{$type->TYPNom}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Chef d'établissement </th>
+                                                        <td class="blog-post-title">{{$etablissement->ETABChef}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Lien du drive </th>
+                                                        <td class="blog-post-title"> <a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a></td>
+                                                    </tr>
+
+                                                </table>
+
+
+                                                <h3 class="pb-3 mb-4 font-italic border-bottom">
+
+                                                    <br>
+
+                                                    <center>
+                                                        <i>Informations de(s) porteur(s) de projet</i>
+                                                    </center>
+
+                                                    <br>
+
+                                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center"> Porteur de projet </th>
+                                                                <th class="text-center"> Mail du porteur </th>
+                                                                <th class="text-center"> Téléphone du porteur </th>
+                                                                <th class="text-center"> Etablissement du porteur </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($porteurs as $porteur)
+
+                                                            <tr>
+                                                                <td class="pt-3-half"> {{$porteur->PORTNom}} </td>
+                                                                <td class="pt-3-half"> {{$porteur->PORTMail}} </td>
+                                                                <td class="pt-3-half"> {{$porteur->PORTTel}} </td>
+                                                                <td class="pt-3-half"> {{$porteur->ETABCode}}</td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
                                                 </h3>
 
-                                                <h2 class="blog-post-title">{{$etablissement->ETABMail}}</h2>
-                                                <p class="blog-post-meta">{{$etablissement->ETABTel}}<a href="#">Appeler</a></p>
-                                                <p>Située dans la zone A, l'Académie de Lyon accueille plus de 323 000 élèves pour une population totale de 3 293 813 habitants.
-                                                    Elle totalise 3 365 établissements scolaires ce qui la place au 11ème rang des académies françaises. Elle compte également 419 établissements d'enseignement professionel et post-bac.
-                                                    Pour plus d'informations, vous pouvez consulter le site officiel de l'académie sur http://www.ac-lyon.fr
+                                                <h3 class="pb-3 mb-4 font-italic border-bottom">
 
-                                                </p>
+                                                    <br>
 
-                                                <p>L'etablissement {{$etablissement->ETABNom}} se situe dans la région du {{$territoire->TERRNom}} . Il s'agit d'un etablissement de type {{$type->TYPNom}} et de spécialité {{$specialite->SPENom}}. Son chef d'etablissement est {{$etablissement->ETABChef}}. </p>
+                                                    <center>
+                                                        <i>Informations de(s) accompagnateur(s) de projet</i>
+                                                    </center>
 
-                                                <<h3 class="pb-3 mb-4 font-italic border-bottom"><br>
-                                                    Le projet se situe sur le palier {{$palier->PALLibelle}}
-                                                    </h3>
-                                                    <h3 class="pb-3 mb-4 font-italic border-bottom">
-                                                        @foreach($porteurs as $porteur)
-                                                        <br><br>
+                                                    <br>
 
-                                                        <div class="row">
-                                                            <div class="col-md-8 blog-main">
-                                                                <h2 class="pb-3 mb-4 font-italic border-bottom">
-                                                                    Le porteur :{{$porteur->PORTNom}}
-                                                                </h2>
+                                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center"> Accompagnateur de projet </th>
+                                                                <th class="text-center"> Mail de l'accompagnateur </th>
+                                                                <th class="text-center"> Téléphone de l'accompagnateur </'th>
+                                                                <th class="text-center"> Etablissement de l'accompagnateur </'th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($personnelacads as $personnelacad)
 
-                                                                <div class="blog-post">
-                                                                    <h2 class="blog-post-title">{{$porteur->PORTMail}}</h2>
-                                                                    <p class="blog-post-meta">{{$porteur->PORTTel}}<a href="#">Appeler</a></p>
-                                                                    <p>Le porteur provient de l'etablissement <a href="{{route('goEtablissementAffichage', ['etablissement'=>$porteur->ETABCode])}}">{{$etablissement->ETABNom}}</a> L'etablissement est situé dans la region du {{$territoire->TERRNom}} et dans la ville de {{$ville->VILNom}}. Il s'agit d'un etablissement de type {{$type->TYPNom}} et de specialité {{$specialite->SPENom}}
+                                                            <tr>
+                                                                <td class="pt-3-half"> {{$personnelacad->PAPrenom}} {{$personnelacad->PANom}} </td>
+                                                                <td class="pt-3-half"> {{$personnelacad->PAMail}} </td>
+                                                                <td class="pt-3-half"> {{$personnelacad->PATel}} </td>
+                                                                <td class="pt-3-half"> {{$personnelacad->ETABCode}} </td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </h3>
 
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @endforeach
-                                                    </h3>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}">
+                                                            Modifier
 
-                                                    <h3 class="pb-3 mb-4 font-italic border-bottom">
-                                                        @foreach($personnelacads as $personnelacad)
-                                                        <main role="main">
-                                                            <div class="row">
-                                                                <div class="col-md-8 blog-main">
-                                                                    <br>
-                                                                    <h3 class="pb-3 mb-4 font-italic border-bottom">
-                                                                        L' accompagnateur est {{$personnelacad->PANom}} {{$personnelacad->PAPrenom}}
-                                                                    </h3>
+                                                        </a></td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cet experience ?')){document.getElementById('{{$experimentation->EXPCode}}').submit() }">
+                                                            Supprimer
 
-                                                                    <div class="blog-post">
-                                                                        <h2 class="blog-post-title">{{$personnelacad->PAMail}}</h2>
-                                                                        <p class="blog-post-meta">{{$personnelacad->PATel}}<a href="#">Appeler</a></p>
-                                                                        <p>Ce membre de l'académie provient de l'etablissement {{$personnelacad->ETABCode}}. Le membre est spécialisé en {{$personnelacad->PADiscipline}}.
+                                                        </a>
+                                                        <form id="{{$experimentation->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->EXPCode])}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="_method" value="delete">
+                                                        </form>
 
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </main>
-                                                        @endforeach
-                                                    </h3>
+                                                    </td>
+                                                </div><br>
 
-                                                    <h3 class="pb-3 mb-4 font-italic border-bottom">
-                                                        Le projet a pour thématiques :
-                                                        @foreach($thematiques as $thematique)
-                                                        {{$thematique->THEMALibelle}}
-                                                        @endforeach
-                                                    </h3>
+                                                <div class="flex-center position-ref -full-height">
 
-                                            </div>
-                                        </div>
-
-                                        <body>
-                                            <div class="flex-center position-ref -full-height">
-                                                <div class="content">
                                                     <h2>Carte</h2>
+
                                                     <div class="map" id="app">
-                                                        <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 50%; height: 350px;">
+                                                        <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 100%; height: 350px;">
 
                                                             <gmap-info-window :options="infoWindowOptions" :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" @closeclick="infoWindowOpened=false">
 
@@ -165,21 +206,20 @@
                                                         </gmap-map>
 
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <script src="{{mix('js/app.js')}}"></script>
-                                        </body>
-                                    </div>
-                                </main>
-            </form>
-        </div>
-        </form>
 
-        <a type="submit" id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}">Telecharger en PDF</a>
+
+                                                </div>
+                                                <script src="{{mix('js/app.js')}}"></script>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}">Telecharger en PDF</a>
     </div>
+
+    </x-app-layout>
     </div>
-    </div>
-    </main>
-    </form>
-    </div>
-    </form>
+</body>

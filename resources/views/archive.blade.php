@@ -22,12 +22,12 @@
         {{$archives->links()}}
         <p align="center">
             @can('manage-users')
-            <a class="btn btn-primary " type="button" href="{{route('goThematiqueAjouter')}}">
+            <a class="btn btn-light text-primary " type="button" href="{{route('goThematiqueAjouter')}}">
                 Ajouter une thématique
             </a>
             @endcan
             @can('create-users')
-            <a class="btn btn-primary " type="button" href="{{route('goArchiveAjouter')}}">
+            <a class="btn btn-light text-primary " type="button" href="{{route('goArchiveAjouter')}}">
                 Ajouter une archive
             </a>
             @endcan
@@ -71,7 +71,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary"><i class="bi bi-funnel"></i></button>
+        <button type="submit" class="btn btn-light text-primary"><i class="bi bi-funnel"></i></button>
 
 
 

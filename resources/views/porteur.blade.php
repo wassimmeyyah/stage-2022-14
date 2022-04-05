@@ -22,7 +22,7 @@
             <p align="center">
                 <a class="btn btn-danger " type="button" href="{{route('goPorteurMail')}}">Contacts des personnes</a>
                 @can('create-users')
-                <a class="btn btn-primary " type="button" href="{{route('goPorteurAjouter')}}">
+                <a class="btn btn-light text-primary " type="button" href="{{route('goPorteurAjouter')}}">
                     Ajouter un porteur
                 </a>
                 @endcan
@@ -64,7 +64,7 @@
                         <td><a href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}">Voir plus </a></td><br>
                         <div class="btn-group" role="group" aria-label="Basic example">
                             @can('updateDelete-users')
-                            <td><br><a class="btn btn-primary" type="button" href="{{route('goPorteurModifier', ['porteur'=>$porteur->PORTCode])}}">
+                            <td><br><a class="btn btn-light text-primary" type="button" href="{{route('goPorteurModifier', ['porteur'=>$porteur->PORTCode])}}">
                                     Modifier
                                 </a></td>
                             @endcan

@@ -63,7 +63,7 @@
                     <label for="PAAdresse">Numero RNE de l'etablissement de la personne  :</label>
                     <input type="text" class="form-control" name="ETABCode" value="{{$personnelacad->ETABCode}}"/>
                 </div>
-            <button type="submit" class="btn btn-primary">Modifier</button>
+            <button type="submit" class="btn btn-light text-primary">Modifier</button>
             <a class="btn btn-light text-danger" href="{{route('goEtablissement')}}">Annuler</a>
         </form>
     </div>

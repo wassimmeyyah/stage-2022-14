@@ -120,7 +120,7 @@
                                         </select>
                                     </div>
                                     <br>
-                                    <button class="btn btn-primary">Modifier</button>
+                                    <button class="btn btn-light text-primary">Modifier</button>
                                     <a class="btn btn-danger" href="{{route('goEtablissement')}}">Annuler</a>
                                 </form>
                             </div>

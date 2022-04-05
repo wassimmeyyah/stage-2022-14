@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-between">
         @include('partials.search3')
         <p align="center">
-            <a class="btn btn-primary " type="button" href="{{route('goPersonnelacadAjouter')}}">
+            <a class="btn btn-light text-primary " type="button" href="{{route('goPersonnelacadAjouter')}}">
                 Ajouter une personne
 
             </a>
@@ -63,7 +63,7 @@
                             <td><a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacads->PACode])}}">Voir plus </a></td><br>
 
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <td><a class="btn btn-primary" type="button" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacads->PACode])}}">
+                                <td><a class="btn btn-light text-primary" type="button" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacads->PACode])}}">
                                         Modifier
 
                                     </a></td>
