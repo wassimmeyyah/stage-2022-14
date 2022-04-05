@@ -142,7 +142,7 @@
                             </select>
                         </td>
                         <td>
-                            <button type="button" name="addTH" id="addTH" class="btn btn-primary">Ajouter</button>
+                            <button type="button" name="addTH" id="addTH" class="btn btn-primary">Ajouter une thématique</button>
                         </td>
                     </tr>
                 </table>
@@ -153,7 +153,7 @@
                 var i = 0;
                 $('#addTH').click(function() {
                     i++;
-                    if (i < 7) {
+                    if (i < 11) {
                         $('#dynamic_fieldTH').append('<tr id="row' + i + '"><td><select class="form-control" name="THEMALibelle' + i + '"> <option value=""></option> @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach </select></td><td><button type="button" name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
                     }
                 });
@@ -193,7 +193,7 @@
                         </td>
 
                         <td>
-                            <button type="button" name="add" id="add" class="btn btn-primary">Ajouter</button>
+                            <button type="button" name="add" id="add" class="btn btn-primary">Ajouter un porteur</button>
                         </td>
                     </tr>
                 </table>
@@ -238,7 +238,7 @@
                             </select>
                         </td>
                         <td>
-                            <button type="button" name="addAP" id="addAP" class="btn btn-primary">Ajouter</button>
+                            <button type="button" name="addAP" id="addAP" class="btn btn-primary">Ajouter un accompagnateur</button>
                         </td>
                     </tr>
                 </table>
@@ -274,7 +274,7 @@
 
 
         <div class="btn-group">
-            <button type="submit" name="submit" id="submit" class="btn btn-primary">Ajouter</button>
+            <button type="submit" name="submit" id="submit" class="btn btn-primary">Ajouter l'expérimentation</button>
             <a class="btn btn-light text-primary" href="{{route('goExperimentation')}}">Annuler</a>
         </div>
     </form>

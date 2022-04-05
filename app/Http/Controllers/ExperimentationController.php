@@ -170,16 +170,86 @@ class ExperimentationController extends Controller
             ]);
         }
 
-        
-
-            $res6 = DB::table('thematique_abordee')->insert([
 
 
+        if (null !== $request->input('THEMALibelle0')) {
+            $res4 = DB::table('thematique_abordee')->insert([
 
-                'THEMACode' => $request->input('THEMACode'),
-                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle0')
             ]);
-        
+        }
+        if (null !== $request->input('THEMALibelle1')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle1')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle2')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle2')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle3')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle3')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle4')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle4')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle5')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle5')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle6')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle6')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle7')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle7')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle8')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle8')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle9')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle9')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle10')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle10')
+            ]);
+        }
+
 
 
 
