@@ -118,7 +118,7 @@
                     <div class="card-body d-flex flex-column align-items-start">
 
                         <h3 class="mb-0">
-                            <a class="text-dark" href="#">{{$experimentation->EXPTitre}}</a>
+                            <a class="text-dark" href="#">{{$experimentation->EXPTitre}} <br> Etablissement : {{$experimentation->ETABNom}} <br> Departement : {{$experimentation->TERRNom}} </a>
                         </h3>
                         <div class="mb-1 text-muted">Date de debut {{$experimentation->EXPDateDebut}}</div>
                         <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a><br>

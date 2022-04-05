@@ -32,7 +32,7 @@ class ExperimentationController extends Controller
     public function  show(Request $request)
     {
 
-        $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom", "asc");
+
         $groupethematiques = Groupethematique::all();
         $thematiques  = Thematique::all();
         $paliers = Palier::all();
@@ -43,14 +43,32 @@ class ExperimentationController extends Controller
         $specialites  = Specialite::all();
         $villes = Ville::all();
 
-        if (isset($request->Recherche)) {
-            $searchValue = $request->Recherche;
-            $experimentations = \App\Models\experimentation::where('EXPCode', 'LIKE', $searchValue . '%')->get();
-        } else {
-            $experimentations = \App\Models\experimentation::orderBy("EXPCode", "asc")->paginate(10);
-        }
 
-        return view("experimentation", ["experimentations" => $experimentations], compact('etablissements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
+        $experimentations = DB::table('etablissement as e')->select(
+            'e.ETABCode as ETABCode',
+            'e.ETABNom as ETABNom',
+            'e.ETABMail as ETABMail',
+            'e.TERRCode as TERRCode',
+            'ex.EXPCode as EXPCode',
+            't.TERRCode',
+            't.TERRNom as TERRNom',
+            'ex.EXPTitre as EXPTitre',
+            'ex.EXPLienInternet as EXPLienInternet',
+            'ex.EXPLienDrive as EXPLienDrive',
+            'ex.EXPDateDebut as EXPDateDebut',
+            'ex.EXPArchivage as EXPArchivage',
+            'ex.PALCode as PALCode'
+
+        )
+            ->leftjoin('experimentation as ex', 'ex.ETABCode', '=', 'e.ETABCode')
+            ->leftjoin('territoire as t', 't.TERRCode', '=', 'e.TERRCode')
+
+            ->Orderby("ETABNom","asc")->paginate(10);
+
+
+
+
+        return view("experimentation", ["experimentations" => $experimentations], compact( 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
     public function index()
