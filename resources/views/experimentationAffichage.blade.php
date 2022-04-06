@@ -67,6 +67,21 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <th scope="row" class="pt-3-half"> Lien du drive </th>
+                                                        <td class="blog-post-title"> <a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a></td>
+                                                    </tr>
+                                                </table>
+
+                                                <br>
+
+                                                <center>
+                                                    <i>Informations de l'établissement</i>
+                                                </center>
+
+                                                <br>
+
+                                                <table class="table table-bordered table-responsive-md table-striped text-center">
+                                                    <tr>
                                                         <th scope="row" class="pt-3-half"> Etablissement concerné </th>
                                                         <td class="pt-3-half"> <strong> {{$type->TYPNom}} {{$etablissement->ETABNom}} </strong> - {{$etablissement->ETABAdresse}}</td>
                                                     </tr>
@@ -90,10 +105,7 @@
                                                         <th scope="row" class="pt-3-half"> Chef d'établissement </th>
                                                         <td class="blog-post-title">{{$etablissement->ETABChef}}</td>
                                                     </tr>
-                                                    <tr>
-                                                        <th scope="row" class="pt-3-half"> Lien du drive </th>
-                                                        <td class="blog-post-title"> <a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a></td>
-                                                    </tr>
+
 
                                                 </table>
 
