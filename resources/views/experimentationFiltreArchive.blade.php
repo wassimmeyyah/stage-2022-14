@@ -32,13 +32,6 @@
 
                             </div>
 
-
-
-
-
-
-
-
                             @if(session()->has("successDelete"))
                             <div class="alert alert-success">
                                 <h3>{{session()->get('successDelete')}}</h3>
@@ -54,13 +47,11 @@
                                 <h3>{{session()->get('successModify')}}</h3>
                             </div>
                             @endif
-                            @if(request()->input())
-                            <h6>{{$experimentation->count()}} résultat(s) pour la recherche </h6>
-                            @endif
+                            
                             <br>
 
                             <div class="card-deck">
-                                @foreach($experimentation as $experimentations)
+                                @foreach($experimentations as $experimentation)
 
                                 <div class="row mb-2">
                                     <div class="col-md-6">
@@ -68,18 +59,18 @@
                                             <div class="card-body d-flex flex-column align-items-start">
 
                                                 <h3 class="mb-0">
-                                                    <a class="text-dark" href="#">{{$experimentations->EXPTitre}}</a>
+                                                    <a class="text-dark" href="#">{{$experimentation->EXPTitre}}</a>
                                                 </h3>
-                                                <div class="mb-1 text-muted">Date de debut {{$experimentations->EXPDateDebut}}</div>
-                                                <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentations->EXPLienDrive}}">{{$experimentations->EXPLienDrive}}</a><br>
+                                                <div class="mb-1 text-muted">Date de debut {{$experimentation->EXPDateDebut}}</div>
+                                                <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a><br>
 
-                                                <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->expID])}}">Voir plus </a></td><br>
+                                                <!-- <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentation->expID])}}">Voir plus </a></td><br> -->
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentations->expID])}}">Modifier</a></td>
+                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->expID])}}">Modifier</a></td>
 
-                                                    <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
-                                                        <form id="{{$experimentations->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->expID])}}" method="post">
+                                                    <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentation->expID}}').submit() }">Supprimer</a>
+                                                        <form id="{{$experimentation->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->expID])}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="delete">
                                                         </form>

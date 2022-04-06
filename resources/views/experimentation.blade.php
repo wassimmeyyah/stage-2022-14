@@ -53,16 +53,6 @@
             <label class="form-check-label" for="flexSwitchCheckDefault">Afficher les expérimentations archivées</label>
         </div> -->
 
-
-                                <div class="form-group mr-3 d-flex justify-content-end p-2">
-                                    <label for="filtreArchivage"> Archives : </label>
-                                    <select name="r" id="filtreType" wire:model="filtreType" style="min-width:110px;">
-                                        <option name="r" class="form-control" value=""></option>
-                                        <option name="r" class="form-control" value="0">En cours</option>
-                                        <option name="r" class="form-control" value="1">Archivés</option>
-                                    </select>
-                                </div>
-
                                 <div class="form-group mr-3 d-flex justify-content-end p-2">
                                     <label for="filtreType">Filtrer par région : </label>
                                     <select name="q" id="filtreType" wire:model="filtreType" style="min-width:110px;">
@@ -92,6 +82,23 @@
                                         @foreach($thematiques as $thematique)
                                         <option name="s" class="form-control" value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <button class="btn btn-light text-primary"><i class="bi bi-funnel"></i></button>
+                                </div>
+
+                            </form>
+
+                            <form action="{{route('goExperimentationArchivage')}}" class=" d-flex mr-3">
+
+                                <div class="form-group mr-3 d-flex justify-content-end p-2">
+                                    <label for="filtreArchivage"> Archives : </label>
+                                    <select name="r" id="filtreType" wire:model="filtreType" style="min-width:110px;">
+                                        <option name="r" class="form-control" value=""></option>
+                                        <option name="r" class="form-control" value="0">En cours</option>
+                                        <option name="r" class="form-control" value="1">Archivés</option>
                                     </select>
                                 </div>
 
@@ -151,11 +158,7 @@
                                                     </td>
                                                     @endcan
                                                 </div>
-
-
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

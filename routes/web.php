@@ -133,6 +133,7 @@ Route::get('/search4', [ExperimentationController::class, 'search'])->name("goEx
 
 Route::get('/filtre', [ExperimentationController::class, 'filtre'])->name("goExperimentationFiltre");
 
+Route::get('/filtreArchivage', [ExperimentationController::class, 'filtreArchivage'])->name("goExperimentationArchivage");
 
 
 Route::get('/recherche', [ExperimentationController::class, 'recherche'])->name("goExperimentationRecherche");
