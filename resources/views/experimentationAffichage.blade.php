@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -67,10 +68,21 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <th scope="row" class="pt-3-half"> Lien Internet </th>
+                                                        <td class="blog-post-title"> <a class="card-text mb-auto" href="{{$experimentation->EXPLienInternet}}">{{$experimentation->EXPLienInternet}}</a></td>
+                                                    </tr>
+                                                    <tr>
                                                         <th scope="row" class="pt-3-half"> Lien du drive </th>
                                                         <td class="blog-post-title"> <a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a></td>
                                                     </tr>
                                                 </table>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-text">
+                                                             Modifier les informations de l'établissement
+
+                                                            </i></a></td>
+
+                                                </div><br>
 
                                                 <br>
 
@@ -223,7 +235,7 @@
 
                                                         </gmap-map>
                                                         <br>
-                                                        <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}">Telecharger en PDF</a>
+                                                        <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-pdf"> Telecharger en PDF</i></a>
 
 
                                                     </div>

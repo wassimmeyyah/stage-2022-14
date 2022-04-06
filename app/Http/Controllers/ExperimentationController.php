@@ -347,13 +347,24 @@ class ExperimentationController extends Controller
             return redirect()->route('goExperimentation');
         }
 
-        $etablissements = Etablissement::all();
+        $experimentation = Experimentation::findOrFail($id);
+        $etablissement = Etablissement::where('ETABCode','=',$experimentation->ETABCode)->first();
         $groupethematiques = Groupethematique::all();
-        $thematiques  = Thematique::all();
+        $thematiques= DB::table('thematique as t')->select(
+            't.THEMACode as themaID',
+            't.THEMALibelle',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
+            ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
+
+            ->where( 'e.EXPCode',$id)
+            ->get();
         $paliers = Palier::all();
 
-        $experimentation = Experimentation::findOrFail($id);
-        return view('experimentationUpdate', compact("experimentation", 'etablissements', 'groupethematiques', 'thematiques', 'paliers'));
+
+        return view('experimentationUpdate', compact("experimentation", 'etablissement', 'groupethematiques', 'thematiques', 'paliers'));
     }
 
     /**
@@ -493,8 +504,6 @@ class ExperimentationController extends Controller
 
     public function filtreArchivage()
     {
-
-
         $r = request()->input('r');
         $experimentation = DB::table('experimentation as e')->select(
             'e.EXPCode as expID',
@@ -505,7 +514,6 @@ class ExperimentationController extends Controller
             'e.EXPArchivage',
             'e.ETABCode',
             'e.PALCode',
-            't.THEMACode',
             'e.EXPCode',
             'et.ETABNom as ETABNom',
             'te.TERRNom as TERRNom'
@@ -513,9 +521,10 @@ class ExperimentationController extends Controller
 
             ->leftjoin('etablissement as et', 'et.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('territoire as te', 'te.TERRCode', '=', 'et.TERRCode')
+
             ->Where('e.EXPArchivage', 'like', "%$r%")->get();
 
-        ddd($experimentation);
+        // ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
