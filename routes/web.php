@@ -201,4 +201,4 @@ Route::delete('/archive/{archive}',[ArchiveController::class, 'delete'])->name("
 
 Route::get('/archive/{archive}/affichage', [ArchiveController::class, 'affiche'])->name("goArchiveAffichage");
 
-Route::get('/experimentation/{experimentation}',[ExperimentationController::class, 'archiver'])->name("goExperimentationArchiver");
+Route::get('/archive/{experimentation}',[ExperimentationController::class, 'archiver'])->name("goExperimentationArchiver");
