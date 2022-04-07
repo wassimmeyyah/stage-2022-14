@@ -17,6 +17,8 @@ use App\Models\Etablissement;
 use App\Models\Personnelacad;
 
 use App\Models\Accompagnement;
+use App\Models\Accompagnement1;
+use App\Models\Accompagnement2;
 use App\Models\Experimentation;
 use App\Models\Groupethematique;
 use App\Models\Thematique_abordee;
@@ -108,19 +110,31 @@ class ExperimentationController extends Controller
 
     public function up()
     {
-        Schema::create('accompagnement', function (Blueprint $table) {
+        Schema::create('accompagnement1', function (Blueprint $table) {
             $table->foreign('EXPCode')->references('EXPCode')
                 ->on('experimentation');
             $table->foreign('PORTCode')->references('PORTCode')
                 ->on('porteur');
-            $table->foreign('PACode')->references('PACode')
-                ->on('personnelacad');
 
 
             $table->foreign('EXPCode')->references('EXPCode')->on('experimentation')->onDelete('cascade');
             $table->foreign('PORTCode')->references('PORTCode')->on('porteur')->onDelete('cascade');
-            $table->foreign('PACode')->references('PACode')->on('personnelacad')->onDelete('cascade');
+
         });
+
+        Schema::create('accompagnement2', function (Blueprint $table) {
+            $table->foreign('EXPCode')->references('EXPCode')
+                ->on('experimentation');
+            $table->foreign('PACode')->references('PACode')
+                ->on('personnelacad');
+
+            $table->foreign('EXPCode')->references('EXPCode')->on('experimentation')->onDelete('cascade');
+            $table->foreign('PACode')->references('PACode')->on('personnelacad')->onDelete('cascade');
+
+
+        });
+
+
     }
 
 
@@ -142,7 +156,6 @@ class ExperimentationController extends Controller
         $types = Type::all();
         $specialites  = Specialite::all();
         $villes = Ville::all();
-        $accompagnements = Accompagnement::all();
 
 
 
@@ -289,42 +302,42 @@ class ExperimentationController extends Controller
 
             foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
                 if ($e->ETABCode == $request->input('ETABCode')) {
-                    if (null !== $request->input('PANom0')) {
-                        $res4 = DB::table('accompagnement')->insert([
+                        $res4 = DB::table('accompagnement1')->insert([
 
                             'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
                             'PORTCode' => $e->PORTCode,
-                            'PACode' => $request->input('PANom0')
                         ]);
                     }
                 }
+
+
+
+
+
+
+
+            if (null !== $request->input('PANom0')) {
+                $res4 = DB::table('accompagnement2')->insert([
+
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'PACode' => $request->input('PANom0')
+                ]);
             }
 
-            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
-                if ($e->ETABCode == $request->input('ETABCode')) {
-                    if (null !== $request->input('PANom1')) {
-                        $res4 = DB::table('accompagnement')->insert([
+            if (null !== $request->input('PANom1')) {
+                $res4 = DB::table('accompagnement2')->insert([
 
-                            'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                            'PORTCode' => $e->PORTCode,
-                            'PACode' => $request->input('PANom1')
-                        ]);
-                    }
-                }
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'PACode' => $request->input('PANom1')
+                ]);
             }
 
+            if (null !== $request->input('PANom2')) {
+                $res4 = DB::table('accompagnement2')->insert([
 
-            foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
-                if ($e->ETABCode == $request->input('ETABCode')) {
-                    if (null !== $request->input('PANom2')) {
-                        $res4 = DB::table('accompagnement')->insert([
-
-                            'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                            'PORTCode' => $e->PORTCode,
-                            'PACode' => $request->input('PANom2')
-                        ]);
-                    }
-                }
+                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                    'PACode' => $request->input('PANom2')
+                ]);
             }
 
 
@@ -335,10 +348,10 @@ class ExperimentationController extends Controller
 
 
 
-            return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
-        } catch (QueryException $q) {
-            return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja et au moins une thématique, un porteur et un accompagnateur ");
-        }
+            return redirect()->route('goExperimentation', compact('etablissements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
+            } catch (QueryException $q) {
+              return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja et au moins une thématique, au moins un palier, un porteur et un accompagnateur ");
+          }
     }
 
 
@@ -568,7 +581,8 @@ class ExperimentationController extends Controller
     {
 
         $experimentation = Experimentation::find($id2);
-        $accompagnements = Accompagnement::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement1s = Accompagnement1::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement2s = Accompagnement2::where('EXPCode', $experimentation->EXPCode);
 
         $etablissement = Etablissement::where('ETABCode', $experimentation->ETABCode)->first();
         $groupethematique = Groupethematique::where('GTCode', $experimentation->GTCode)->first();
@@ -584,7 +598,7 @@ class ExperimentationController extends Controller
             'p.ETABCode',
             'e.EXPCode'
         )
-            ->leftjoin('accompagnement as a', 'a.PORTCode', '=', 'p.PORTCode')
+            ->leftjoin('accompagnement1 as a', 'a.PORTCode', '=', 'p.PORTCode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
             ->where('e.EXPCode', $id2)
             ->get();
@@ -601,7 +615,7 @@ class ExperimentationController extends Controller
             'e.EXPCode'
         )
 
-            ->leftjoin('accompagnement as a', 'a.PACode', '=', 'pe.PACode')
+            ->leftjoin('accompagnement2 as a', 'a.PACode', '=', 'pe.PACode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
 
             ->where('e.EXPCode', $id2)
@@ -626,7 +640,7 @@ class ExperimentationController extends Controller
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
         $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
 
-        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnement1s','accompagnement2s', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
     }
 
     public function telechargerPdf($id3)
@@ -671,9 +685,11 @@ class ExperimentationController extends Controller
 
         $nomEXP = $porteur->PORTNom;
 
+        //ddd($porteur->PORTCode);
+
+        $res = DB::table('accompagnement1')->where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
 
-        $res = Accompagnement::where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
         return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
     }
@@ -685,13 +701,280 @@ class ExperimentationController extends Controller
         }
 
 
+        //ddd($personnelacad);
+        $nompersonnel = $personnelacad->PANom;
 
-        $nomEXP = $personnelacad->PORTNom;
+
+
+        $res10 = DB::table('accompagnement2')->where('PACode', '=', $personnelacad->PACode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
 
 
-        $res = Accompagnement::where('PACode', '=', $personnelacad->PACode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
-
-        return back()->with("successDelete", "L'accompagnateur' '$nomEXP' a été supprimé avec succèss");
+        return back()->with("successDelete2", "L'accompagnateur' '$nompersonnel' a été supprimé avec succèss");
     }
+
+    public function createporteur(Request $request, Experimentation $experimentation)
+    {
+        if (Gate::denies('create-users')) {
+            return redirect()->route('goExperimentation');
+        }
+        $etablissement = DB::table('etablissement as et')->select(
+            'et.ETABCode as ETABCode',
+            'et.ETABNom as ETABNom'
+
+
+        )
+            ->leftjoin('experimentation as ex', 'ex.ETABCode', '=', 'et.ETABCode')
+            ->where('ex.EXPCode',"=",$experimentation->EXPCode)
+            ->first();
+
+        //ddd($etablissement);
+
+
+
+        return view('experimentationCreatePorteur', compact('experimentation','etablissement'));
+    }
+
+    public function storeporteur(Request $request)
+    {
+        try{
+        $experimentations = DB::table('experimentation as ex')->select(
+            'e.ETABCode as etabID',
+            'ex.EXPCode as EXPCode',
+            'ex.EXPTitre as EXPTitre',
+            'ex.EXPLienInternet as EXPLienInternet',
+            'ex.EXPLienDrive as EXPLienDrive',
+            'ex.EXPDateDebut as EXPDateDebut',
+            'ex.EXPArchivage as EXPArchivage',
+            'ex.PALCode as PALCode'
+
+        )
+            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
+            ->where('ex.EXPCode','=', $request->input('EXPCode'))
+            ->get();
+
+
+
+        //ddd($e);
+        $etablissements = Etablissement::orderBy("ETABNom", "asc");
+        $groupethematiques = Groupethematique::all();
+        $thematiques  = Thematique::all();
+        $paliers = Palier::all();
+        $porteurs = Porteur::all();
+        $personnelacads = Personnelacad::all();
+        $territoires = Territoire::all();
+        $types = Type::all();
+        $specialites  = Specialite::all();
+        $villes = Ville::all();
+
+
+        //ddd($request->input('ETABCode'));
+
+
+
+        if (null !== $request->input('PORTNom0')) {
+            $res3 = DB::table('porteur')->insert([
+
+
+                'PORTNom' => $request->input('PORTNom0'),
+                'PORTMail' => $request->input('PORTMail0'),
+                'PORTTel' => $request->input('PORTTel0'),
+                'ETABCode' => $request->input('ETABCode')
+
+            ]);
+        }
+        if (null !== $request->input('PORTNom1')) {
+            $res5 = DB::table('porteur')->insert([
+
+
+                'PORTNom' => $request->input('PORTNom1'),
+                'PORTMail' => $request->input('PORTMail1'),
+                'PORTTel' => $request->input('PORTTel1'),
+                'ETABCode' => $request->input('ETABCode')
+            ]);
+        }
+
+        if (null !== $request->input('PORTNom2')) {
+            $res6 = DB::table('porteur')->insert([
+
+
+                'PORTNom' => $request->input('PORTNom2'),
+                'PORTMail' => $request->input('PORTMail2'),
+                'PORTTel' => $request->input('PORTTel2'),
+                'ETABCode' => $request->input('ETABCode')
+            ]);
+        }
+
+
+        $etabcode=$request->input('ETABCode');
+
+        foreach (DB::table('porteur')->latest('PORTCode')->limit(3)->get() as $e) {
+            if ($e->ETABCode == $etabcode) {
+                $res4 = DB::table('accompagnement1')->insert([
+
+                    'EXPCode' => $request->input('EXPCode') ,
+                    'PORTCode' => $e->PORTCode,
+                ]);
+            }
+
+
+        }
+
+        $expcode=$request->input('EXPCode');
+
+        return back()->with("successAjout", "Les porteur(s) de projet ont été ajoutés avec succès ");
+        } catch (QueryException $q) {
+            return back()->with("successAjout", "Les porteur(s) de projet ont été ajoutés avec succès ");
+        }
+
+    }
+
+    public function createpersonnelacad(Request $request, Experimentation $experimentation)
+    {
+        if (Gate::denies('create-users')) {
+            return redirect()->route('goExperimentation');
+        }
+
+        $personnelacads=Personnelacad::all();
+        $etablissement = DB::table('etablissement as et')->select(
+            'et.ETABCode as ETABCode',
+            'et.ETABNom as ETABNom'
+
+
+        )
+            ->leftjoin('experimentation as ex', 'ex.ETABCode', '=', 'et.ETABCode')
+            ->where('ex.EXPCode',"=",$experimentation->EXPCode)
+            ->first();
+
+        //ddd($etablissement);
+
+
+
+        return view('experimentationCreatePersonnelacad', compact('experimentation','etablissement','personnelacads'));
+    }
+
+    public function storepersonnelacad(Request $request)
+    {
+
+        $experimentations = DB::table('experimentation as ex')->select(
+            'e.ETABCode as etabID',
+            'ex.EXPCode as EXPCode',
+            'ex.EXPTitre as EXPTitre',
+            'ex.EXPLienInternet as EXPLienInternet',
+            'ex.EXPLienDrive as EXPLienDrive',
+            'ex.EXPDateDebut as EXPDateDebut',
+            'ex.EXPArchivage as EXPArchivage',
+            'ex.PALCode as PALCode'
+
+        )
+            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
+            ->where('ex.EXPCode','=', $request->input('EXPCode'))
+            ->get();
+
+
+
+        //ddd($e);
+        $etablissements = Etablissement::orderBy("ETABNom", "asc");
+        $groupethematiques = Groupethematique::all();
+        $thematiques  = Thematique::all();
+        $paliers = Palier::all();
+        $porteurs = Porteur::all();
+        $personnelacads = Personnelacad::all();
+        $territoires = Territoire::all();
+        $types = Type::all();
+        $specialites  = Specialite::all();
+        $villes = Ville::all();
+
+
+        if (null !== $request->input('PANom0')) {
+            $res4 = DB::table('accompagnement2')->insert([
+
+                'EXPCode' => $request->input('EXPCode'),
+                'PACode' => $request->input('PANom0')
+            ]);
+        }
+
+        if (null !== $request->input('PANom1')) {
+            $res4 = DB::table('accompagnement2')->insert([
+
+                'EXPCode' => $request->input('EXPCode'),
+                'PACode' => $request->input('PANom1')
+            ]);
+        }
+
+        if (null !== $request->input('PANom2')) {
+            $res4 = DB::table('accompagnement2')->insert([
+
+                'EXPCode' => $request->input('EXPCode'),
+                'PACode' => $request->input('PANom2')
+            ]);
+        }
+
+            $expcode=$request->input('EXPCode');
+
+
+        return back()->with("successAjout", "Les accompagnateur(s) de projet ont été ajoutés avec succès ");
+
+    }
+
+    public function createdocument(Request $request, Experimentation $experimentation)
+    {
+        if (Gate::denies('create-users')) {
+            return redirect()->route('goExperimentation');
+        }
+
+
+        $etablissement = DB::table('etablissement as et')->select(
+            'et.ETABCode as ETABCode',
+            'et.ETABNom as ETABNom'
+
+
+        )
+            ->leftjoin('experimentation as ex', 'ex.ETABCode', '=', 'et.ETABCode')
+            ->where('ex.EXPCode',"=",$experimentation->EXPCode)
+            ->first();
+
+        //ddd($etablissement);
+
+
+
+        return view('experimentationCreateDocument', compact('experimentation','etablissement'));
+    }
+
+    public function storedocument(Request $request)
+    {
+
+
+            $res4 = $res = DB::table('experimentation')->where('EXPCode', '=', $request->input('EXPCode'))
+                ->update([
+                    'ContratACLien'=>$request->input('ContratACLien'),
+                    'LivretACLien'=>$request->input('LivretACLien'),
+                    'EXPDernierDocLien'=>$request->input('EXPDernierDocLien'),
+                    'EXPDernierDocDate'=>$request->input('EXPDernierDocDate')
+
+            ]);
+
+        $experimentations = DB::table('experimentation as ex')->select(
+            'e.ETABCode as etabID',
+            'ex.EXPCode as EXPCode'
+
+        )
+            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
+            ->where('ex.EXPCode','=', $request->input('EXPCode'))
+            ->first();
+
+        //ddd((string)$experimentations->EXPCode);
+
+
+
+
+
+
+
+
+
+        return back()->with("successAjout", "Les documents ont été ajoutés avec succès ");
+
+    }
+
 }

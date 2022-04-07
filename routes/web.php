@@ -129,7 +129,7 @@ Route::delete('/experimentation/{experimentation}',[ExperimentationController::c
 
 Route::delete('/experimentation/{experimentation}/{porteur}',[ExperimentationController::class, 'deleteporteur'])->name("goExperimentationPorteurSupprimer");
 
-Route::delete('/experimentation/{experimentation}/{personnelacad}',[ExperimentationController::class, 'deletepersonnelacad'])->name("goExperimentationPersonnelacadSupprimer");
+Route::delete('/experimentation/{experimentation}/supprimer/{personnelacad}',[ExperimentationController::class, 'deletepersonnelacad'])->name("goExperimentationPersonnelacadSupprimer");
 
 Route::get('/experimentation/{experimentation}/affichage', [ExperimentationController::class, 'affiche'])->name("goExperimentationAffichage");
 
@@ -140,6 +140,10 @@ Route::get('/experimentation/{experimentation}/ajouter/personnelacad',[Experimen
 Route::post('/experimentation/{experimentation}/ajouter/porteur',[ExperimentationController::class, 'storeporteur'])->name("goExperimentationAjouterPorteur");
 
 Route::post('/experimentation/{experimentation}/ajouter/personnelacad',[ExperimentationController::class, 'storepersonnelacad'])->name("goExperimentationAjouterPersonnelacad");
+
+Route::get('/experimentation/{experimentation}/ajouter/documents',[ExperimentationController::class, 'createdocument'])->name("goExperimentationAjouterDocument");
+
+Route::post('/experimentation/{experimentation}/ajouter/documents',[ExperimentationController::class, 'storedocument'])->name("goExperimentationAjouterDocument");
 
 Route::get('/search4', [ExperimentationController::class, 'search'])->name("goExperimentationSearch");
 

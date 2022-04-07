@@ -39,6 +39,11 @@
                                         <h3>{{session()->get('successDelete')}}</h3>
                                     </div>
                                 @endif
+                                @if(session()->has("successDelete2"))
+                                    <div class="alert alert-success">
+                                        <h3>{{session()->get('successDelete2')}}</h3>
+                                    </div>
+                                @endif
                                 @if(session()->has("successAjout"))
                                     <div class="alert alert-success">
                                         <h3>{{session()->get('successAjout')}}</h3>
@@ -196,7 +201,7 @@
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterPorteur', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-person-plus">
-                                                                Ajouter un porteur de projet
+                                                                Ajouter un ou des porteurs de projet
 
                                                             </i></a></td>
 
@@ -247,7 +252,45 @@
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterPersonnelacad', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-person-plus">
-                                                                Ajouter un accompagnateur de projet
+                                                                Ajouter un ou des accompagnateurs de projet
+
+                                                            </i></a></td>
+
+                                                </div><br><br><br>
+
+                                                <h3 class="pb-3 mb-4 font-italic border-bottom">
+
+                                                <center>
+                                                    <i>Document(s) du projet</i>
+                                                </center>
+
+                                                <br>
+
+                                                <table class="table table-bordered table-responsive-md table-striped text-center">
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Lien du contrat d'accompagnement </th>
+                                                        <td class="pt-3-half"><a class="card-text mb-auto" href="{{$experimentation->ContratACLien}}">{{$experimentation->ContratACLien}}</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Lien du livret d'accompagnement </th>
+                                                        <td class="blog-post-title"><a class="card-text mb-auto" href="{{$experimentation->LivretACLien}}">{{$experimentation->LivretACLien}}</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Lien du dernier document de suivi </th>
+                                                        <td class="blog-post-title"><a class="card-text mb-auto" href="{{$experimentation->EXPDernierDocLien}}">{{$experimentation->EXPDernierDocLien}}</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="pt-3-half"> Date du dernier document de suivi </th>
+                                                        <td class="blog-post-title"><a class="card-text mb-auto">{{$experimentation->EXPDernierDocDate}}</a></td>
+                                                    </tr>
+
+
+
+
+                                                </table>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterDocument', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-arrow-up">
+                                                                Ajouter un ou des documents de suivi
 
                                                             </i></a></td>
 
@@ -256,6 +299,7 @@
                                                 <br>
 
                                                 <div class="flex-center position-ref -full-height">
+
 
                                                     <br>
 
