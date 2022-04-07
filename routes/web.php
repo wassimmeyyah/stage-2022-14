@@ -121,6 +121,8 @@ Route::get('/experimentation/ajouter',[ExperimentationController::class, 'create
 
 Route::post('/experimentation/ajouter',[ExperimentationController::class, 'store'])->name("goExperimentationAjouter2");
 
+Route::resource('images',[ExperimentationController::class, 'image'])->name("goExperimentationAjouter2");
+
 Route::get('/experimentation/{experimentation}',[ExperimentationController::class, 'edit'])->name("goExperimentationModifier");
 
 Route::put('/experimentation/{experimentation}',[ExperimentationController::class, 'update'])->name("goExperimentationModifier");

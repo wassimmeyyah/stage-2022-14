@@ -75,6 +75,7 @@ class PersonnelacadController extends Controller
             'PADiscipline' => $request->input('PADiscipline'),
             'PAAdressePerso' => $request->input('PAAdressePerso'),
             'PATel' => $request->input('PATel'),
+            'PAFonction' => $request->input('PAFonction'),
             'ETABCode' => $request->input('ETABCode')
         ]);
 
@@ -130,6 +131,7 @@ class PersonnelacadController extends Controller
             'PADiscipline' => $request->input('PADiscipline'),
             'PAAdressePerso' => $request->input('PAAdressePerso'),
             'PATel' => $request->input('PATel'),
+            'PAFonction' => $request->input('PAFonction'),
             'ETABCode' => $request->input('ETABCode')
         ]);
 
@@ -163,6 +165,7 @@ class PersonnelacadController extends Controller
             ->orWhere('PAdiscipline', 'like',"%$q%")
             ->orWhere('PAAdressePerso','like',"%$q%")
             ->orWhere('PATel','like',"%$q%")
+            ->orWhere('PAFonction','like',"%$q%")
             ->orWhere('ETABCode','like',"%$q%")
             ->get();
 
@@ -178,6 +181,7 @@ class PersonnelacadController extends Controller
             ->orWhere('PAdiscipline', 'like',"%$q%")
             ->orWhere('PAAdressePerso','like',"%$q%")
             ->orWhere('PATel','like',"%$q%")
+            ->orWhere('PAFonction','like',"%$q%")
             ->orWhere('ETABCode','like',"%$q%")
             ->get();
 

@@ -227,7 +227,8 @@
                                                                 <th class="text-center"> Accompagnateur de projet </th>
                                                                 <th class="text-center"> Mail de l'accompagnateur </th>
                                                                 <th class="text-center"> Téléphone de l'accompagnateur </th>
-                                                                <th class="text-center"> Etablissement de l'accompagnateur </th>
+                                                                <th class="text-center"> Discipline de l'accompagnateur </th>
+                                                                <th class="text-center"> Fonction de l'accompagnateur </th>
                                                                 <th class="text-center"></th>
                                                                 <th class="text-center"></th>
 
@@ -241,7 +242,8 @@
                                                                 <td class="pt-3-half"> {{$personnelacad->PAPrenom}} {{$personnelacad->PANom}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PAMail}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PATel}} </td>
-                                                                <td class="pt-3-half"> {{$personnelacad->ETABCode}} </td>
+                                                                <td class="pt-3-half"> {{$personnelacad->PADiscipline}} </td>
+                                                                <td class="pt-3-half"> {{$personnelacad->PAFonction}} </td>
                                                                 <td class="pt-3-half"><a class="btn btn-light text-primary"  href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
                                                                 <td class="pt-3-half"><a href="#" class="btn btn-light text-danger"  onclick="if(confirm('Voulez-vous vraiment supprimer cet accompagnateur ?')){document.getElementById('{{$personnelacad->PACode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
                                                                     <form id="{{$personnelacad->PACode}}" action="{{route('goExperimentationPersonnelacadSupprimer',['experimentation'=>$experimentation->EXPCode,'personnelacad'=>$personnelacad->PACode])}}" method="post">
@@ -295,7 +297,7 @@
                                                 </table>
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterDocument', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-arrow-up">
-                                                                Ajouter un ou des documents de suivi
+                                                                Ajouter ou modifier les documents de suivi
 
                                                             </i></a></td>
 

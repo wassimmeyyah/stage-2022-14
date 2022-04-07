@@ -23,7 +23,7 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
-                {{ __('Ajouter un porteur de projet') }}
+                {{ __('Ajouter un ou des porteurs de projet') }}
             </h2>
         </x-slot>
 
@@ -104,8 +104,53 @@
                                     var i = 0;
                                     $('#add').click(function() {
                                         i++;
-                                        if (i < 3) {
+                                        if (i < 2) {
                                             $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="PORTNom' + i + '" placeholder="Entrez le nom du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTMail' + i + '" placeholder="Entrez le mail du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTTel' + i + '" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list" /></td><td><button name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                                        }
+                                    });
+                                    $(document).on('click', '.btn_remove', function() {
+                                        var button_id = $(this).attr('id');
+                                        $('#row' + button_id + '').remove();
+                                    });
+                                    $('submit').click(function() {
+                                        $.ajax({
+                                            url: "back.php",
+                                            method: "POST",
+                                            data: $('#add_porteur').serialize(),
+                                            success: function(data) {
+                                                alert(data);
+                                                $('#add_porteur')[0].reset();
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
+                            <div class="group-form" name="add_porteur" id="add_porteur">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dynamic_fieldAP">
+                                        <tr>
+                                            <td>
+                                                <label for="PANom2">Ou des porteur(s) déja existant(s) </label>
+                                                <select class="form-control" name="PANom3">
+                                                    <option value=""></option> @foreach($porteurs as $porteur) <option value="{{$porteur->PORTCode}}">{{$porteur->PORTNom}}</option> @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" name="addAP" id="addAP" class="btn btn-light text-primary">Ajouter un porteur</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var i = 2;
+                                    $('#addAP').click(function() {
+                                        i++;
+                                        if (i < 4) {
+                                            $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PORTNom' + i + '"> <option value=""></option> @foreach($porteurs as $porteur) <option value="{{$porteur->PORTCode}}">{{$porteur->PORTNom}}</option> @endforeach </select></td><td><button  name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
                                         }
                                     });
                                     $(document).on('click', '.btn_remove', function() {

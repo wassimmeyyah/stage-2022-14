@@ -72,6 +72,10 @@
                                             <td class="blog-post-title">{{$personnelacad->PADiscipline}}</td>
                                         </tr>
                                         <tr>
+                                            <th scope="row" class="pt-3-half">Fonction de l'accompagnateur</th>
+                                            <td class="blog-post-title">{{$personnelacad->PAFonction}}</td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row" class="pt-3-half">Etablissement de l'accompagnateur</th>
                                             <td class="blog-post-title">{{$personnelacad->ETABCode}}</td>
                                         </tr>

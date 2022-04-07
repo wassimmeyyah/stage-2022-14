@@ -474,7 +474,7 @@ class ExperimentationController extends Controller
         $nomEXP = $experimentation->EXPTitre;
         $experimentation->delete();
 
-        return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
+        return back()->with("successDelete", "L'experimentation'' '$nomEXP' a été supprimé avec succèss");
     }
 
     public function search()
@@ -628,6 +628,7 @@ class ExperimentationController extends Controller
             'pe.PADiscipline',
             'pe.PAAdressePerso',
             'pe.PATel',
+            'pe.PAFonction',
             'pe.ETABCode',
             'e.EXPCode'
         )
@@ -646,6 +647,7 @@ class ExperimentationController extends Controller
             'pe.PADiscipline',
             'pe.PAAdressePerso',
             'pe.PATel',
+            'pe.PAFonction',
             'pe.ETABCode',
             'e.EXPCode'
         )
@@ -681,14 +683,102 @@ class ExperimentationController extends Controller
     public function telechargerPdf($id3)
     {
 
-        $etablissements = Etablissement::all();
-        $groupethematiques = Groupethematique::all();
-        $thematiques  = Thematique::all();
-        $paliers = Palier::all();
+        $experimentation = Experimentation::find($id3);
+        $accompagnement1s = Accompagnement1::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement2s = Accompagnement2::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement3s = Accompagnment3::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement4s = Accompagnment4::where('EXPCode', $experimentation->EXPCode);
 
-        $experimentation = Experimentation::findOrFail($id3);
+        $etablissement = Etablissement::where('ETABCode', $experimentation->ETABCode)->first();
+        $groupethematique = Groupethematique::where('GTCode', $experimentation->GTCode)->first();
+        //$thematique  = Thematique::where('THEMACode', $experimentation->THEMACode)->first();
+        $palier = Palier::where('PALCode', $experimentation->PALCode)->first();
+        //$porteurs = Porteur::all();
+        // $personnelacads=Personnelacad::where('PACode', $accompagnements->PACode)->get();
+        $porteurs = DB::table('porteur as p')->select(
+            'p.PORTCode as PORTCode',
+            'p.PORTNom',
+            'p.PORTMail',
+            'p.PORTTel',
+            'p.ETABCode',
+            'e.EXPCode'
+        )
+            ->leftjoin('accompagnement1 as a', 'a.PORTCode', '=', 'p.PORTCode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+            ->where('e.EXPCode', $id3)
+            ->get();
 
-        $pdf = FacadePdf::loadView('telechargement4', compact("experimentation", 'etablissements', 'groupethematiques', 'thematiques', 'paliers'));
+        $porteur2s = DB::table('porteur as p')->select(
+            'p.PORTCode as PORTCode',
+            'p.PORTNom',
+            'p.PORTMail',
+            'p.PORTTel',
+            'p.ETABCode',
+            'e.EXPCode'
+        )
+            ->leftjoin('accompagnement3 as a', 'a.PORTCode', '=', 'p.PORTCode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+            ->where('e.EXPCode', $id3)
+            ->get();
+
+        $personnelacads = DB::table('personnelacad as pe')->select(
+            'pe.PACode as PACode',
+            'pe.PANom',
+            'pe.PAPrenom',
+            'pe.PAMail',
+            'pe.PADiscipline',
+            'pe.PAAdressePerso',
+            'pe.PATel',
+            'pe.PAFonction',
+            'pe.ETABCode',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('accompagnement2 as a', 'a.PACode', '=', 'pe.PACode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+
+            ->where('e.EXPCode', $id3)
+            ->get();
+
+        $personnelacad2s = DB::table('personnelacad as pe')->select(
+            'pe.PACode as PACode',
+            'pe.PANom',
+            'pe.PAPrenom',
+            'pe.PAMail',
+            'pe.PADiscipline',
+            'pe.PAAdressePerso',
+            'pe.PATel',
+            'pe.PAFonction',
+            'pe.ETABCode',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('accompagnement4 as a', 'a.PACode', '=', 'pe.PACode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+
+            ->where('e.EXPCode', $id3)
+            ->get();
+
+        $thematiques = DB::table('thematique as t')->select(
+            't.THEMACode as themaID',
+            't.THEMALibelle',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
+            ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
+
+            ->where('e.EXPCode', $id3)
+            ->get();
+
+
+        $territoire = Territoire::where('TERRCode', $etablissement->TERRCode)->first();
+        $type = Type::where('TYPCode', $etablissement->TYPCode)->first();
+        $specialite  = Specialite::where('SPECode', $etablissement->SPECode)->first();
+        $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
+        $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
+
+        $pdf = FacadePdf::loadView('telechargement4', compact("experimentation", 'accompagnement1s','accompagnement2s','accompagnement3s','accompagnement4s' ,'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads', 'porteur2s', 'personnelacad2s'));
         return $pdf->download('telechargement4.pdf');
     }
 
@@ -779,10 +869,11 @@ class ExperimentationController extends Controller
             ->first();
 
         //ddd($etablissement);
+        $porteurs=Porteur::all();
 
 
 
-        return view('experimentationCreatePorteur', compact('experimentation','etablissement'));
+        return view('experimentationCreatePorteur', compact('experimentation','etablissement','porteurs'));
     }
 
     public function storeporteur(Request $request)

@@ -286,6 +286,16 @@
                                     });
                                 </script>
 
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Photo</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Importer une photo de l'etablissement </label>
+                                    </div>
+                                </div>
+
 
 
                                 <div class="btn-group">

@@ -10,6 +10,7 @@ class Personnelacad extends Model
     /**
      * @return string
      */
+
     public function getPrimaryKey(): string
     {
         return $this->primaryKey;

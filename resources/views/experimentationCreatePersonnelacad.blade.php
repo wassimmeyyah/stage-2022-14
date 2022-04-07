@@ -23,7 +23,7 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
-                {{ __('Ajouter un porteur de projet') }}
+                {{ __('Ajouter un ou des accompagnateurs de projet') }}
             </h2>
         </x-slot>
 
@@ -75,12 +75,72 @@
                             </div>
 
 
+                            <div class="form-group" name="add_personnelacad" id="add_personnelacad">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dynamic_field">
+
+                                        <tr>
+                                            <td>
+                                                <label for="PANom">Nom accompagnateur </label>
+                                                <input type="text" name="PANom2" placeholder="Entrez le nom de l'accompagnateur..." class="form-control name_list">
+                                            </td>
+                                            <td>
+                                                <label for="PAMail">Mail accompagnateur </label>
+                                                <input type="text" name="PAMail2" placeholder="Entrez le mail de l'accompagnateur ..." class="form-control name_list">
+                                            </td>
+                                            <td>
+                                                <label for="PATel">Numéro téléphone</label>
+                                                <input type="text" name="PATel2" placeholder="Entrez le téléphone de l'accompagnateur ..." class="form-control name_list">
+                                            </td>
+                                            <td>
+                                                <label for="PADiscipline">Discipline</label>
+                                                <input type="text" name="PADiscipline2" placeholder="Entrez la discipline de l'accompagnateur ..." class="form-control name_list">
+                                            </td>
+                                            <td>
+                                                <label for="PAFonction">Fonction</label>
+                                                <input type="text" name="PAFonction2" placeholder="Entrez la fonction de l'accompagnateur ..." class="form-control name_list">
+                                            </td>
+
+                                            <td>
+                                                <button type="button" name="add" id="add" class="btn btn-light text-primary">Ajouter un accompagnateur</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var i = 2;
+                                    $('#add').click(function() {
+                                        i++;
+                                        if (i < 4) {
+                                            $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="PANom' + i + '" placeholder="Entrez le nom de l accompagnateur ..." class="form-control name_list" /></td><td><input type="text" name="PAMail' + i + '" placeholder="Entrez le mail de l accompagnateur ..." class="form-control name_list" /></td><td><input type="text" name="PATel' + i + '" placeholder="Entrez le téléphone de l accompagnateur ..." class="form-control name_list" /></td><td><input type="text" name="PADiscipline' + i + '" placeholder="Entrez la discipline de l accompagnateur ..." class="form-control name_list" /></td><td><input type="text" name="PAFonction' + i + '" placeholder="Entrez la fonction de l accompagnateur ..." class="form-control name_list" /></td><td><button name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                                        }
+                                    });
+                                    $(document).on('click', '.btn_remove', function() {
+                                        var button_id = $(this).attr('id');
+                                        $('#row' + button_id + '').remove();
+                                    });
+                                    $('submit').click(function() {
+                                        $.ajax({
+                                            url: "back.php",
+                                            method: "POST",
+                                            data: $('#add_porteur').serialize(),
+                                            success: function(data) {
+                                                alert(data);
+                                                $('#add_porteur')[0].reset();
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
                             <div class="group-form" name="add_personnelacad" id="add_personnelacad">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dynamic_fieldAP">
                                         <tr>
                                             <td>
-                                                <label for="PANom0">Nom de l'accompagnateur </label>
+                                                <label for="PANom0">Ajouter un ou des accompagnateurs déjà existants </label>
                                                 <select class="form-control" name="PANom0">
                                                     <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach
                                                 </select>
@@ -97,7 +157,7 @@
                                     var i = 0;
                                     $('#addAP').click(function() {
                                         i++;
-                                        if (i < 3) {
+                                        if (i < 2) {
                                             $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PANom' + i + '"> <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach </select></td><td><button  name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
                                         }
                                     });

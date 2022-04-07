@@ -40,31 +40,35 @@
 
 
                                 <div class="form-group">
-                                    <label for="PANom">Nom de la personne :</label>
+                                    <label for="PANom">Nom de l'accompagnateur de projet  :</label>
                                     <input type="text" class="form-control" name="PANom" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PAPrenom">Prénom de la personne :</label>
+                                    <label for="PAPrenom">Prénom de l'accompagnateur de projet :</label>
                                     <input type="text" class="form-control" name="PAPrenom" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PAMail">Adresse Mail de la personne :</label>
+                                    <label for="PAMail">Adresse Mail de l'accompagnateur de projet :</label>
                                     <input type="text" class="form-control" name="PAMail" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PADiscipline">Discipline enseignée par la personne :</label>
+                                    <label for="PADiscipline">Discipline enseignée par l'accompagnateur de projet :</label>
                                     <input type="text" class="form-control" name="PADiscipline" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PAAdressePerso">Adresse de la personne : :</label>
+                                    <label for="PAAdressePerso">Adresse de l'accompagnateur de projet : :</label>
                                     <input type="text" class="form-control" name="PAAdressePerso" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PATel">Téléphone de la personne :</label>
+                                    <label for="PATel">Téléphone de l'accompagnateur de projet :</label>
                                     <input type="text" class="form-control" name="PATel" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PAAdresse">Numero RNE de l'etablissement de la personne :</label>
+                                    <label for="PAFonction">Fonction l'accompagnateur de projet :</label>
+                                    <input type="text" class="form-control" name="PAFonction" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="PAAdresse">Numero RNE de l'etablissement de l'accompagnateur de projet :</label>
                                     <input type="text" class="form-control" name="ETABCode" />
                                 </div>
 
