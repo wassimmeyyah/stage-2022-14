@@ -60,7 +60,7 @@
                 <p class="card-text">
                 <p align="center">
                     <a class="favorite styled text-primary text-uppercase" type="button" href="{{route('goPersonnelacad2')}}">
-                        Le personnel académique
+                        Les accompagnateurs de projet
                     </a>
                 </p></p>
             </div>

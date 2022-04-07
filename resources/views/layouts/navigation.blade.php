@@ -15,13 +15,13 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('goEtablissement')" :active="request()->routeIs('goEtablissement')">
-                        {{ __('Les etablissements') }}
+                    <x-nav-link :href="route('goExperimentation')" :active="request()->routeIs('goExperimentation2')">
+                        {{ __('Les expérimentations') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('goExperimentation')" :active="request()->routeIs('goExperimentation2')">
-                        {{ __('Les expérimentations') }}
+                    <x-nav-link :href="route('goEtablissement')" :active="request()->routeIs('goEtablissement')">
+                        {{ __('Les etablissements') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('goPersonnelacad')" :active="request()->routeIs('goPersonnelacad')">
-                        {{ __('Le personnel') }}
+                        {{ __('Les accompagnateurs') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
