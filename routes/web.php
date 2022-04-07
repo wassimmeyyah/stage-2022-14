@@ -193,8 +193,6 @@ Route::get('/archive/ajouter',[ArchiveController::class, 'create'])->name("goArc
 
 Route::post('/archive/ajouter',[ArchiveController::class, 'store'])->name("goArchiveAjouter2");
 
-Route::get('/archive/{archive}',[ArchiveController::class, 'edit'])->name("goArchiveModifier");
-
 Route::put('/archive/{archive}',[ArchiveController::class, 'update'])->name("goArchiveModifier");
 
 Route::delete('/archive/{archive}',[ArchiveController::class, 'delete'])->name("goArchiveSupprimer");
