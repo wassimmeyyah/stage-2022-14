@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Thematique_abordee;
-use Illuminate\Database\QueryException;
 use PDF;
 use App\Models\Type;
 use App\Models\Ville;
@@ -15,15 +13,19 @@ use App\Models\Specialite;
 use App\Models\Territoire;
 use App\Models\Thematique;
 use Illuminate\Http\Request;
-
 use App\Models\Etablissement;
 use App\Models\Personnelacad;
+
 use App\Models\Accompagnement;
 use App\Models\Experimentation;
 use App\Models\Groupethematique;
+use App\Models\Thematique_abordee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Schema\Blueprint;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\Console\Input\Input;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
@@ -64,10 +66,10 @@ class ExperimentationController extends Controller
             ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('territoire as t', 't.TERRCode', '=', 'e.TERRCode')
 
-            ->Orderby("EXPCode","asc")->paginate(10);
+            ->Orderby("EXPCode", "asc")->paginate(10);
 
 
-        return view("experimentation", ["experimentations" => $experimentations], compact( 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
+        return view("experimentation", ["experimentations" => $experimentations], compact('groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
     public function index()
@@ -118,8 +120,6 @@ class ExperimentationController extends Controller
             $table->foreign('EXPCode')->references('EXPCode')->on('experimentation')->onDelete('cascade');
             $table->foreign('PORTCode')->references('PORTCode')->on('porteur')->onDelete('cascade');
             $table->foreign('PACode')->references('PACode')->on('personnelacad')->onDelete('cascade');
-
-
         });
     }
 
@@ -205,11 +205,11 @@ class ExperimentationController extends Controller
 
 
 
-                $res4 = DB::table('thematique_abordee')->insert([
+            $res4 = DB::table('thematique_abordee')->insert([
 
-                    'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
-                    'THEMACode' => $request->input('THEMALibelle0')
-                ]);
+                'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle0')
+            ]);
 
             if (null !== $request->input('THEMALibelle1')) {
                 $res4 = DB::table('thematique_abordee')->insert([
@@ -335,11 +335,11 @@ class ExperimentationController extends Controller
 
 
 
-        return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
-    }catch(QueryException $q){
+            return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
+        } catch (QueryException $q) {
             return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja et au moins une thématique, un porteur et un accompagnateur ");
-
-        }}
+        }
+    }
 
 
     /**
@@ -363,10 +363,10 @@ class ExperimentationController extends Controller
         }
 
         $experimentation = Experimentation::findOrFail($id);
-        $etablissement = Etablissement::where('ETABCode','=',$experimentation->ETABCode)->first();
+        $etablissement = Etablissement::where('ETABCode', '=', $experimentation->ETABCode)->first();
         $groupethematiques = Groupethematique::all();
-        $thems=Thematique::all();
-        $thematiques= DB::table('thematique as t')->select(
+        $thems = Thematique::all();
+        $thematiques = DB::table('thematique as t')->select(
             't.THEMACode as THEMACode',
             't.THEMALibelle',
             'e.EXPCode as EXPCode'
@@ -375,12 +375,12 @@ class ExperimentationController extends Controller
             ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
             ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
 
-            ->where( 'e.EXPCode',$id)
+            ->where('e.EXPCode', $id)
             ->get();
         $paliers = Palier::all();
 
 
-        return view('experimentationUpdate', compact("experimentation", 'etablissement', 'groupethematiques', 'thematiques','thems', 'paliers'));
+        return view('experimentationUpdate', compact("experimentation", 'etablissement', 'groupethematiques', 'thematiques', 'thems', 'paliers'));
     }
 
     /**
@@ -396,14 +396,14 @@ class ExperimentationController extends Controller
 
 
 
-        $res = DB::table('experimentation')->where('EXPCode','=', $experimentation->EXPCode)
+        $res = DB::table('experimentation')->where('EXPCode', '=', $experimentation->EXPCode)
             ->update([
 
 
-            'EXPLienInternet' => $request->input('EXPLienInternet'),
-            'EXPLienDrive' => $request->input('EXPLienDrive'),
-            'PALCode' => $request->input('PALCode')
-        ]);
+                'EXPLienInternet' => $request->input('EXPLienInternet'),
+                'EXPLienDrive' => $request->input('EXPLienDrive'),
+                'PALCode' => $request->input('PALCode')
+            ]);
 
         if (null !== $request->input('THEMALibelle0')) {
             $res4 = DB::table('thematique_abordee')->insert([
@@ -452,7 +452,7 @@ class ExperimentationController extends Controller
      */
     public function delete(Experimentation $experimentation)
     {
-        if(Gate::denies('updateDelete-users') ) {
+        if (Gate::denies('updateDelete-users')) {
             return redirect()->route('goExperimentation');
         }
 
@@ -521,7 +521,6 @@ class ExperimentationController extends Controller
             'e.ETABCode',
             'e.PALCode',
             'e.EXPCode',
-            'ta.THEMACode',
             'et.ETABNom as ETABNom',
             'te.TERRNom as TERRNom'
         )
@@ -533,9 +532,9 @@ class ExperimentationController extends Controller
             ->where('et.TERRCode', 'LIKE', "%$q%")
             ->Where('et.TYPCode', 'LIKE', "%$p%")
 
-            ->Where('ta.THEMACode', 'LIKE', "%$s%")->distinct()->get();
+            ->Where('ta.THEMACode', 'LIKE', "%$s%")->distinct()->orderBy('e.EXPCode')->get();
 
-ddd($experimentation);
+        // ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
@@ -587,7 +586,7 @@ ddd($experimentation);
         )
             ->leftjoin('accompagnement as a', 'a.PORTCode', '=', 'p.PORTCode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
-            ->where( 'e.EXPCode',$id2)
+            ->where('e.EXPCode', $id2)
             ->get();
 
         $personnelacads = DB::table('personnelacad as pe')->select(
@@ -605,10 +604,10 @@ ddd($experimentation);
             ->leftjoin('accompagnement as a', 'a.PACode', '=', 'pe.PACode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
 
-            ->where( 'e.EXPCode',$id2)
+            ->where('e.EXPCode', $id2)
             ->get();
 
-        $thematiques= DB::table('thematique as t')->select(
+        $thematiques = DB::table('thematique as t')->select(
             't.THEMACode as themaID',
             't.THEMALibelle',
             'e.EXPCode'
@@ -617,7 +616,7 @@ ddd($experimentation);
             ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
             ->leftjoin('experimentation as e', 'ta.EXPCode', '=', 'e.EXPCode')
 
-            ->where( 'e.EXPCode',$id2)
+            ->where('e.EXPCode', $id2)
             ->get();
 
 
@@ -627,7 +626,7 @@ ddd($experimentation);
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
         $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
 
-        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs','personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnements', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
     }
 
     public function telechargerPdf($id3)
@@ -664,7 +663,7 @@ ddd($experimentation);
 
     public function deleteporteur(Experimentation $experimentation, Porteur $porteur)
     {
-        if(Gate::denies('updateDelete-users') ) {
+        if (Gate::denies('updateDelete-users')) {
             return redirect()->route('goExperimentation');
         }
 
@@ -674,14 +673,14 @@ ddd($experimentation);
 
 
 
-        $res=Accompagnement::where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode','=',$experimentation->EXPCode)->delete();
+        $res = Accompagnement::where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
         return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
     }
 
     public function deletepersonnelacad(Experimentation $experimentation, Personnelacad $personnelacad)
     {
-        if(Gate::denies('updateDelete-users') ) {
+        if (Gate::denies('updateDelete-users')) {
             return redirect()->route('goExperimentation');
         }
 
@@ -691,12 +690,8 @@ ddd($experimentation);
 
 
 
-        $res=Accompagnement::where('PACode', '=', $personnelacad->PACode)->where('EXPCode','=',$experimentation->EXPCode)->delete();
+        $res = Accompagnement::where('PACode', '=', $personnelacad->PACode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
         return back()->with("successDelete", "L'accompagnateur' '$nomEXP' a été supprimé avec succèss");
     }
-
-
-
-
 }

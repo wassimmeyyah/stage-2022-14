@@ -200,3 +200,5 @@ Route::put('/archive/{archive}',[ArchiveController::class, 'update'])->name("goA
 Route::delete('/archive/{archive}',[ArchiveController::class, 'delete'])->name("goArchiveSupprimer");
 
 Route::get('/archive/{archive}/affichage', [ArchiveController::class, 'affiche'])->name("goArchiveAffichage");
+
+Route::get('/experimentation/{experimentation}',[ExperimentationController::class, 'archiver'])->name("goExperimentationArchiver");
