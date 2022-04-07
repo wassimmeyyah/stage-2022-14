@@ -170,6 +170,7 @@
                                                     <table class="table table-bordered table-responsive-md table-striped text-center">
                                                         <thead>
                                                             <tr>
+                                                                <th class="text-center"></th>
                                                                 <th class="text-center"> Porteur de projet </th>
                                                                 <th class="text-center"> Mail du porteur </th>
                                                                 <th class="text-center"> Téléphone du porteur </th>
@@ -182,6 +183,7 @@
                                                             @foreach($porteurs as $porteur)
 
                                                             <tr>
+                                                                <td class="pt-3-half"><a class="btn btn-light text-success"  href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}"><i class="bi bi-person-check-fill"></i></a></td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTNom}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTMail}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTTel}} </td>
@@ -193,6 +195,7 @@
                                                                         <input type="hidden" name="_method" value="delete">
                                                                     </form>
                                                             </tr></td>
+
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
@@ -220,6 +223,7 @@
                                                     <table class="table table-bordered table-responsive-md table-striped text-center">
                                                         <thead>
                                                             <tr>
+                                                                <th class="text-center"></th>
                                                                 <th class="text-center"> Accompagnateur de projet </th>
                                                                 <th class="text-center"> Mail de l'accompagnateur </th>
                                                                 <th class="text-center"> Téléphone de l'accompagnateur </th>
@@ -233,6 +237,7 @@
                                                             @foreach($personnelacads as $personnelacad)
 
                                                             <tr>
+                                                                <td class="pt-3-half"><a class="btn btn-light text-success"  href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-check-fill"></i></a></td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PAPrenom}} {{$personnelacad->PANom}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PAMail}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PATel}} </td>
@@ -297,6 +302,11 @@
                                                 </div><br><br>
 
                                                 <br>
+
+                                                    <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des porteurs de projets : </i></strong> @foreach($porteur2s as $porteur)<a href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}"><td class="pt-3-half"  ><i class="bi bi-person-check-fill">  {{$porteur->PORTNom}} - </i></td></a>@endforeach
+                                                    <br>
+                                                    <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des accompagnateurs de projets : </i></strong> @foreach($personnelacad2s as $personnelacad)<a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><td class="pt-3-half" ><i class="bi bi-person-check-fill"> {{$personnelacad->PANom}} - </i></td></a>@endforeach
+
 
                                                 <div class="flex-center position-ref -full-height">
 

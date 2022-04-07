@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accompagnment3;
+use App\Models\Accompagnment4;
 use PDF;
 use App\Models\Type;
 use App\Models\Ville;
@@ -583,6 +585,8 @@ class ExperimentationController extends Controller
         $experimentation = Experimentation::find($id2);
         $accompagnement1s = Accompagnement1::where('EXPCode', $experimentation->EXPCode);
         $accompagnement2s = Accompagnement2::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement3s = Accompagnment3::where('EXPCode', $experimentation->EXPCode);
+        $accompagnement4s = Accompagnment4::where('EXPCode', $experimentation->EXPCode);
 
         $etablissement = Etablissement::where('ETABCode', $experimentation->ETABCode)->first();
         $groupethematique = Groupethematique::where('GTCode', $experimentation->GTCode)->first();
@@ -603,6 +607,19 @@ class ExperimentationController extends Controller
             ->where('e.EXPCode', $id2)
             ->get();
 
+        $porteur2s = DB::table('porteur as p')->select(
+            'p.PORTCode as PORTCode',
+            'p.PORTNom',
+            'p.PORTMail',
+            'p.PORTTel',
+            'p.ETABCode',
+            'e.EXPCode'
+        )
+            ->leftjoin('accompagnement3 as a', 'a.PORTCode', '=', 'p.PORTCode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+            ->where('e.EXPCode', $id2)
+            ->get();
+
         $personnelacads = DB::table('personnelacad as pe')->select(
             'pe.PACode as PACode',
             'pe.PANom',
@@ -616,6 +633,24 @@ class ExperimentationController extends Controller
         )
 
             ->leftjoin('accompagnement2 as a', 'a.PACode', '=', 'pe.PACode')
+            ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
+
+            ->where('e.EXPCode', $id2)
+            ->get();
+
+        $personnelacad2s = DB::table('personnelacad as pe')->select(
+            'pe.PACode as PACode',
+            'pe.PANom',
+            'pe.PAPrenom',
+            'pe.PAMail',
+            'pe.PADiscipline',
+            'pe.PAAdressePerso',
+            'pe.PATel',
+            'pe.ETABCode',
+            'e.EXPCode'
+        )
+
+            ->leftjoin('accompagnement4 as a', 'a.PACode', '=', 'pe.PACode')
             ->leftjoin('experimentation as e', 'a.EXPCode', '=', 'e.EXPCode')
 
             ->where('e.EXPCode', $id2)
@@ -640,7 +675,7 @@ class ExperimentationController extends Controller
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
         $coordonnee = Coordonnee::where('COORDCode', $etablissement->COORDCode)->first();
 
-        return view("experimentationAffichage", compact("experimentation", 'accompagnement1s','accompagnement2s', 'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads'));
+        return view("experimentationAffichage", compact("experimentation", 'accompagnement1s','accompagnement2s','accompagnement3s','accompagnement4s' ,'etablissement', 'groupethematique', 'thematiques', 'palier', 'territoire', 'type', 'specialite', 'ville', 'coordonnee', 'porteurs', 'personnelacads', 'porteur2s', 'personnelacad2s'));
     }
 
     public function telechargerPdf($id3)
@@ -682,16 +717,24 @@ class ExperimentationController extends Controller
         }
 
 
-
+        try{
         $nomEXP = $porteur->PORTNom;
 
         //ddd($porteur->PORTCode);
+        $res4 = DB::table('accompagnement3')->insert([
 
+            'EXPCode' => $experimentation->EXPCode,
+            'PORTCode' => $porteur->PORTCode,
+        ]);
         $res = DB::table('accompagnement1')->where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
 
 
         return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
+        } catch (QueryException $q) {
+            return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
+        }
+
     }
 
     public function deletepersonnelacad(Experimentation $experimentation, Personnelacad $personnelacad)
@@ -700,17 +743,24 @@ class ExperimentationController extends Controller
             return redirect()->route('goExperimentation');
         }
 
+        try{
 
-        //ddd($personnelacad);
         $nompersonnel = $personnelacad->PANom;
 
 
+        $res4 = DB::table('accompagnement4')->insert([
 
+            'EXPCode' => $experimentation->EXPCode,
+            'PACode' => $personnelacad->PACode,
+        ]);
         $res10 = DB::table('accompagnement2')->where('PACode', '=', $personnelacad->PACode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
 
 
         return back()->with("successDelete2", "L'accompagnateur' '$nompersonnel' a été supprimé avec succèss");
+        } catch (QueryException $q) {
+            return back()->with("successDelete2", "L'accompagnateur' '$nompersonnel' a été supprimé avec succèss");
+        }
     }
 
     public function createporteur(Request $request, Experimentation $experimentation)
@@ -738,37 +788,11 @@ class ExperimentationController extends Controller
     public function storeporteur(Request $request)
     {
         try{
-        $experimentations = DB::table('experimentation as ex')->select(
-            'e.ETABCode as etabID',
-            'ex.EXPCode as EXPCode',
-            'ex.EXPTitre as EXPTitre',
-            'ex.EXPLienInternet as EXPLienInternet',
-            'ex.EXPLienDrive as EXPLienDrive',
-            'ex.EXPDateDebut as EXPDateDebut',
-            'ex.EXPArchivage as EXPArchivage',
-            'ex.PALCode as PALCode'
-
-        )
-            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
-            ->where('ex.EXPCode','=', $request->input('EXPCode'))
-            ->get();
 
 
 
-        //ddd($e);
-        $etablissements = Etablissement::orderBy("ETABNom", "asc");
-        $groupethematiques = Groupethematique::all();
-        $thematiques  = Thematique::all();
-        $paliers = Palier::all();
-        $porteurs = Porteur::all();
-        $personnelacads = Personnelacad::all();
-        $territoires = Territoire::all();
-        $types = Type::all();
-        $specialites  = Specialite::all();
-        $villes = Ville::all();
 
 
-        //ddd($request->input('ETABCode'));
 
 
 
@@ -820,11 +844,11 @@ class ExperimentationController extends Controller
 
         }
 
-        $expcode=$request->input('EXPCode');
 
-        return back()->with("successAjout", "Les porteur(s) de projet ont été ajoutés avec succès ");
+
+        return back()->with("successAjout", "Le(s) porteur(s) de projet ont été ajoutés avec succès ");
         } catch (QueryException $q) {
-            return back()->with("successAjout", "Les porteur(s) de projet ont été ajoutés avec succès ");
+            return back()->with("successAjout", "Le(s) porteur(s) de projet ont été ajoutés avec succès ");
         }
 
     }
@@ -856,35 +880,8 @@ class ExperimentationController extends Controller
     public function storepersonnelacad(Request $request)
     {
 
-        $experimentations = DB::table('experimentation as ex')->select(
-            'e.ETABCode as etabID',
-            'ex.EXPCode as EXPCode',
-            'ex.EXPTitre as EXPTitre',
-            'ex.EXPLienInternet as EXPLienInternet',
-            'ex.EXPLienDrive as EXPLienDrive',
-            'ex.EXPDateDebut as EXPDateDebut',
-            'ex.EXPArchivage as EXPArchivage',
-            'ex.PALCode as PALCode'
 
-        )
-            ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
-            ->where('ex.EXPCode','=', $request->input('EXPCode'))
-            ->get();
-
-
-
-        //ddd($e);
-        $etablissements = Etablissement::orderBy("ETABNom", "asc");
-        $groupethematiques = Groupethematique::all();
-        $thematiques  = Thematique::all();
-        $paliers = Palier::all();
-        $porteurs = Porteur::all();
-        $personnelacads = Personnelacad::all();
-        $territoires = Territoire::all();
-        $types = Type::all();
-        $specialites  = Specialite::all();
-        $villes = Ville::all();
-
+        try{
 
         if (null !== $request->input('PANom0')) {
             $res4 = DB::table('accompagnement2')->insert([
@@ -910,10 +907,13 @@ class ExperimentationController extends Controller
             ]);
         }
 
-            $expcode=$request->input('EXPCode');
+
 
 
         return back()->with("successAjout", "Les accompagnateur(s) de projet ont été ajoutés avec succès ");
+        } catch (QueryException $q) {
+            return back()->with("successAjout", "Les accompagnateur(s) de projet ont été ajoutés avec succès ");
+        }
 
     }
 
@@ -973,7 +973,7 @@ class ExperimentationController extends Controller
 
 
 
-        return back()->with("successAjout", "Les documents ont été ajoutés avec succès ");
+        return back()->with("successAjout", "Le(s) document(s) ont été modifiés avec succès ");
 
     }
 
