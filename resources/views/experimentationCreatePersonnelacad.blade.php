@@ -52,7 +52,7 @@
                             @endif
 
 
-                        <form method="post" action="{{ route('goExperimentationAjouterPorteur', ['experimentation'=>$experimentation->EXPCode]) }}">
+                        <form method="post" action="{{ route('goExperimentationAjouterPersonnelacad', ['experimentation'=>$experimentation->EXPCode]) }}">
                             @csrf
 
                             <div class="form-group">
@@ -75,25 +75,18 @@
                             </div>
 
 
-                            <div class="form-group" name="add_porteur" id="add_porteur">
+                            <div class="group-form" name="add_personnelacad" id="add_personnelacad">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dynamic_field">
+                                    <table class="table table-bordered" id="dynamic_fieldAP">
                                         <tr>
                                             <td>
-                                                <label for="PORTNom">Nom du porteur </label>
-                                                <input type="text" name="PORTNom0" placeholder="Entrez le nom du porteur..." class="form-control name_list">
+                                                <label for="PANom0">Nom de l'accompagnateur </label>
+                                                <select class="form-control" name="PANom0">
+                                                    <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach
+                                                </select>
                                             </td>
                                             <td>
-                                                <label for="PORTMail">Mail du porteur </label>
-                                                <input type="text" name="PORTMail0" placeholder="Entrez le mail du porteur ..." class="form-control name_list">
-                                            </td>
-                                            <td>
-                                                <label for="PORTTel">Numéro de téléphone du porteur</label>
-                                                <input type="text" name="PORTTel0" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list">
-                                            </td>
-
-                                            <td>
-                                                <button type="button" name="add" id="add" class="btn btn-light text-primary">Ajouter un porteur</button>
+                                                <button type="button" name="addAP" id="addAP" class="btn btn-light text-primary">Ajouter un accompagnateur</button>
                                             </td>
                                         </tr>
                                     </table>
@@ -102,10 +95,10 @@
                             <script type="text/javascript">
                                 $(document).ready(function() {
                                     var i = 0;
-                                    $('#add').click(function() {
+                                    $('#addAP').click(function() {
                                         i++;
                                         if (i < 3) {
-                                            $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="PORTNom' + i + '" placeholder="Entrez le nom du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTMail' + i + '" placeholder="Entrez le mail du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTTel' + i + '" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list" /></td><td><button name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                                            $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PANom' + i + '"> <option value=""></option> @foreach($personnelacads as $personnelacad) <option value="{{$personnelacad->PACode}}">{{$personnelacad->PANom}}</option> @endforeach </select></td><td><button  name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
                                         }
                                     });
                                     $(document).on('click', '.btn_remove', function() {
@@ -116,10 +109,10 @@
                                         $.ajax({
                                             url: "back.php",
                                             method: "POST",
-                                            data: $('#add_porteur').serialize(),
+                                            data: $('#add_personnelacad').serialize(),
                                             success: function(data) {
                                                 alert(data);
-                                                $('#add_porteur')[0].reset();
+                                                $('#add_personnelacad')[0].reset();
                                             }
                                         });
                                     });

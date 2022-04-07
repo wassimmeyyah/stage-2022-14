@@ -52,7 +52,7 @@
                             @endif
 
 
-                        <form method="post" action="{{ route('goExperimentationAjouterPorteur', ['experimentation'=>$experimentation->EXPCode]) }}">
+                        <form method="post" action="{{ route('goExperimentationAjouterDocument', ['experimentation'=>$experimentation->EXPCode]) }}">
                             @csrf
 
                             <div class="form-group">
@@ -70,64 +70,27 @@
                                 <input readonly type="text" class="form-control" name="ETABNom"   value="{{$etablissement->ETABNom}}"/>
                             </div>
                             <div class="form-group">
-                                <label for="ETABCode">Numero RNE de l'etablissement</label>
-                                <input readonly type="text" class="form-control" name="ETABCode"   value="{{$etablissement->ETABCode}}"/>
+                                <label for="ContratACLien">Lien vers le Contrat d'accompagnement</label>
+                                <input  type="text" class="form-control" name="ContratACLien"  placeholder="{{$experimentation->ContratACLien}}" value="{{$experimentation->ContratACLien}}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="LivretACLien">Lien vers le Livret d'accompagnement</label>
+                                <input  type="text" class="form-control" name="LivretACLien" placeholder="{{$experimentation->LivretACLien}}"  value="{{$experimentation->LivretACLien}}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="EXPDernierDocLien">Lien vers le Dernier document de suivi </label>
+                                <input  type="text" class="form-control" name="EXPDernierDocLien"  placeholder="{{$experimentation->EXPDernierDocLien}}" value="{{$experimentation->EXPDernierDocLien}}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="EXPDernierDocDate">Date du dernier document de suivi </label>
+                                <input  type="text" class="form-control" name="EXPDernierDocDate" {{$experimentation->EXPDernierDocDate}}placeholder="{{$experimentation->EXPDernierDocDate}}"  value="{{$experimentation->EXPDernierDocDate}}"/>
                             </div>
 
 
-                            <div class="form-group" name="add_porteur" id="add_porteur">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dynamic_field">
-                                        <tr>
-                                            <td>
-                                                <label for="PORTNom">Nom du porteur </label>
-                                                <input type="text" name="PORTNom0" placeholder="Entrez le nom du porteur..." class="form-control name_list">
-                                            </td>
-                                            <td>
-                                                <label for="PORTMail">Mail du porteur </label>
-                                                <input type="text" name="PORTMail0" placeholder="Entrez le mail du porteur ..." class="form-control name_list">
-                                            </td>
-                                            <td>
-                                                <label for="PORTTel">Numéro de téléphone du porteur</label>
-                                                <input type="text" name="PORTTel0" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list">
-                                            </td>
 
-                                            <td>
-                                                <button type="button" name="add" id="add" class="btn btn-light text-primary">Ajouter un porteur</button>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    var i = 0;
-                                    $('#add').click(function() {
-                                        i++;
-                                        if (i < 3) {
-                                            $('#dynamic_field').append('<tr id="row' + i + '"><td><input type="text" name="PORTNom' + i + '" placeholder="Entrez le nom du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTMail' + i + '" placeholder="Entrez le mail du porteur ..." class="form-control name_list" /></td><td><input type="text" name="PORTTel' + i + '" placeholder="Entrez le téléphone du porteur ..." class="form-control name_list" /></td><td><button name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
-                                        }
-                                    });
-                                    $(document).on('click', '.btn_remove', function() {
-                                        var button_id = $(this).attr('id');
-                                        $('#row' + button_id + '').remove();
-                                    });
-                                    $('submit').click(function() {
-                                        $.ajax({
-                                            url: "back.php",
-                                            method: "POST",
-                                            data: $('#add_porteur').serialize(),
-                                            success: function(data) {
-                                                alert(data);
-                                                $('#add_porteur')[0].reset();
-                                            }
-                                        });
-                                    });
-                                });
-                            </script>
 
                             <div class="btn-group">
-                                <button name="submit" id="submit" class="btn btn-light text-primary">Ajouter</button>
+                                <button name="submit" id="submit" class="btn btn-light text-primary">Modifier</button>
                                 <a class="btn btn-danger" href="{{route('goExperimentationAffichage',['experimentation'=>$experimentation->EXPCode])}}">Revenir à l'experimentation</a>
                             </div>
                         </form>
