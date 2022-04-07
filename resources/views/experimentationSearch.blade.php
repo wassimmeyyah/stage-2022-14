@@ -54,6 +54,7 @@
 
                             <div class="card-deck">
                                 @foreach($experimentation as $experimentations)
+                                @if($experimentation->EXPArchivage == 0)
 
                                 <div class="row mb-2">
                                     <div class="col-md-6">
@@ -70,7 +71,7 @@
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @if($experimentations->EXPArchivage == 0)
-                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentations->EXPCode])}}">Archiver</a></td>
+                                                    <td><br><a class="btn btn-danger class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentations->EXPCode])}}">Archiver</a></td>
                                                     @endif
                                                     @can('manage-users')
                                                     <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->EXPCode}}').submit() }">Supprimer</a>
@@ -89,6 +90,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 @endforeach
                             </div>
                             <a class="btn btn-secondary " href="{{route('goExperimentation')}}">Revenir aux experimentations</a><br>

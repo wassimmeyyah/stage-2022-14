@@ -133,7 +133,7 @@
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @can('updateDelete-users')
                                                     @if($experimentation->EXPArchivage == 0)
-                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentation->EXPCode])}}">Archiver</a></td>
+                                                    <td><br><a class="btn btn-danger class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentation->EXPCode])}}">Archiver</a></td>
                                                     @endif
                                                     @endcan
 
