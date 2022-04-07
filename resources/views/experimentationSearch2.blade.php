@@ -25,7 +25,7 @@
                             <div class="d-flex justify-content-between">
 
                                 <p align="center">
-                                    <a class="btn btn-light text-primary "  href="{{route('goExperimentationAjouter')}}">
+                                    <a class="btn btn-light text-primary " href="{{route('goExperimentationAjouter')}}">
                                         Ajouter une experimentation
 
                                     </a>
@@ -69,9 +69,10 @@
                                                 <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->EXPCode])}}">Voir plus </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <td><br><a class="btn btn-light text-primary class=pull-left"  href="{{route('goExperimentationModifier', ['experimentation'=>$experimentations->EXPCode])}}">Modifier</a></td>
-
-                                                    <td><a href="#" class="btn btn-danger class=pull-right"  onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->EXPCode}}').submit() }">Supprimer</a>
+                                                    @if($experimentations->EXPArchivage == 0)
+                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentations->EXPCode])}}">Archiver</a></td>
+                                                    @endif
+                                                    <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->EXPCode}}').submit() }">Supprimer</a>
                                                         <form id="{{$experimentations->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->EXPCode])}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="delete">
@@ -88,7 +89,7 @@
                                 </div>
                                 @endforeach
                             </div>
-                            <a  class="btn btn-secondary " href="{{route('goExperimentation')}}">Revenir a toutes les experimentations</a><br>
+                            <a class="btn btn-secondary " href="{{route('goExperimentation')}}">Revenir a toutes les experimentations</a><br>
                         </div>
                     </div>
                 </div>

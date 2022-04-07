@@ -76,8 +76,9 @@
                                                 <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->expID])}}">Voir plus </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentations->expID])}}">Modifier</a></td>
-
+                                                    @if($experimentations->EXPArchivage == 0)
+                                                    <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentations->EXPCode])}}">Archiver</a></td>
+                                                    @endif
                                                     <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
                                                         <form id="{{$experimentations->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->expID])}}" method="post">
                                                             @csrf
