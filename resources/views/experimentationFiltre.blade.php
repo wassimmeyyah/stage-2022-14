@@ -79,12 +79,14 @@
                                                     @if($experimentations->EXPArchivage == 0)
                                                     <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentations->EXPCode])}}">Archiver</a></td>
                                                     @endif
+                                                    @can('manage-users')
                                                     <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
                                                         <form id="{{$experimentations->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->expID])}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="delete">
                                                         </form>
                                                     </td>
+                                                    @endcan
                                                 </div>
 
 

@@ -91,26 +91,12 @@
 
                             </form>
 
-                            <form action="{{route('goExperimentationArchivage')}}" class=" d-flex mr-3">
-
-                                <div class="form-group mr-3 d-flex justify-content-end p-2">
-                                    <label for="filtreArchivage"> Archives : </label>
-                                    <select name="r" id="filtreType" wire:model="filtreType" style="min-width:110px;">
-                                        <option name="r" class="form-control" value=""></option>
-                                        <option name="r" class="form-control" value="0">En cours</option>
-                                        <option name="r" class="form-control" value="1">Archivés</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <button class="btn btn-light text-primary"><i class="bi bi-funnel"></i></button>
-                                </div>
-
-                            </form>
-
-
-
-
+                            <div>
+                                <form class="d-flex justify-end" action="{{route('goExperimentationArchivage')}}" class=" d-flex mr-3">
+                                    <button class="btn btn-light text-primary" name="r" class="form-control" value="1">Voir les expérimentations archivées</option>
+                                </form>
+                            </div>
+                            <br>
                             @if(session()->has("successDelete"))
                             <div class="alert alert-success">
                                 <h3>{{session()->get('successDelete')}}</h3>
@@ -129,6 +115,7 @@
 
                             <div class="card-deck">
                                 @foreach($experimentations as $experimentation)
+                                @if($experimentation->EXPArchivage == 0)
 
                                 <div class="row mb-2">
                                     <div class="col-md-6">
@@ -150,7 +137,7 @@
                                                     @endif
                                                     @endcan
 
-                                                    @can('updateDelete-users')
+                                                    @can('manage-users')
                                                     <td>
                                                         <a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentation->EXPCode}}').submit() }">Supprimer</a>
                                                         <form id="{{$experimentation->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->EXPCode])}}" method="post">
@@ -164,6 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 @endforeach
 
                             </div>

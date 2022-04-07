@@ -69,12 +69,14 @@
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->expID])}}">Modifier</a></td>
 
+                                                    @can('manage-users')
                                                     <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentation->expID}}').submit() }">Supprimer</a>
                                                         <form id="{{$experimentation->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->expID])}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="delete">
                                                         </form>
                                                     </td>
+                                                    @endcan
                                                 </div>
 
 

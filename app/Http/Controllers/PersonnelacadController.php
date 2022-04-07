@@ -202,7 +202,7 @@ class PersonnelacadController extends Controller
         $personnelacad = Personnelacad::findOrFail($id3);
 
         $pdf = FacadePdf::loadView('telechargement3',compact('personnelacad'));
-        return $pdf->download('telechargement3.pdf');
+        return $pdf->download('Synthèse - accompagnateur.pdf');
     }
 
 }

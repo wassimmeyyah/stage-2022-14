@@ -35,82 +35,100 @@
                                     </div><br />
                                     @endif
 
-                                    <form method="get" action="{{ route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}">
-
-                                        <main role="main" class="container card h-100 justify-content-center">
-                                            <div class="justify-content-center">
-                                                <div class="row justify-content-center">
-                                                    <div class="col-md-8 blog-main">
-                                                        <br>
-                                                        <h3 class="pb-3 mb-4 font-italic border-bottom justify-content-center">
-                                                            Etablissement : {{$etablissement->ETABNom}}
-                                                        </h3>
-
-
-                                                        <div class="blog-post">
-                                                            <h2 class="blog-post-title">{{$etablissement->ETABMail}}</h2>
-                                                            <p class="blog-post-meta">{{$etablissement->ETABTel}}<a href="#">Appeler</a></p>
-                                                            <p>Située dans la zone A, l'Académie de Lyon accueille plus de 323 000 élèves pour une population totale de 3 293 813 habitants.
-                                                                Elle totalise 3 365 établissements scolaires ce qui la place au 11ème rang des académies françaises. Elle compte également 419 établissements d'enseignement professionel et post-bac.
-                                                                Pour plus d'informations, vous pouvez consulter le site officiel de l'académie sur http://www.ac-lyon.fr
-
-                                                            </p>
-
-                                                            <p>L'etablissement {{$etablissement->ETABNom}} se situe dans la région du {{$territoire->TERRNom}} . Il s'agit d'un etablissement de type {{$type->TYPNom}} et de spécialité {{$specialite->SPENom}}. Son chef d'etablissement est {{$etablissement->ETABChef}}. </p>
-                                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                                <td><br><a class="btn btn-light text-primary class=pull-left" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}">Modifier</a></td>
-
-                                                                <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$etablissement->ETABCode}}').submit() }">Supprimer</a>
-                                                                    <form id="{{$etablissement->ETABCode}}" action="{{route('goEtablissementSupprimer',['etablissement'=>$etablissement->ETABCode])}}" method="post">
-                                                                        @csrf
-                                                                        <input type="hidden" name="_method" value="delete">
-                                                                    </form>
-                                                                </td>
-                                                            </div><br>
-                                                            <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" src="/Image/imageacad2.jpg" width="320" height="220" alt="/Image/imageacad2.jpg">
-                                                            <hr>
-                                                            <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goEtablissementPDF", ['etablissement'=>$etablissement->ETABCode])}}">Telecharger en PDF</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <body>
-                                                    <div class="flex-center position-ref -full-height">
-                                                        <div class="content">
-                                                            <h2>Carte</h2>
-                                                            <div class="map" id="app">
-                                                                <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 50%; height: 350px;">
-
-                                                                    <gmap-info-window :options="infoWindowOptions" :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" @closeclick="infoWindowOpened=false">
-
-                                                                        <div class="info-window">
-                                                                            <h2>{{$etablissement->ETABNom}}</h2>
-                                                                            <h5>{{$etablissement->ETABMail}}</h5>
-                                                                            <h5>{{$etablissement->ETABTel}}</h5>
-                                                                            <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}">Voir plus </a></h5>
-
-                                                                        </div>
-
-                                                                    </gmap-info-window>
-
-                                                                    <gmap-marker :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" :clickable="true" :draggable="false" @click="infoWindowOpened = true"></gmap-marker>
-
-                                                                </gmap-map>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <script src="{{mix('js/app.js')}}"></script>
-                                                </body>
-                                            </div>
-                                        </main>
-                                    </form>
                                 </div>
+
+                                <div class="col-md-8 blog-main">
+                                    <br>
+                                    <h3 class="pb-3 mb-4 font-italic border-bottom justify-content-center">
+                                        Etablissement : {{$etablissement->ETABNom}}
+                                    </h3>
+
+                                    <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" src="/Image/imageacad2.jpg" width="320" height="220" alt="/Image/imageacad2.jpg">
+
+
+                                    <br>
+
+                                    <center>
+                                        <i>Informations de l'établissement</i>
+                                    </center>
+
+                                    <br>
+
+                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                        <tr>
+                                            <th scope="row" class="pt-3-half">RNE de l'établissement</th>
+                                            <td class="pt-3-half"> <strong> {{$etablissement->ETABCode}} </strong> </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="pt-3-half">Nom de l'établissement</th>
+                                            <td class="pt-3-half"> {{$etablissement->ETABNom}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="pt-3-half">Mail de l'établissement</th>
+                                            <td class="pt-3-half"> {{$etablissement->ETABMail}} </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="pt-3-half">Chef d'établissement</th>
+                                            <td class="blog-post-title">{{$etablissement->ETABChef}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="pt-3-half">Adresse de l'établissement</th>
+                                            <td class="blog-post-title">{{$etablissement->ETABAdresse}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="pt-3-half">Numéro de l'établissement </th>
+                                            <td class="blog-post-title"> {{$etablissement->ETABTel}}</a></td>
+                                        </tr>
+
+                                    </table>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <td><br><a class="btn btn-light text-primary" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-file-earmark-text">
+                                                    Modifier les informations de l'établissement
+
+                                                </i></a>
+                                        </td>
+                                    </div>
+                                    <div class="content">
+                                        <br>
+                                        <center>
+                                            <i>Emplacement de l'établissement</i>
+                                        </center>
+                                        <br>
+                                        <div class="map" id="app">
+                                            <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 100%; height: 350px;">
+
+                                                <gmap-info-window :options="infoWindowOptions" :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" @closeclick="infoWindowOpened=false">
+
+                                                    <div class="info-window">
+                                                        <h2>{{$etablissement->ETABNom}}</h2>
+                                                        <h5>{{$etablissement->ETABMail}}</h5>
+                                                        <h5>{{$etablissement->ETABTel}}</h5>
+                                                        <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}">Voir plus </a></h5>
+
+                                                    </div>
+
+                                                </gmap-info-window>
+
+                                                <gmap-marker :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" :clickable="true" :draggable="false" @click="infoWindowOpened = true"></gmap-marker>
+
+                                            </gmap-map>
+                                            <script src="{{mix('js/app.js')}}"></script>
+
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goEtablissementPDF", ['etablissement'=>$etablissement->ETABCode])}}">Telecharger en PDF</a>
+
+                                </div><br>
+
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </x-app-layout>
     </div>
 </body>

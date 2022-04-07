@@ -270,7 +270,7 @@ class EtablissementController extends Controller
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
 
         $pdf = FacadePdf::loadView('telechargement1', compact('etablissement', 'territoire', 'type', 'specialite', 'ville'));
-        return $pdf->download('telechargement1.pdf');
+        return $pdf->download('Synthèse - établissement.pdf');
     }
 
 

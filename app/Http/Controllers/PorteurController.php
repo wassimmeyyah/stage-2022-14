@@ -200,7 +200,7 @@ class PorteurController extends Controller
         $ville = Ville::where('VILCode', $etablissement->VILCode)->first();
 
         $pdf = FacadePdf::loadView('telechargement2',compact('porteur','etablissement','territoire','type','specialite','ville'));
-        return $pdf->download('telechargement2.pdf');
+        return $pdf->download('Synthèse - Porteur.pdf');
     }
 
     // Nordine
