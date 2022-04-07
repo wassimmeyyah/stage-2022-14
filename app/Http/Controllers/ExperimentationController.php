@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Thematique_abordee;
 use Illuminate\Database\QueryException;
 use PDF;
 use App\Models\Type;
@@ -103,9 +104,23 @@ class ExperimentationController extends Controller
         return view('experimentationCreate', compact('accompagnements', 'etablissements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
     }
 
-    public function up(Experimentation $experimentation)
+    public function up()
     {
-        return view('experimentationUpdate', compact("experimentation"));
+        Schema::create('accompagnement', function (Blueprint $table) {
+            $table->foreign('EXPCode')->references('EXPCode')
+                ->on('experimentation');
+            $table->foreign('PORTCode')->references('PORTCode')
+                ->on('porteur');
+            $table->foreign('PACode')->references('PACode')
+                ->on('personnelacad');
+
+
+            $table->foreign('EXPCode')->references('EXPCode')->on('experimentation')->onDelete('cascade');
+            $table->foreign('PORTCode')->references('PORTCode')->on('porteur')->onDelete('cascade');
+            $table->foreign('PACode')->references('PACode')->on('personnelacad')->onDelete('cascade');
+
+
+        });
     }
 
 
@@ -189,13 +204,13 @@ class ExperimentationController extends Controller
             }
 
 
-            if (null !== $request->input('THEMALibelle0')) {
+
                 $res4 = DB::table('thematique_abordee')->insert([
 
                     'EXPCode' => DB::table('experimentation')->latest('EXPCode')->first()->EXPCode,
                     'THEMACode' => $request->input('THEMALibelle0')
                 ]);
-            }
+
             if (null !== $request->input('THEMALibelle1')) {
                 $res4 = DB::table('thematique_abordee')->insert([
 
@@ -322,7 +337,7 @@ class ExperimentationController extends Controller
 
         return redirect()->route('goExperimentation', compact('etablissements', 'accompagnements', 'groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'))->with("successAjout", "l'experimentation' '$request->EXPTitre'a été ajouté avec succès");
     }catch(QueryException $q){
-            return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
+            return redirect('/experimentation/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja et au moins une thématique, un porteur et un accompagnateur ");
 
         }}
 
@@ -350,10 +365,11 @@ class ExperimentationController extends Controller
         $experimentation = Experimentation::findOrFail($id);
         $etablissement = Etablissement::where('ETABCode','=',$experimentation->ETABCode)->first();
         $groupethematiques = Groupethematique::all();
+        $thems=Thematique::all();
         $thematiques= DB::table('thematique as t')->select(
-            't.THEMACode as themaID',
+            't.THEMACode as THEMACode',
             't.THEMALibelle',
-            'e.EXPCode'
+            'e.EXPCode as EXPCode'
         )
 
             ->leftjoin('thematique_abordee as ta', 'ta.THEMACode', '=', 't.THEMACode')
@@ -364,7 +380,7 @@ class ExperimentationController extends Controller
         $paliers = Palier::all();
 
 
-        return view('experimentationUpdate', compact("experimentation", 'etablissement', 'groupethematiques', 'thematiques', 'paliers'));
+        return view('experimentationUpdate', compact("experimentation", 'etablissement', 'groupethematiques', 'thematiques','thems', 'paliers'));
     }
 
     /**
@@ -380,18 +396,50 @@ class ExperimentationController extends Controller
 
 
 
-        $experimentation->delete($experimentation);
+        $res = DB::table('experimentation')->where('EXPCode','=', $experimentation->EXPCode)
+            ->update([
 
-        $experimentation->insert([
-            'EXPCode' => $_POST['EXPCode'],
-            'EXPTitre' => $_POST['EXPTitre'],
-            'EXPLienInternet' => $_POST['EXPLienInternet'],
-            'EXPLienDrive' => $_POST['EXPLienDrive'],
-            'EXPDateDebut' => $_POST['EXPDateDebut'],
-            'ETABCode' => $_POST['ETABCode'],
 
-            'PALCode' => $_POST['PALCode']
+            'EXPLienInternet' => $request->input('EXPLienInternet'),
+            'EXPLienDrive' => $request->input('EXPLienDrive'),
+            'PALCode' => $request->input('PALCode')
         ]);
+
+        if (null !== $request->input('THEMALibelle0')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => $experimentation->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle0')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle1')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => $experimentation->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle1')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle2')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => $experimentation->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle2')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle3')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => $experimentation->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle3')
+            ]);
+        }
+        if (null !== $request->input('THEMALibelle4')) {
+            $res4 = DB::table('thematique_abordee')->insert([
+
+                'EXPCode' => $experimentation->EXPCode,
+                'THEMACode' => $request->input('THEMALibelle4')
+            ]);
+        }
 
         return redirect('/experimentation')->with("successModify", "L'experimentation' '$request->EXPTitre' a été mise à jour avec succès");
     }
@@ -404,25 +452,14 @@ class ExperimentationController extends Controller
      */
     public function delete(Experimentation $experimentation)
     {
-        if (Gate::denies('updateDelete-users')) {
+        if(Gate::denies('updateDelete-users') ) {
             return redirect()->route('goExperimentation');
         }
 
-        $nometab = $experimentation->EXPTitre;
+        $nomEXP = $experimentation->EXPTitre;
+        $experimentation->delete();
 
-        $res = DB::table('experimentation')->insert([
-
-            'EXPTitre' => $experimentation->EXPTitre,
-            'EXPLienInternet' => $experimentation->EXPLienInternet,
-            'EXPLienDrive' => $experimentation->EXPLienDrive,
-            'EXPDateDebut' => $experimentation->EXPDateDebut,
-            'ETABCode' => $experimentation->ETABCode,
-            'PALCode' => $experimentation->PALCode
-        ]);
-
-        $experimentation->delete($experimentation);
-
-        return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
+        return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
     }
 
     public function search()
@@ -483,8 +520,8 @@ class ExperimentationController extends Controller
             'e.EXPArchivage',
             'e.ETABCode',
             'e.PALCode',
-            't.THEMACode',
             'e.EXPCode',
+            'ta.THEMACode',
             'et.ETABNom as ETABNom',
             'te.TERRNom as TERRNom'
         )
@@ -496,9 +533,9 @@ class ExperimentationController extends Controller
             ->where('et.TERRCode', 'LIKE', "%$q%")
             ->Where('et.TYPCode', 'LIKE', "%$p%")
 
-            ->Where('ta.THEMACode', 'LIKE', "%$s%")->get();
+            ->Where('ta.THEMACode', 'LIKE', "%$s%")->distinct()->get();
 
-//ddd($experimentation);
+ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
     }
 
@@ -541,7 +578,7 @@ class ExperimentationController extends Controller
         //$porteurs = Porteur::all();
         // $personnelacads=Personnelacad::where('PACode', $accompagnements->PACode)->get();
         $porteurs = DB::table('porteur as p')->select(
-            'p.PORTCode as porteurID',
+            'p.PORTCode as PORTCode',
             'p.PORTNom',
             'p.PORTMail',
             'p.PORTTel',
@@ -554,7 +591,7 @@ class ExperimentationController extends Controller
             ->get();
 
         $personnelacads = DB::table('personnelacad as pe')->select(
-            'pe.PACode as personneID',
+            'pe.PACode as PACode',
             'pe.PANom',
             'pe.PAPrenom',
             'pe.PAMail',
@@ -614,22 +651,52 @@ class ExperimentationController extends Controller
             return redirect()->route('goExperimentation');
         }
 
+        $id = $experimentation->EXPCode;
         $nometab = $experimentation->EXPTitre;
 
-        $res = DB::table('experimentation')->insert([
+        $res = DB::table('experimentation')
+            ->where('EXPCode', '=', $id)
+            ->update(['EXPArchivage' => 1]);
 
-            'EXPTitre' => $experimentation->EXPTitre,
-            'EXPLienInternet' => $experimentation->EXPLienInternet,
-            'EXPLienDrive' => $experimentation->EXPLienDrive,
-            'EXPDateDebut' => $experimentation->EXPDateDebut,
-            'ETABCode' => $experimentation->ETABCode,
-            'PALCode' => $experimentation->PALCode
-        ]);
 
-        $experimentation->delete($experimentation);
-
-        return back()->with("successDelete", "L'experimentation' '$nometab' a été supprimé avec succèss");
+        return back()->with("successDelete", "L'experimentation' '$nometab' a été archivée avec succès");
     }
+
+    public function deleteporteur(Experimentation $experimentation, Porteur $porteur)
+    {
+        if(Gate::denies('updateDelete-users') ) {
+            return redirect()->route('goExperimentation');
+        }
+
+
+
+        $nomEXP = $porteur->PORTNom;
+
+
+
+        $res=Accompagnement::where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode','=',$experimentation->EXPCode)->delete();
+
+        return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
+    }
+
+    public function deletepersonnelacad(Experimentation $experimentation, Personnelacad $personnelacad)
+    {
+        if(Gate::denies('updateDelete-users') ) {
+            return redirect()->route('goExperimentation');
+        }
+
+
+
+        $nomEXP = $personnelacad->PORTNom;
+
+
+
+        $res=Accompagnement::where('PACode', '=', $personnelacad->PACode)->where('EXPCode','=',$experimentation->EXPCode)->delete();
+
+        return back()->with("successDelete", "L'accompagnateur' '$nomEXP' a été supprimé avec succèss");
+    }
+
+
 
 
 }

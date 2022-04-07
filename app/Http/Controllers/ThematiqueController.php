@@ -33,7 +33,7 @@ class ThematiqueController extends Controller
                 return redirect('/experimentation')->with("successAjout", "la thématique' '$request->THEMALibelle'a été ajoutée avec succès");
             }catch(QueryException $q){
 
-            return redirect('/thematique/ajouter')->with("echecAjout", "Veuillez saisir un nouveau code thématique different. Celui-ci existe déja !");
+            return redirect('/thematique/ajouter')->with("echecAjout", "Veuillez saisir un nouveau code thematique different. Celui-ci existe déja !");
 
         }
     }

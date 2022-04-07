@@ -34,6 +34,22 @@
                             </div><br />
                             @endif
 
+                                @if(session()->has("successDelete"))
+                                    <div class="alert alert-success">
+                                        <h3>{{session()->get('successDelete')}}</h3>
+                                    </div>
+                                @endif
+                                @if(session()->has("successAjout"))
+                                    <div class="alert alert-success">
+                                        <h3>{{session()->get('successAjout')}}</h3>
+                                    </div>
+                                @endif
+                                @if(session()->has("successModify"))
+                                    <div class="alert alert-success">
+                                        <h3>{{session()->get('successModify')}}</h3>
+                                    </div>
+                                @endif
+
 
                             <form method="get" action="{{route('goExperimentationAffichage',['experimentation'=>$experimentation->EXPCode])}}" position="center">
 
@@ -78,11 +94,11 @@
                                                 </table>
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-text">
-                                                             Modifier les informations de l'établissement
+                                                             Modifier les informations de l'experimentation
 
                                                             </i></a></td>
 
-                                                </div><br>
+                                                </div><br><br>
 
                                                 <br>
 
@@ -114,12 +130,26 @@
                                                         <td class="blog-post-title">{{$type->TYPNom}}</td>
                                                     </tr>
                                                     <tr>
+                                                        <th scope="row" class="pt-3-half"> Telephone d'établissement </th>
+                                                        <td class="blog-post-title">{{$etablissement->ETABTel}}</td>
+                                                    </tr>
+                                                    <tr>
                                                         <th scope="row" class="pt-3-half"> Chef d'établissement </th>
                                                         <td class="blog-post-title">{{$etablissement->ETABChef}}</td>
                                                     </tr>
 
 
                                                 </table>
+
+
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-file-earmark-text">
+                                                                Modifier les informations de l'établissement
+
+                                                            </i></a></td>
+
+                                                </div><br>
+                                                <br><br>
 
 
                                                 <h3 class="pb-3 mb-4 font-italic border-bottom">
@@ -139,9 +169,11 @@
                                                                 <th class="text-center"> Mail du porteur </th>
                                                                 <th class="text-center"> Téléphone du porteur </th>
                                                                 <th class="text-center"> Etablissement du porteur </th>
+                                                                <th class="text-center"></th>
+                                                                <th class="text-center"></th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <td>
                                                             @foreach($porteurs as $porteur)
 
                                                             <tr>
@@ -149,11 +181,26 @@
                                                                 <td class="pt-3-half"> {{$porteur->PORTMail}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTTel}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->ETABCode}}</td>
+                                                                <td class="pt-3-half"><a class="btn btn-light text-primary"  href="{{route('goPorteurModifier', ['porteur'=>$porteur->PORTCode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
+                                                                <td class="pt-3-half"><a href="#" class="btn btn-light text-danger"  onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteur->PORTCode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
+                                                                    <form id="{{$porteur->PORTCode}}" action="{{route('goExperimentationPorteurSupprimer',['experimentation'=>$experimentation->EXPCode,'porteur'=>$porteur->PORTCode])}}" method="post">
+                                                                        @csrf
+                                                                        <input type="hidden" name="_method" value="delete">
+                                                                    </form>
+                                                            </tr></td>
                                                             </tr>
                                                             @endforeach
                                                         </tbody>
                                                     </table>
                                                 </h3>
+
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterPorteur', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-person-plus">
+                                                                Ajouter un porteur de projet
+
+                                                            </i></a></td>
+
+                                                </div><br><br>
 
                                                 <h3 class="pb-3 mb-4 font-italic border-bottom">
 
@@ -170,8 +217,11 @@
                                                             <tr>
                                                                 <th class="text-center"> Accompagnateur de projet </th>
                                                                 <th class="text-center"> Mail de l'accompagnateur </th>
-                                                                <th class="text-center"> Téléphone de l'accompagnateur </'th>
-                                                                <th class="text-center"> Etablissement de l'accompagnateur </'th>
+                                                                <th class="text-center"> Téléphone de l'accompagnateur </th>
+                                                                <th class="text-center"> Etablissement de l'accompagnateur </th>
+                                                                <th class="text-center"></th>
+                                                                <th class="text-center"></th>
+
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -182,29 +232,28 @@
                                                                 <td class="pt-3-half"> {{$personnelacad->PAMail}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PATel}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->ETABCode}} </td>
-                                                            </tr>
+                                                                <td class="pt-3-half"><a class="btn btn-light text-primary"  href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
+                                                                <td class="pt-3-half"><a href="#" class="btn btn-light text-danger"  onclick="if(confirm('Voulez-vous vraiment supprimer cet accompagnateur ?')){document.getElementById('{{$personnelacad->PACode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
+                                                                    <form id="{{$personnelacad->PACode}}" action="{{route('goExperimentationPersonnelacadSupprimer',['experimentation'=>$experimentation->EXPCode,'personnelacad'=>$personnelacad->PACode])}}" method="post">
+                                                                        @csrf
+                                                                        <input type="hidden" name="_method" value="delete">
+                                                                    </form>
+                                                            </tr></td>
+
                                                             @endforeach
                                                         </tbody>
                                                     </table>
                                                 </h3>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}">
-                                                            Modifier
+                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterPersonnelacad', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-person-plus">
+                                                                Ajouter un accompagnateur de projet
 
-                                                        </a></td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cet experience ?')){document.getElementById('{{$experimentation->EXPCode}}').submit() }">
-                                                            Supprimer
+                                                            </i></a></td>
 
-                                                        </a>
-                                                        <form id="{{$experimentation->EXPCode}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentation->EXPCode])}}" method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="_method" value="delete">
-                                                        </form>
+                                                </div><br><br>
 
-                                                    </td>
-                                                </div><br>
+                                                <br>
 
                                                 <div class="flex-center position-ref -full-height">
 

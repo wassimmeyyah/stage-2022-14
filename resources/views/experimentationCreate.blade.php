@@ -153,7 +153,7 @@
                                                 <td>
                                                     <label for="THEMALibelle0"> Thématique : </label>
                                                     <select class="form-control" name="THEMALibelle0">
-                                                        <option value=""></option> @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach
+                                                        @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
@@ -169,7 +169,7 @@
                                         $('#addTH').click(function() {
                                             i++;
                                             if (i < 11) {
-                                                $('#dynamic_fieldTH').append('<tr id="row' + i + '"><td><select class="form-control" name="THEMALibelle' + i + '"> <option value=""></option> @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach </select></td><td><button  name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
+                                                $('#dynamic_fieldTH').append('<tr id="row' + i + '"><td><select class="form-control" name="THEMALibelle' + i + '">  @foreach($thematiques as $thematique) <option value="{{$thematique->THEMACode}}">{{$thematique->THEMALibelle}}</option> @endforeach </select></td><td><button  name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
                                             }
                                         });
                                         $(document).on('click', '.btn_remove', function() {
