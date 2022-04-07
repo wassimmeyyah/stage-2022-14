@@ -33,7 +33,11 @@
                                             @foreach($coordonnees as $coordonnee)
 
 
-                                            <gmap-marker :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" :clickable="true" :draggable="false" @click="infoWindowOpened = true"></gmap-marker>
+                                            <gmap-marker
+                                                :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}"
+                                                :clickable="true"
+                                                :draggable="false"
+                                                @click="infoWindowOpened = true"></gmap-marker>
                                             @endforeach
 
                                         </gmap-map>

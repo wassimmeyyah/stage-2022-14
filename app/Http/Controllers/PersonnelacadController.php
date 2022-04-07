@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use PDF;
 use Illuminate\Http\Request;
 
@@ -120,20 +121,22 @@ class PersonnelacadController extends Controller
 
 
 
+        $res = DB::table('personnelacad')->where('PACode', '=', $personnelacad->PACode)
+            ->update([
 
-        $personnelacad->delete($personnelacad);
 
-        $personnelacad->insert([
-            'PACode' => $request->input('PACode'),
-            'PANom' => $request->input('PANom'),
-            'PAPrenom' => $request->input('PAPrenom'),
-            'PAMail' => $request->input('PAMail'),
-            'PADiscipline' => $request->input('PADiscipline'),
-            'PAAdressePerso' => $request->input('PAAdressePerso'),
-            'PATel' => $request->input('PATel'),
-            'PAFonction' => $request->input('PAFonction'),
-            'ETABCode' => $request->input('ETABCode')
-        ]);
+                'PANom' => $request->input('PANom'),
+                'PAPrenom' => $request->input('PAPrenom'),
+                'PAMail' => $request->input('PAMail'),
+                'PADiscipline' => $request->input('PADiscipline'),
+                'PAAdressePerso' => $request->input('PAAdressePerso'),
+                'PATel' => $request->input('PATel'),
+                'PAFonction' => $request->input('PAFonction'),
+                'ETABCode' => $request->input('ETABCode')
+            ]);
+
+
+
 
         return redirect('/personnelacad')->with("successModify", "La personne' '$request->PANom' a été mise à jour avec succès");
     }
@@ -146,14 +149,17 @@ class PersonnelacadController extends Controller
      */
     public function delete(Personnelacad $personnelacad)
     {
-        if(Gate::denies('updateDelete-users') ) {
+        if (Gate::denies('updateDelete-users')) {
             return redirect()->route('goPersonnelacad');
         }
+        try {
+            $nomPA = $personnelacad->PANom;
+            $personnelacad->delete();
 
-        $nomPA = $personnelacad->PANom;
-        $personnelacad->delete();
-
-        return back()->with("successDelete", "La personne' '$nomPA' a été supprimée avec succèss");
+            return back()->with("successDelete", "L'accompagnateur'' '$nomPA' a été supprimée avec succèss");
+        } catch (QueryException $q) {
+            return back()->with("successDelete", "L'accompagnateur ne peut être supprimé car il est l'accompagnateur d'une experimentation ");
+        }
     }
 
     public function search(){

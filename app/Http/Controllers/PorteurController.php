@@ -9,6 +9,7 @@ use App\Models\Porteur;
 use Barryvdh\DomPDF\PDF;
 use App\Models\Specialite;
 use App\Models\Territoire;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
@@ -117,15 +118,17 @@ class PorteurController extends Controller
      */
     public function update(Request $request, porteur $porteur)
     {
-        $porteur->delete($porteur);
 
-        $porteur->insert([
-            'PORTCode' => $request->input('PORTCode'),
-            'PORTNom' => $request->input('PORTNom'),
-            'PORTMail' => $request->input('PORTMail'),
-            'PORTTel' => $request->input('PORTTel'),
-            'ETABCode' => $request->input('ETABCode')
-        ]);
+
+        $res = DB::table('porteur')->where('PORTCode', '=', $porteur->PORTCode)
+            ->update([
+
+
+                'PORTNom' => $request->input('PORTNom'),
+                'PORTMail' => $request->input('PORTMail'),
+                'PORTTel' => $request->input('PORTTel'),
+                'ETABCode' => $request->input('ETABCode')
+            ]);
 
         return redirect('/porteur')->with("successModify", "Le porteur' '$request->PORTNom' a été mis à jour avec succès");
     }
@@ -141,11 +144,14 @@ class PorteurController extends Controller
         if(Gate::denies('updateDelete-users') ) {
             return redirect()->route('goPorteur');
         }
+        try {
+            $nomPORT = $porteur->PORTNom;
+            $porteur->delete();
 
-        $nomPORT = $porteur->PORTNom;
-        $porteur->delete();
-
-        return back()->with("successDelete", "Le porteur' '$nomPORT' a été supprimé avec succèss");
+            return back()->with("successDelete", "Le porteur' '$nomPORT' a été supprimé avec succèss");
+        } catch (QueryException $q) {
+            return back()->with("successDelete", "Ce porteur ne peut être supprimé car il est le porteur d'une expérimentation");
+        }
     }
 
     public function search(){

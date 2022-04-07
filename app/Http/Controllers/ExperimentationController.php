@@ -172,6 +172,12 @@ class ExperimentationController extends Controller
                 'PALCode' => $request->input('PALCode')
             ]);
 
+            $res = DB::table('coordonnees')->insert([
+                'COORDLatitudeLongitude' => "45.74837173982651, 4.83702637056378",
+                'COORDLatitude' => "45.74837173982651",
+                'COORDLongitude' => "4.83702637056378"
+            ]);
+
             $res2 = DB::table('etablissement')->insert([
                 'ETABCode' => $request->input('ETABCode'),
                 'ETABNom' => $request->input('ETABNom'),
@@ -182,7 +188,8 @@ class ExperimentationController extends Controller
                 'TERRCode' => $request->input('TERRCode'),
                 'TYPCode' => $request->input('TYPCode'),
                 'SPECode' => $request->input('SPECode'),
-                'VILCode' => $request->input('VILCode')
+                'VILCode' => $request->input('VILCode'),
+                'COORDCode' => DB::table('coordonnees')->latest('COORDCode')->limit(1)->first()->COORDCode
             ]);
 
             if (null !== $request->input('PORTNom0')) {
@@ -810,13 +817,13 @@ class ExperimentationController extends Controller
         try{
         $nomEXP = $porteur->PORTNom;
 
-        //ddd($porteur->PORTCode);
+        ddd(DB::table('accompagnement1')->where('PORTCode', $porteur->PORTCode)->where('EXPCode',  $experimentation->EXPCode));
         $res4 = DB::table('accompagnement3')->insert([
 
             'EXPCode' => $experimentation->EXPCode,
             'PORTCode' => $porteur->PORTCode,
         ]);
-        $res = DB::table('accompagnement1')->where('PORTCode', '=', $porteur->PORTCode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
+        $res = DB::table('accompagnement1')->where('PORTCode', $porteur->PORTCode)->where('EXPCode',  $experimentation->EXPCode)->delete();
 
 
 

@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     <label for="TERRCode">Departement :</label>
                                     <select class="form-control" name="TERRCode">
-                                        <option value=""></option>
+
                                         @foreach($territoires as $territoire)
                                         <option value="{{$territoire->TERRCode}}">{{$territoire->TERRNom}}</option>
                                         @endforeach
@@ -82,7 +82,7 @@
                                 <div class="form-group">
                                     <label for="TYPCode">Type de l'etablissement :</label>
                                     <select class="form-control" name="TYPCode">
-                                        <option value=""></option>
+
                                         @foreach($types as $type)
                                         <option value="{{$type->TYPCode}}">{{$type->TYPNom}}</option>
                                         @endforeach
@@ -91,7 +91,7 @@
                                 <div class="form-group">
                                     <label for="SPECode">Spécialité de l'etablissement :</label>
                                     <select class="form-control" name="SPECode">
-                                        <option value=""></option>
+
                                         @foreach($specialites as $specialite)
                                         <option value="{{$specialite->SPECode}}">{{$specialite->SPENom}}</option>
                                         @endforeach
@@ -100,7 +100,7 @@
                                 <div class="form-group">
                                     <label for="VILCode">Ville de l'etablissement :</label>
                                     <select class="form-control" name="VILCode">
-                                        <option value=""></option>
+
                                         @foreach($villes as $ville)
                                         <option value="{{$ville->VILCode}}">{{$ville->VILNom}}</option>
                                         @endforeach

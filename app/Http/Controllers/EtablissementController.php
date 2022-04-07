@@ -93,6 +93,15 @@ class EtablissementController extends Controller
         $villes = Ville::all();
 
         try{
+
+            $res = DB::table('coordonnees')->insert([
+                'COORDLatitudeLongitude' => "45.74837173982651, 4.83702637056378",
+                'COORDLatitude' => "45.74837173982651",
+                'COORDLongitude' => "4.83702637056378"
+            ]);
+
+            //ddd(DB::table('coordonnees')->latest('COORDCode')->limit(1)->first()->COORDCode);
+
             $res = DB::table('etablissement')->insert([
                 'ETABCode' => $request->input('ETABCode'),
                 'ETABNom' => $request->input('ETABNom'),
@@ -103,14 +112,19 @@ class EtablissementController extends Controller
                 'TERRCode' => $request->input('TERRCode'),
                 'TYPCode' => $request->input('TYPCode'),
                 'SPECode' => $request->input('SPECode'),
-                'VILCode' => $request->input('VILCode')
+                'VILCode' => $request->input('VILCode'),
+                'COORDCode' => DB::table('coordonnees')->latest('COORDCode')->limit(1)->first()->COORDCode
+
             ]);
+
+
+
             return redirect('/etablissement')->with("successAjout", "l'etablissement' '$request->ETABNom'a été ajouté avec succès");
 
-        }
-                catch(QueryException $q){
-                    return redirect('/etablissement/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
-        }
+            }
+                    catch(QueryException $q){
+              return redirect('/etablissement/ajouter')->with("echecAjout", "Veuillez saisir un numero RNE qui n'existe pas déja");
+            }
 
     }
 
@@ -140,7 +154,23 @@ class EtablissementController extends Controller
         $villes = Ville::all();
 
         $etablissement = Etablissement::findOrFail($id);
-        return view('etablissementUpdate', compact("etablissement", 'territoires', 'types', 'specialites', 'villes'));
+
+        $coordonnees = DB::table('coordonnees as c')->select(
+            'c.COORDCode as COORDCode',
+            'c.COORDLatitude as COORDLatitude',
+            'c.COORDLongitude as COORDLongitude',
+            'e.ETABCode'
+        )
+
+
+            ->leftjoin('etablissement as e', 'e.COORDCode', '=', 'c.COORDCode')
+
+            ->where('e.ETABCode', $id)
+            ->first();
+
+        //ddd($coordonnees->COORDLatitude);
+
+        return view('etablissementUpdate', compact("etablissement", 'territoires', 'types', 'specialites', 'villes','coordonnees'));
     }
 
     /**
@@ -152,10 +182,19 @@ class EtablissementController extends Controller
      */
     public function update(Request $request, Etablissement $etablissement)
     {
-        $etablissement->delete($etablissement);
 
-        $etablissement->insert([
-            'ETABCode' => $request->input('ETABCode'),
+
+
+        $res = DB::table('coordonnees')->where('COORDCode', '=', $etablissement->COORDCode)
+            ->update([
+
+
+                'COORDLatitude' => $request->input('COORDLatitude'),
+                'COORDLongitude' => $request->input('COORDLongitude')
+            ]);
+
+        $res = DB::table('etablissement')->where('ETABCode', '=', $etablissement->ETABCode)
+            ->update([
             'ETABNom' => $request->input('ETABNom'),
             'ETABMail' => $request->input('ETABMail'),
             'ETABChef' => $request->input('ETABChef'),
@@ -164,8 +203,10 @@ class EtablissementController extends Controller
             'TERRCode' => $request->input('TERRCode'),
             'TYPCode' => $request->input('TYPCode'),
             'SPECode' => $request->input('SPECode'),
-            'VILCode' => $request->input('VILCode')
+            'VILCode' => $request->input('VILCode'),
         ]);
+
+
 
         return redirect('/etablissement')->with("successModify", "L'etablissement' '$request->ETABNom' a été mis à jour avec succès");
     }

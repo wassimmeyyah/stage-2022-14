@@ -119,6 +119,20 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <br><br>
+
+                                    <label ><i><strong>Coordonnées GPS </strong>: Les coordonnées par défaut sont celles du rectorat de l'académie de Lyon. </i></label>
+                                    <br><br>
+                                    <div class="card-group">
+                                        <div class="card-group col-md-5">
+                                            <label for="COORDLatitude">Coordonnées GPS : Latitude de l'etablissement </label>
+                                            <input type="text" class="form-control" placeholder="{{$coordonnees->COORDLatitude}}" value="{{$coordonnees->COORDLatitude}}" name="COORDLatitude" />
+                                        </div>
+                                        <div class="card-group col-md-5">
+                                            <label for="COORDLongitude">Coordonnées GPS : Longitude de l'etablissement</label>
+                                            <input type="text" class="form-control" placeholder="{{$coordonnees->COORDLongitude}}" value="{{$coordonnees->COORDLongitude}}" name="COORDLongitude" />
+                                        </div>
+                                    </div>
                                     <br>
                                     <button class="btn btn-light text-primary">Modifier</button>
                                     <a class="btn btn-danger" href="{{route('goEtablissement')}}">Annuler</a>
