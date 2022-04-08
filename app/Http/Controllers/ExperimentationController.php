@@ -821,7 +821,7 @@ class ExperimentationController extends Controller
         }
 
 
-        //try{
+        try{
         $nomEXP = $porteur->PORTNom;
 
         //ddd(DB::table('accompagnement1')->where('PORTCode', $porteur->PORTCode)->where('EXPCode',  $experimentation->EXPCode));
@@ -835,9 +835,9 @@ class ExperimentationController extends Controller
 
 
         return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
-//        } catch (QueryException $q) {
-//            return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
-//        }
+            } catch (QueryException $q) {
+                return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
+            }
 
     }
 

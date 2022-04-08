@@ -82,7 +82,7 @@
         <h3>
             Accompagnateur : {{$personnelacad->PANom}}
         </h3>
-        <img src="C:\Users\wassi\Desktop\Stage final\public\Image\imageacad2.jpg" width="320" height="190" alt />
+        <img src="C:\Users\33662\PhpstormProjects\stage-2022-18\public\Image\imageacad2.jpg" width="320" height="190" alt />
 
         <br>
 
