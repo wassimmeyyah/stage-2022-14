@@ -67,7 +67,7 @@
                                                 <div class="mb-1 text-muted"> Numero de telephone : {{$porteurs->PORTTel}}</div>
                                                 <p class="card-text mb-auto">Adresse Mail : {{$porteurs->PORTMail}}</p>
 
-                                                <td><a href="{{route('goPorteurAffichage', ['porteur'=>$porteurs->PORTCode])}}">Voir plus </a></td><br>
+                                                <td><a href="{{route('goPorteurAffichage', ['porteur'=>$porteurs->PORTCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary"  href="{{route('goPorteurModifier', ['porteur'=>$porteurs->PORTCode])}}">
                                                             Modifier

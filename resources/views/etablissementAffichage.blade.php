@@ -81,6 +81,7 @@
                                         </tr>
 
                                     </table>
+                                    @can('updateDelete-users')
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <td><br><a class="btn btn-light text-primary" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-file-earmark-text">
                                                     Modifier les informations de l'établissement
@@ -88,6 +89,7 @@
                                                 </i></a>
                                         </td>
                                     </div>
+                                    @endcan
                                     <div class="content">
                                         <br>
                                         <center>
@@ -103,7 +105,7 @@
                                                         <h2>{{$etablissement->ETABNom}}</h2>
                                                         <h5>{{$etablissement->ETABMail}}</h5>
                                                         <h5>{{$etablissement->ETABTel}}</h5>
-                                                        <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}">Voir plus </a></h5>
+                                                        <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></h5>
 
                                                     </div>
 

@@ -66,7 +66,7 @@
                                                 <div class="mb-1 text-muted">Date de debut {{$experimentations->EXPDateDebut}}</div>
                                                 <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentations->EXPLienDrive}}">{{$experimentations->EXPLienDrive}}</a><br>
 
-                                                <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->EXPCode])}}">Voir plus </a></td><br>
+                                                <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentations->EXPCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @if($experimentations->EXPArchivage == 0)

@@ -34,26 +34,26 @@
                             </div><br />
                             @endif
 
-                                @if(session()->has("successDelete"))
-                                    <div class="alert alert-success">
-                                        <h3>{{session()->get('successDelete')}}</h3>
-                                    </div>
-                                @endif
-                                @if(session()->has("successDelete2"))
-                                    <div class="alert alert-success">
-                                        <h3>{{session()->get('successDelete2')}}</h3>
-                                    </div>
-                                @endif
-                                @if(session()->has("successAjout"))
-                                    <div class="alert alert-success">
-                                        <h3>{{session()->get('successAjout')}}</h3>
-                                    </div>
-                                @endif
-                                @if(session()->has("successModify"))
-                                    <div class="alert alert-success">
-                                        <h3>{{session()->get('successModify')}}</h3>
-                                    </div>
-                                @endif
+                            @if(session()->has("successDelete"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successDelete')}}</h3>
+                            </div>
+                            @endif
+                            @if(session()->has("successDelete2"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successDelete2')}}</h3>
+                            </div>
+                            @endif
+                            @if(session()->has("successAjout"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successAjout')}}</h3>
+                            </div>
+                            @endif
+                            @if(session()->has("successModify"))
+                            <div class="alert alert-success">
+                                <h3>{{session()->get('successModify')}}</h3>
+                            </div>
+                            @endif
 
 
                             <form method="get" action="{{route('goExperimentationAffichage',['experimentation'=>$experimentation->EXPCode])}}" position="center">
@@ -97,13 +97,16 @@
                                                         <td class="blog-post-title"> <a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a></td>
                                                     </tr>
                                                 </table>
+                                                @can('updateDelete-users')
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationModifier', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-text">
-                                                             Modifier les informations de l'experimentation
+                                                                Modifier les informations de l'experimentation
 
                                                             </i></a></td>
 
-                                                </div><br><br>
+                                                </div>
+                                                @endcan
+                                                <br><br>
 
                                                 <br>
 
@@ -146,16 +149,17 @@
 
                                                 </table>
 
-
+                                                @can('updateDelete-users')
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goEtablissementModifier', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-file-earmark-text">
                                                                 Modifier les informations de l'établissement
 
                                                             </i></a></td>
 
-                                                </div><br>
-                                                <br><br>
-
+                                                </div>
+                                                @endcan
+                                                <br>
+                                                <br>
 
                                                 <h3 class="pb-3 mb-4 font-italic border-bottom">
 
@@ -175,25 +179,30 @@
                                                                 <th class="text-center"> Mail du porteur </th>
                                                                 <th class="text-center"> Téléphone du porteur </th>
                                                                 <th class="text-center"> Etablissement du porteur </th>
+                                                                @can('updateDelete-users')
                                                                 <th class="text-center"></th>
                                                                 <th class="text-center"></th>
+                                                                @endcan
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @foreach($porteurs as $porteur)
 
                                                             <tr>
-                                                                <td class="pt-3-half"><a class="btn btn-light text-success"  href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}"><i class="bi bi-person-check-fill"></i></a></td>
+                                                                <td class="pt-3-half"><a class="btn btn-light text-success" href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}"><i class="bi bi-person-check-fill"></i></a></td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTNom}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTMail}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->PORTTel}} </td>
                                                                 <td class="pt-3-half"> {{$porteur->ETABCode}}</td>
-                                                                <td class="pt-3-half"><a class="btn btn-light text-primary"  href="{{route('goPorteurModifier', ['porteur'=>$porteur->PORTCode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
-                                                                <td class="pt-3-half"><a href="#" class="btn btn-light text-danger"  onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteur->PORTCode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
+                                                                @can('updateDelete-users')
+                                                                <td class="pt-3-half"><a class="btn btn-light text-primary" href="{{route('goPorteurModifier', ['porteur'=>$porteur->PORTCode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
+                                                                <td class="pt-3-half"><a href="#" class="btn btn-light text-danger" onclick="if(confirm('Voulez-vous vraiment supprimer ce porteur ?')){document.getElementById('{{$porteur->PORTCode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
                                                                     <form id="{{$porteur->PORTCode}}" action="{{route('goExperimentationPorteurSupprimer',['experimentation'=>$experimentation->EXPCode,'porteur'=>$porteur->PORTCode])}}" method="post">
                                                                         @csrf
                                                                         <input type="hidden" name="_method" value="delete">
-                                                                    </form></td>
+                                                                    </form>
+                                                                </td>
+                                                                @endcan
                                                             </tr>
 
 
@@ -202,13 +211,16 @@
                                                     </table>
                                                 </h3>
 
+                                                @can('updateDelete-users')
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterPorteur', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-person-plus">
                                                                 Ajouter un ou des porteurs de projet
 
                                                             </i></a></td>
 
-                                                </div><br><br>
+                                                </div>
+                                                @endcan
+                                                <br><br>
 
                                                 <h3 class="pb-3 mb-4 font-italic border-bottom">
 
@@ -229,8 +241,10 @@
                                                                 <th class="text-center"> Téléphone de l'accompagnateur </th>
                                                                 <th class="text-center"> Discipline de l'accompagnateur </th>
                                                                 <th class="text-center"> Fonction de l'accompagnateur </th>
+                                                                @can('updateDelete-users')
                                                                 <th class="text-center"></th>
                                                                 <th class="text-center"></th>
+                                                                @endcan
 
                                                             </tr>
                                                         </thead>
@@ -238,115 +252,130 @@
                                                             @foreach($personnelacads as $personnelacad)
 
                                                             <tr>
-                                                                <td class="pt-3-half"><a class="btn btn-light text-success"  href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-check-fill"></i></a></td>
+                                                                <td class="pt-3-half"><a class="btn btn-light text-success" href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-check-fill"></i></a></td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PAPrenom}} {{$personnelacad->PANom}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PAMail}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PATel}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PADiscipline}} </td>
                                                                 <td class="pt-3-half"> {{$personnelacad->PAFonction}} </td>
-                                                                <td class="pt-3-half"><a class="btn btn-light text-primary"  href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
-                                                                <td class="pt-3-half"><a href="#" class="btn btn-light text-danger"  onclick="if(confirm('Voulez-vous vraiment supprimer cet accompagnateur ?')){document.getElementById('{{$personnelacad->PACode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
+                                                                @can('updateDelete-users')
+                                                                <td class="pt-3-half"><a class="btn btn-light text-primary" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-person-lines-fill"></i></a></td>
+                                                                <td class="pt-3-half"><a href="#" class="btn btn-light text-danger" onclick="if(confirm('Voulez-vous vraiment supprimer cet accompagnateur ?')){document.getElementById('{{$personnelacad->PACode}}').submit() }"><i class="bi bi-person-x-fill"></i></a>
+
                                                                     <form id="{{$personnelacad->PACode}}" action="{{route('goExperimentationPersonnelacadSupprimer',['experimentation'=>$experimentation->EXPCode,'personnelacad'=>$personnelacad->PACode])}}" method="post">
                                                                         @csrf
                                                                         <input type="hidden" name="_method" value="delete">
                                                                     </form>
-                                                            </tr></td>
+                                                                </td>
+                                                                @endcan
+                                                            </tr>
+                                                            </td>
 
                                                             @endforeach
                                                         </tbody>
                                                     </table>
                                                 </h3>
 
+                                                @can('updateDelete-users')
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterPersonnelacad', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-person-plus">
                                                                 Ajouter un ou des accompagnateurs de projet
 
                                                             </i></a></td>
 
-                                                </div><br><br><br>
+                                                </div>
+                                                @endcan
+                                                <br><br><br>
 
                                                 <h3 class="pb-3 mb-4 font-italic border-bottom">
 
-                                                <center>
-                                                    <i>Document(s) du projet</i>
-                                                </center>
-
-                                                <br>
-
-                                                <table class="table table-bordered table-responsive-md table-striped text-center">
-                                                    <tr>
-                                                        <th scope="row" class="pt-3-half"> Lien du contrat d'accompagnement </th>
-                                                        <td class="pt-3-half"><a class="card-text mb-auto" href="{{$experimentation->ContratACLien}}">{{$experimentation->ContratACLien}}</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="pt-3-half"> Lien du livret d'accompagnement </th>
-                                                        <td class="blog-post-title"><a class="card-text mb-auto" href="{{$experimentation->LivretACLien}}">{{$experimentation->LivretACLien}}</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="pt-3-half"> Lien du dernier document de suivi </th>
-                                                        <td class="blog-post-title"><a class="card-text mb-auto" href="{{$experimentation->EXPDernierDocLien}}">{{$experimentation->EXPDernierDocLien}}</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" class="pt-3-half"> Date du dernier document de suivi </th>
-                                                        <td class="blog-post-title"><a class="card-text mb-auto">{{$experimentation->EXPDernierDocDate}}</a></td>
-                                                    </tr>
-
-
-
-
-                                                </table>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterDocument', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-arrow-up">
-                                                                Ajouter ou modifier les documents de suivi
-
-                                                            </i></a></td>
-
-                                                </div><br><br>
-
-                                                <br>
-
-                                                    <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des porteurs de projets : </i></strong> @foreach($porteur2s as $porteur)<a href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}"><td class="pt-3-half"  ><i class="bi bi-person-check-fill">  {{$porteur->PORTNom}} - </i></td></a>@endforeach
-                                                    <br>
-                                                    <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des accompagnateurs de projets : </i></strong> @foreach($personnelacad2s as $personnelacad)<a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><td class="pt-3-half" ><i class="bi bi-person-check-fill"> {{$personnelacad->PANom}} - </i></td></a>@endforeach
-
-
-                                                <div class="flex-center position-ref -full-height">
-
-
-                                                    <br>
-
                                                     <center>
-                                                        <i>Emplacement de l'établissement</i>
+                                                        <i>Document(s) du projet</i>
                                                     </center>
 
                                                     <br>
 
-                                                    <div class="map" id="app">
-                                                        <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 100%; height: 350px;">
+                                                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                                                        <tr>
+                                                            <th scope="row" class="pt-3-half"> Lien du contrat d'accompagnement </th>
+                                                            <td class="pt-3-half"><a class="card-text mb-auto" href="{{$experimentation->ContratACLien}}">{{$experimentation->ContratACLien}}</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="pt-3-half"> Lien du livret d'accompagnement </th>
+                                                            <td class="blog-post-title"><a class="card-text mb-auto" href="{{$experimentation->LivretACLien}}">{{$experimentation->LivretACLien}}</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="pt-3-half"> Lien du dernier document de suivi </th>
+                                                            <td class="blog-post-title"><a class="card-text mb-auto" href="{{$experimentation->EXPDernierDocLien}}">{{$experimentation->EXPDernierDocLien}}</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="pt-3-half"> Date du dernier document de suivi </th>
+                                                            <td class="blog-post-title"><a class="card-text mb-auto">{{$experimentation->EXPDernierDocDate}}</a></td>
+                                                        </tr>
 
-                                                            <gmap-info-window :options="infoWindowOptions" :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" @closeclick="infoWindowOpened=false">
 
-                                                                <div class="info-window">
-                                                                    <h2>{{$etablissement->ETABNom}}</h2>
-                                                                    <h5>{{$etablissement->ETABMail}}</h5>
-                                                                    <h5>{{$etablissement->ETABTel}}</h5>
-                                                                    <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}">Voir plus </a></h5>
 
-                                                                </div>
 
-                                                            </gmap-info-window>
+                                                    </table>
+                                                    @can('create-users')
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <td><br><a class="btn btn-light text-primary" href="{{route('goExperimentationAjouterDocument', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-arrow-up">
+                                                                    Ajouter ou modifier les documents de suivi
 
-                                                            <gmap-marker :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" :clickable="true" :draggable="false" @click="infoWindowOpened = true"></gmap-marker>
-
-                                                        </gmap-map>
-                                                        <br>
-                                                        <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-pdf"> Telecharger en PDF</i></a>
-
+                                                                </i></a></td>
 
                                                     </div>
+                                                    @endcan
+                                                    <br><br>
 
-                                                </div>
-                                                <script src="{{mix('js/app.js')}}"></script>
+                                                    <br>
+
+                                                    <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des porteurs de projets : </i></strong> @foreach($porteur2s as $porteur)<a href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}">
+                                                        <td class="pt-3-half"><i class="bi bi-person-check-fill"> {{$porteur->PORTNom}} - </i></td>
+                                                    </a>@endforeach
+                                                    <br>
+                                                    <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des accompagnateurs de projets : </i></strong> @foreach($personnelacad2s as $personnelacad)<a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}">
+                                                        <td class="pt-3-half"><i class="bi bi-person-check-fill"> {{$personnelacad->PANom}} - </i></td>
+                                                    </a>@endforeach
+
+
+                                                    <div class="flex-center position-ref -full-height">
+
+
+                                                        <br>
+
+                                                        <center>
+                                                            <i>Emplacement de l'établissement</i>
+                                                        </center>
+
+                                                        <br>
+
+                                                        <div class="map" id="app">
+                                                            <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 100%; height: 350px;">
+
+                                                                <gmap-info-window :options="infoWindowOptions" :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" @closeclick="infoWindowOpened=false">
+
+                                                                    <div class="info-window">
+                                                                        <h2>{{$etablissement->ETABNom}}</h2>
+                                                                        <h5>{{$etablissement->ETABMail}}</h5>
+                                                                        <h5>{{$etablissement->ETABTel}}</h5>
+                                                                        <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></h5>
+
+                                                                    </div>
+
+                                                                </gmap-info-window>
+
+                                                                <gmap-marker :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}" :clickable="true" :draggable="false" @click="infoWindowOpened = true"></gmap-marker>
+
+                                                            </gmap-map>
+                                                            <br>
+                                                            <a id="id3" class="btn btn-secondary btn-sm" href="{{route("goExperimentationPDF", ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-file-earmark-pdf"> Telecharger en PDF</i></a>
+
+
+                                                        </div>
+
+                                                    </div>
+                                                    <script src="{{mix('js/app.js')}}"></script>
                                             </div>
                                         </div>
                                     </div>

@@ -22,7 +22,7 @@
         {{$archives->links()}}
         <p align="center">
             @can('manage-users')
-            <a class="btn btn-light text-primary " type="button" href="{{route('goThematiqueAjouter')}}">
+            <a class="btn btn-light text-primary" type="button" href="{{route('goThematiqueAjouter')}}">
                 Ajouter une thématique
             </a>
             @endcan
@@ -110,7 +110,7 @@
                         <div class="mb-1 text-muted">Date de debut {{$archive->EXPDateDebut}}</div>
                         <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$archive->EXPLienDrive}}">{{$archive->EXPLienDrive}}</a><br>
 
-                        <td><a href="{{route('goArchiveAffichage', ['archive'=>$archive->EXPCode])}}">Voir plus </a></td><br>
+                        <td><a href="{{route('goArchiveAffichage', ['archive'=>$archive->EXPCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
 
                     </div>
 

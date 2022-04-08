@@ -78,7 +78,7 @@
                                                 <div class="mb-1 text-muted"> Numero RNE : {{$etablissement->getKey()}}</div>
                                                 <p class="card-text mb-auto">Adresse Mail de l'etablissement : {{$etablissement->ETABMail}}</p>
 
-                                                <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}">Voir plus </a></td><br>
+                                                <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissement->ETABCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @can('updateDelete-users')

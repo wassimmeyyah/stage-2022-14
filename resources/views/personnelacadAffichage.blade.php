@@ -82,6 +82,7 @@
 
 
                                     </table>
+                                    @can('updateDelete-users')
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <td><br><a class="btn btn-light text-primary" href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-file-earmark-text">
                                                     Modifier les informations de l'accompagnateur
@@ -89,6 +90,7 @@
                                                 </i></a>
                                         </td>
                                     </div>
+                                    @endcan
                                     <div class="content">
 
                                     </div>

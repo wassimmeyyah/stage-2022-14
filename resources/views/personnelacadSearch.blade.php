@@ -70,7 +70,7 @@
                                                 <div class="mb-1 text-muted"> {{$personnelacads->PADiscipline}}</div>
                                                 <p class="card-text mb-auto">{{$personnelacads->PATel}}</p>
 
-                                                <td><a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacads->PACode])}}">Voir plus </a></td><br>
+                                                <td><a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacads->PACode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><a class="btn btn-light text-primary"  href="{{route('goPersonnelacadModifier', ['personnelacad'=>$personnelacads->PACode])}}">

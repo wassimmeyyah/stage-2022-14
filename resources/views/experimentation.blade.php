@@ -128,7 +128,7 @@
                                                 <div class="mb-1 text-muted">Date de debut {{$experimentation->EXPDateDebut}}</div>
                                                 <p class="card-text mb-auto">Lien du drive : </p><a class="card-text mb-auto" href="{{$experimentation->EXPLienDrive}}">{{$experimentation->EXPLienDrive}}</a><br>
 
-                                                <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i></a></td><br>
+                                                <td><a href="{{route('goExperimentationAffichage', ['experimentation'=>$experimentation->EXPCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </i></a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @can('updateDelete-users')

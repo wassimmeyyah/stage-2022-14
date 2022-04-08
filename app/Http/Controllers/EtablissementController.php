@@ -53,7 +53,7 @@ class EtablissementController extends Controller
             ->leftjoin('etablissement as e', 'e.COORDCode', '=', 'c.COORDCode')->distinct()
             ->get();
 
-        //ddd($coordonnees);
+         // ddd($coordonnees);
 
 
         return view("carte", ["etablissements" => $etablissements], compact('coordonnees'));

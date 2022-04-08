@@ -73,7 +73,7 @@
                                                 <div class="mb-1 text-muted"> {{$personnelacad->PADiscipline}}</div>
                                                 <p class="card-text mb-auto">{{$personnelacad->PATel}}</p>
 
-                                                <td><a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}">Voir plus </a></td><br>
+                                                <td><a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     @can('updateDelete-users')

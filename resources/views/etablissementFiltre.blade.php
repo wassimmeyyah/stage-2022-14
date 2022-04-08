@@ -67,7 +67,7 @@
                                                 <div class="mb-1 text-muted"> Numero RNE : {{$etablissements->getKey()}}</div>
                                                 <p class="card-text mb-auto">Adresse Mail de l'etablissement : {{$etablissements->ETABMail}}</p>
 
-                                                <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissements->ETABCode])}}">Voir plus </a></td><br>
+                                                <td><a href="{{route('goEtablissementAffichage', ['etablissement'=>$etablissements->ETABCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></td><br>
 
                                                 <div class="btn-group" role="group" aria-label="Basic example">
                                                     <td><br><a class="btn btn-light text-primary class=pull-left"  href="{{route('goEtablissementModifier', ['etablissement'=>$etablissements->ETABCode])}}">Modifier</a></td>

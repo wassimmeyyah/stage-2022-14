@@ -41,7 +41,7 @@
                                                 <div class="info-window">
                                                     <h2>{{$coordonnee->ETABNom}}</h2>
                                                     <h5>{{$coordonnee->ETABCode}}</h5>
-                                                    <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$coordonnee->ETABCode])}}">Voir plus </a></h5>
+                                                    <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$coordonnee->ETABCode])}}"><i class="bi bi-arrow-right-circle"> Voir plus </i> </a></h5>
 
                                                 </div>
 
