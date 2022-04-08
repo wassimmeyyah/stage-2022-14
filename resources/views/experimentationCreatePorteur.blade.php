@@ -126,50 +126,7 @@
                                 });
                             </script>
 
-                            <div class="group-form" name="add_porteur" id="add_porteur">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dynamic_fieldAP">
-                                        <tr>
-                                            <td>
-                                                <label for="PANom2">Ou des porteur(s) déja existant(s) </label>
-                                                <select class="form-control" name="PANom3">
-                                                    <option value=""></option> @foreach($porteurs as $porteur) <option value="{{$porteur->PORTCode}}">{{$porteur->PORTNom}}</option> @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <button type="button" name="addAP" id="addAP" class="btn btn-light text-primary">Ajouter un porteur</button>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
 
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    var i = 2;
-                                    $('#addAP').click(function() {
-                                        i++;
-                                        if (i < 4) {
-                                            $('#dynamic_fieldAP').append('<tr id="row' + i + '"><td><select class="form-control" name="PORTNom' + i + '"> <option value=""></option> @foreach($porteurs as $porteur) <option value="{{$porteur->PORTCode}}">{{$porteur->PORTNom}}</option> @endforeach </select></td><td><button  name="remove" id="' + i + '"class="btn btn-danger btn_remove">X</button></td></tr>');
-                                        }
-                                    });
-                                    $(document).on('click', '.btn_remove', function() {
-                                        var button_id = $(this).attr('id');
-                                        $('#row' + button_id + '').remove();
-                                    });
-                                    $('submit').click(function() {
-                                        $.ajax({
-                                            url: "back.php",
-                                            method: "POST",
-                                            data: $('#add_porteur').serialize(),
-                                            success: function(data) {
-                                                alert(data);
-                                                $('#add_porteur')[0].reset();
-                                            }
-                                        });
-                                    });
-                                });
-                            </script>
 
                             <div class="btn-group">
                                 <button name="submit" id="submit" class="btn btn-light text-primary">Ajouter</button>

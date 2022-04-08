@@ -179,7 +179,7 @@
                                                                 <th class="text-center"></th>
                                                             </tr>
                                                         </thead>
-                                                        <td>
+                                                        <tbody>
                                                             @foreach($porteurs as $porteur)
 
                                                             <tr>
@@ -193,10 +193,10 @@
                                                                     <form id="{{$porteur->PORTCode}}" action="{{route('goExperimentationPorteurSupprimer',['experimentation'=>$experimentation->EXPCode,'porteur'=>$porteur->PORTCode])}}" method="post">
                                                                         @csrf
                                                                         <input type="hidden" name="_method" value="delete">
-                                                                    </form>
-                                                            </tr></td>
-
+                                                                    </form></td>
                                                             </tr>
+
+
                                                             @endforeach
                                                         </tbody>
                                                     </table>

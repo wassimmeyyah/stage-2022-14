@@ -110,6 +110,10 @@
                 <td>{{$personnelacad->PADiscipline}}</td>
             </tr>
             <tr>
+                <th scope="row">Fonction de l'accompagnateur</th>
+                <td>{{$personnelacad->PAFonction}}</td>
+            </tr>
+            <tr>
                 <th scope="row">Etablissement de l'accompagnateur</th>
                 <td>{{$personnelacad->ETABCode}}</td>
             </tr>

@@ -54,7 +54,6 @@
 
                             <div class="card-deck">
                                 @foreach($experimentation as $experimentations)
-                                @if($experimentation->EXPArchivage == 0)
 
                                 <div class="row mb-2">
                                     <div class="col-md-6">
@@ -90,7 +89,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
                                 @endforeach
                             </div>
                             <a class="btn btn-secondary " href="{{route('goExperimentation')}}">Revenir a toutes les experimentations</a><br>

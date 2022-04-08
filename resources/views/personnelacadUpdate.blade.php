@@ -61,7 +61,7 @@
                                     <input type="text" class="form-control" name="PADiscipline" value="{{$personnelacad->PADiscipline}}" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PAAdressePerso">Adresse de la personne : :</label>
+                                    <label for="PAAdressePerso">Adresse de la personne :</label>
                                     <input type="text" class="form-control" name="PAAdressePerso" value="{{$personnelacad->PAAdressePerso}}" />
                                 </div>
                                 <div class="form-group">
@@ -69,11 +69,14 @@
                                     <input type="text" class="form-control" name="PATel" value="{{$personnelacad->PATel}}" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="PAAdresse">Numero RNE de l'etablissement de la personne :</label>
-                                    <input type="text" class="form-control" name="ETABCode" value="{{$personnelacad->ETABCode}}" />
+                                    <label for="PAFonction">Fonction de la personne :</label>
+                                    <input type="text" class="form-control" name="PAFonction" value="{{$personnelacad->PAFonction}}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="ETABCode">Numero RNE de l'etablissement de la personne :</label>
+                                    <input readonly type="text" class="form-control" name="ETABCode" value="{{$personnelacad->ETABCode}}" />
                                 </div>
                                 <button  class="btn btn-light text-primary">Modifier</button>
-                                <a class="btn btn-danger" href="{{route('goEtablissement')}}">Annuler</a>
                             </form>
                         </div>
                     </div>

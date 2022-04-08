@@ -27,25 +27,41 @@ const app = new Vue({
     data(){
 
         return {
-            etablissements: [],
-            infoWindowOptions: {
-                pixelOffset:{
+            coordonnees: [],
+            infoWindoOptions: {
+                pixelOffset: {
                     width: 0,
                     height: -35
                 }
-            },
-            infoWindowPosition(){
-                return{
-                    lat: parseFloat(this.activeEtablissement.latitude),
-                    lng: parseFloat(this.activeEtablissement.longitude),};
-            },
 
-            activeEtablissement: {},
+            },
+            activeCoordonnees: {},
             infoWindowOpened: false
-        }
 
-    }
+                }
+            },
+            created(){
+                axios.get('/api/coordonnees')
+                    .then((Response : AxiosResponse<any>) => this.coordonnees = response.data)
+                    .catch((error) => console.error(error));
+            },
+            methods: {
+                getPosition(r){
+                    return {
+                        lat: parseFloat(r.COORDLatitude),
+                        lng: parseFloat(r.COORDLongitude)
+                    }
+                },
+                handleMarkerClicked(r){
+                    this.activeCoordonnees = r;
+                    this.infoWindowOpened = true;
+                }
+            },
+
 });
+
+
+
 
 $(document).ready(function() {
     var max_fields      = 10; //maximum input boxes allowed

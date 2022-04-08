@@ -61,7 +61,6 @@
                                     <input readonly type="text" class="form-control" name="ETABCode" value="{{$porteur->ETABCode}}" />
                                 </div>
                                 <button  class="btn btn-light text-primary">Modifier</button>
-                                <a class="btn btn-danger" href="{{route('goPorteur')}}">Annuler</a>
                             </form>
                         </div>
                     </div>

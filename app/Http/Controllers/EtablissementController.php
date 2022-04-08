@@ -29,7 +29,7 @@ class EtablissementController extends Controller
      */
     public function  show(Request $request)
     {
-       $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABCode", "asc")->paginate(10);
+       $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom", "asc")->paginate(10);
         //return view("etablissement", ["etablissements" => $etablissements]);
 
 
@@ -39,8 +39,21 @@ class EtablissementController extends Controller
     public function  show2(Request $request)
     {
 
-        $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABCode", "asc")->get();
-        $coordonnees = Coordonnee::all();
+        $etablissements = Etablissement::where('ETABCode', '!=', 'Aucun')->orderBy("ETABNom", "asc")->get();
+        $coordonnees = DB::table('coordonnees as c')->select(
+            'c.COORDCode as COORDCode',
+            'c.COORDLatitude as COORDLatitude',
+            'c.COORDLongitude as COORDLongitude',
+            'e.ETABCode as ETABCode',
+            'e.ETABNom as ETABNom',
+            'e.ETABNom as ETABMAil'
+        )
+
+
+            ->leftjoin('etablissement as e', 'e.COORDCode', '=', 'c.COORDCode')->distinct()
+            ->get();
+
+        //ddd($coordonnees);
 
 
         return view("carte", ["etablissements" => $etablissements], compact('coordonnees'));
@@ -244,6 +257,7 @@ class EtablissementController extends Controller
             ->orWhere('TYPCode', 'like', "%$q%")
             ->orWhere('SPECode', 'like', "%$q%")
             ->orWhere('VILCode', 'like', "%$q%")
+            ->orderBy("ETABNom", "asc")
             ->get();
 
         $etablissements = $etablissements2->where('ETABCode', '!=', "Aucun");
@@ -264,6 +278,7 @@ class EtablissementController extends Controller
             ->orWhere('TYPCode', 'like', "%$q%")
             ->orWhere('SPECode', 'like', "%$q%")
             ->orWhere('VILCode', 'like', "%$q%")
+            ->orderBy("ETABNom", "asc")
             ->get();
 
         $etablissements = $etablissements2->where('ETABCode', '!=', "Aucun");
@@ -294,6 +309,7 @@ class EtablissementController extends Controller
         $p = request()->input('p');
         $etablissements2 = Etablissement::Where('TERRCode', 'LIKE', "%$q%")
             ->Where('TYPCode', 'LIKE', "%$p%")
+            ->orderBy("ETABNom", "asc")
             ->get();
 
         $etablissements = $etablissements2->where('ETABCode', '!=', "Aucun");

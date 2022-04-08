@@ -29,18 +29,49 @@
                                 <div class="content">
 
                                     <div class="map" id="app">
-                                        <gmap-map :center="{lat:45.764043,lng:4.835659}" :zoom="8" style="width: 100%; height: 700px;">
+                                        <gmap-map :center="{lat:45.399269104003906,lng:4.366680145263672}" :zoom="8" style="width: 100%; height: 700px;">
                                             @foreach($coordonnees as $coordonnee)
 
+                                            <gmap-info-window
+                                                options="width: 0, height: -35"
 
+                                                @closeclick="false"
+
+                                            >
+                                                <div class="info-window">
+                                                    <h2>{{$coordonnee->ETABNom}}</h2>
+                                                    <h5>{{$coordonnee->ETABCode}}</h5>
+                                                    <h5><a href="{{route('goEtablissementAffichage', ['etablissement'=>$coordonnee->ETABCode])}}">Voir plus </a></h5>
+
+                                                </div>
+
+                                            </gmap-info-window>
                                             <gmap-marker
                                                 :position="{lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}}"
                                                 :clickable="true"
                                                 :draggable="false"
-                                                @click="infoWindowOpened = true"></gmap-marker>
+                                                @click ="marker"></gmap-marker>
                                             @endforeach
 
                                         </gmap-map>
+
+                                        <script>
+                                            const marker = new google.maps.Marker({
+                                                position: {lat:{{$coordonnee->COORDLatitude}},lng:{{$coordonnee->COORDLongitude}}},
+                                                map,
+                                                title: "",
+                                            });
+
+                                            marker.addListener("click", () => {
+                                                infowindow.open({
+                                                    anchor: marker,
+                                                    map,
+                                                    shouldFocus: false,
+                                                });
+                                            });
+                                        </script>
+
+
 
                                     </div>
                                 </div>

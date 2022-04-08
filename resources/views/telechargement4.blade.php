@@ -264,6 +264,22 @@
             </tr>
 
         </table>
+        <br>
+
+        <table class="table-style">
+            <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des porteurs de projets : </i></strong> @foreach($porteur2s as $porteur)<a href="{{route('goPorteurAffichage', ['porteur'=>$porteur->PORTCode])}}"><td class="pt-3-half"  ><i class="bi bi-person-check-fill">  {{$porteur->PORTNom}} </i></td></a>@endforeach
+
+        </table>
+            <br>
+
+            <table class="table-style">
+            <strong><i class="text-center text-uppercase bi bi-clock-history"> Historique des accompagnateurs de projets : </i></strong> @foreach($personnelacad2s as $personnelacad)<a href="{{route('goPersonnelacadAffichage', ['personnelacad'=>$personnelacad->PACode])}}"><td class="pt-3-half" ><i class="bi bi-person-check-fill"> {{$personnelacad->PANom}} </i></td></a>@endforeach
+
+
+        </table>
+        <br>
+
+
 
     </center>
     <br>

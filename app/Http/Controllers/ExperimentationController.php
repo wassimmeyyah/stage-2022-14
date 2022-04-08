@@ -70,7 +70,7 @@ class ExperimentationController extends Controller
             ->leftjoin('etablissement as e', 'ex.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('territoire as t', 't.TERRCode', '=', 'e.TERRCode')
 
-            ->Orderby("EXPCode", "asc")->paginate(10);
+            ->Orderby("EXPTitre", "asc")->paginate(10);
 
 
         return view("experimentation", ["experimentations" => $experimentations], compact('groupethematiques', 'thematiques', 'paliers', 'porteurs', 'personnelacads', 'territoires', 'types', 'specialites', 'villes'));
@@ -508,7 +508,10 @@ class ExperimentationController extends Controller
             ->orWhere('ex.EXPTitre', 'like', "%$q%")
             ->orWhere('e.ETABNom', 'like', "%$q%")
             ->orWhere('t.TERRNom', 'like', "%$q%")
+            ->Orderby("EXPTitre", "asc")
             ->get();
+
+            //ddd($experimentations);
 
 
         return view('experimentationSearch')->with('experimentation', $experimentations);
@@ -554,7 +557,9 @@ class ExperimentationController extends Controller
             ->where('et.TERRCode', 'LIKE', "%$q%")
             ->Where('et.TYPCode', 'LIKE', "%$p%")
 
-            ->Where('ta.THEMACode', 'LIKE', "%$s%")->distinct()->orderBy('e.EXPCode')->get();
+            ->Where('ta.THEMACode', 'LIKE', "%$s%")->distinct()->orderBy('e.EXPCode')
+            ->Orderby("EXPTitre", "asc")
+            ->get();
 
         // ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
@@ -580,7 +585,9 @@ class ExperimentationController extends Controller
             ->leftjoin('etablissement as et', 'et.ETABCode', '=', 'e.ETABCode')
             ->leftjoin('territoire as te', 'te.TERRCode', '=', 'et.TERRCode')
 
-            ->Where('e.EXPArchivage', 'like', "%$r%")->get();
+            ->Where('e.EXPArchivage', 'like', "%$r%")
+            ->Orderby("EXPTitre", "asc")
+            ->get();
 
         // ddd($experimentation);
         return view('experimentationFiltre', compact('experimentation'))->with('experimentation', $experimentation);
@@ -814,23 +821,23 @@ class ExperimentationController extends Controller
         }
 
 
-        try{
+        //try{
         $nomEXP = $porteur->PORTNom;
 
-        ddd(DB::table('accompagnement1')->where('PORTCode', $porteur->PORTCode)->where('EXPCode',  $experimentation->EXPCode));
+        //ddd(DB::table('accompagnement1')->where('PORTCode', $porteur->PORTCode)->where('EXPCode',  $experimentation->EXPCode));
         $res4 = DB::table('accompagnement3')->insert([
 
             'EXPCode' => $experimentation->EXPCode,
             'PORTCode' => $porteur->PORTCode,
         ]);
-        $res = DB::table('accompagnement1')->where('PORTCode', $porteur->PORTCode)->where('EXPCode',  $experimentation->EXPCode)->delete();
+        $res = DB::table('accompagnement1')->where('PORTCode','=', $porteur->PORTCode)->where('EXPCode', '=', $experimentation->EXPCode)->delete();
 
 
 
         return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
-        } catch (QueryException $q) {
-            return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
-        }
+//        } catch (QueryException $q) {
+//            return back()->with("successDelete", "Le porteur' '$nomEXP' a été supprimé avec succèss");
+//        }
 
     }
 

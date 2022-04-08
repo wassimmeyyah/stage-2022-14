@@ -61,7 +61,6 @@
 
                             <div class="card-deck">
                                 @foreach($experimentation as $experimentations)
-                                @if($experimentation->EXPArchivage == 0)
 
                                 <div class="row mb-2">
                                     <div class="col-md-6">
@@ -81,7 +80,7 @@
                                                     <td><br><a class="btn btn-danger class=pull-left" href="{{route('goExperimentationArchiver', ['experimentation'=>$experimentations->EXPCode])}}">Archiver</a></td>
                                                     @endif
                                                     @can('manage-users')
-                                                    <td><a href="#" class="btn btn-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
+                                                    <td><a href="#" class="btn btn-light text-danger class=pull-right" onclick="if(confirm('Voulez-vous vraiment supprimer cet etablissement ?')){document.getElementById('{{$experimentations->expID}}').submit() }">Supprimer</a>
                                                         <form id="{{$experimentations->expID}}" action="{{route('goExperimentationSupprimer',['experimentation'=>$experimentations->expID])}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="delete">
@@ -97,7 +96,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
                                 @endforeach
 
                             </div>
