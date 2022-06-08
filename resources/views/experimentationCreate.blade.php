@@ -117,13 +117,8 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label for="VILCode">Ville :</label>
-                                        <select class="form-control" name="VILCode">
-                                            <option value=""></option>
-                                            @foreach($villes as $ville)
-                                            <option value="{{$ville->VILCode}}">{{$ville->VILNom}}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="VILNom">Ville :</label>
+                                        <input type="text" class="form-control" name="VILNom" />
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -286,7 +281,7 @@
                                     });
                                 </script>
 
-                                
+
 
 
 

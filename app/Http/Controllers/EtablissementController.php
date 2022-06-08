@@ -115,7 +115,12 @@ class EtablissementController extends Controller
 
             //ddd(DB::table('coordonnees')->latest('COORDCode')->limit(1)->first()->COORDCode);
 
-            $res = DB::table('etablissement')->insert([
+
+            $res2 = DB::table('ville')->insert([
+                'VILNom' => $request->input('VILCode'),
+            ]);
+
+            $res2 = DB::table('etablissement')->insert([
                 'ETABCode' => $request->input('ETABCode'),
                 'ETABNom' => $request->input('ETABNom'),
                 'ETABMail' => $request->input('ETABMail'),
@@ -125,9 +130,8 @@ class EtablissementController extends Controller
                 'TERRCode' => $request->input('TERRCode'),
                 'TYPCode' => $request->input('TYPCode'),
                 'SPECode' => $request->input('SPECode'),
-                'VILCode' => $request->input('VILCode'),
+                'VILCode' => DB::table('ville')->latest('VILCode')->limit(1)->first()->VILCode,
                 'COORDCode' => DB::table('coordonnees')->latest('COORDCode')->limit(1)->first()->COORDCode
-
             ]);
 
 
@@ -176,14 +180,25 @@ class EtablissementController extends Controller
         )
 
 
+
+
             ->leftjoin('etablissement as e', 'e.COORDCode', '=', 'c.COORDCode')
+
+            ->where('e.ETABCode', $id)
+            ->first();
+
+        $ville = DB::table('ville as v')->select(
+            'v.VIlCode',
+            'v.VILNom as VILNom'
+        )
+            ->leftjoin('etablissement as e', 'e.VILCode', '=', 'v.VILCode')
 
             ->where('e.ETABCode', $id)
             ->first();
 
         //ddd($coordonnees->COORDLatitude);
 
-        return view('etablissementUpdate', compact("etablissement", 'territoires', 'types', 'specialites', 'villes','coordonnees'));
+        return view('etablissementUpdate', compact("etablissement", 'territoires', 'types', 'specialites', 'villes','coordonnees','ville'));
     }
 
     /**
@@ -206,18 +221,22 @@ class EtablissementController extends Controller
                 'COORDLongitude' => $request->input('COORDLongitude')
             ]);
 
-        $res = DB::table('etablissement')->where('ETABCode', '=', $etablissement->ETABCode)
-            ->update([
-            'ETABNom' => $request->input('ETABNom'),
-            'ETABMail' => $request->input('ETABMail'),
-            'ETABChef' => $request->input('ETABChef'),
-            'ETABAdresse' => $request->input('ETABAdresse'),
-            'ETABTel' => $request->input('ETABTel'),
-            'TERRCode' => $request->input('TERRCode'),
-            'TYPCode' => $request->input('TYPCode'),
-            'SPECode' => $request->input('SPECode'),
-            'VILCode' => $request->input('VILCode'),
-        ]);
+            $res2 = DB::table('ville')->insert([
+                'VILNom' => $request->input('VILCode'),
+            ]);
+
+            $res = DB::table('etablissement')->where('ETABCode', '=', $etablissement->ETABCode)
+                ->update([
+                'ETABNom' => $request->input('ETABNom'),
+                'ETABMail' => $request->input('ETABMail'),
+                'ETABChef' => $request->input('ETABChef'),
+                'ETABAdresse' => $request->input('ETABAdresse'),
+                'ETABTel' => $request->input('ETABTel'),
+                'TERRCode' => $request->input('TERRCode'),
+                'TYPCode' => $request->input('TYPCode'),
+                'SPECode' => $request->input('SPECode'),
+                    'VILCode' => DB::table('ville')->latest('VILCode')->limit(1)->first()->VILCode,
+            ]);
 
 
 

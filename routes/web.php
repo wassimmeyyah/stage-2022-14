@@ -131,6 +131,8 @@ Route::delete('/experimentation/{experimentation}/{porteur}',[ExperimentationCon
 
 Route::delete('/experimentation/{experimentation}/supprimer/{personnelacad}',[ExperimentationController::class, 'deletepersonnelacad'])->name("goExperimentationPersonnelacadSupprimer");
 
+Route::delete('/experimentation/{experimentation}/{thematique}/supprimer',[ExperimentationController::class, 'deletethematique'])->name("goExperimentationThematiqueSupprimer");
+
 Route::get('/experimentation/{experimentation}/affichage', [ExperimentationController::class, 'affiche'])->name("goExperimentationAffichage");
 
 Route::get('/experimentation/{experimentation}/ajouter/porteur',[ExperimentationController::class, 'createporteur'])->name("goExperimentationAjouterPorteur");

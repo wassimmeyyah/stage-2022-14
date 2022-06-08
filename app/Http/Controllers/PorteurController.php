@@ -54,7 +54,9 @@ class PorteurController extends Controller
             return redirect()->route('goPorteur');
         }
 
-        return view('porteurCreate');
+        $etablissements = Etablissement::all();
+
+        return view('porteurCreate', compact('etablissements'));
     }
 
     public function up(porteur $porteur)

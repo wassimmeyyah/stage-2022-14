@@ -85,7 +85,16 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="pt-3-half">Thématique(s) de l'expérimentation</th>
-                                                        <td class="blog-post-title">@foreach($thematiques as $thematique) {{$thematique->THEMALibelle}} - @endforeach
+                                                        <td class="blog-post-title">@foreach($thematiques as $thematique) {{$thematique->THEMALibelle}}
+                                                        @can('updateDelete-users') <a href="#" class="btn btn-light text-dark" onclick="if(confirm('Voulez-vous vraiment supprimer cette thématique ?')){document.getElementById('{{$thematique->THEMACode}}').submit() }"><i class="bi bi-x-square-fill"></i></a>
+
+                                                            <form id="{{$thematique->THEMACode}}" action="{{route('goExperimentationThematiqueSupprimer',['experimentation'=>$experimentation->EXPCode,'thematique'=>$thematique->THEMACode])}}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="_method" value="delete">
+                                                            </form>
+
+                                                        @endcan
+                                                        @endforeach
                                                         </td>
                                                     </tr>
                                                     <tr>

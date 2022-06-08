@@ -55,6 +55,15 @@
                                     <label for="PORTAdresse">Numero RNE de l'etablissement du porteur :</label>
                                     <input type="text" class="form-control" name="ETABCode" />
                                 </div>
+                                <div>
+                                        <td>
+                                            <label for="ETABCode">Nom de l'accompagnateur </label>
+                                            <select class="form-control" name="ETABCode">
+                                                <option value=""></option> @foreach($etablissements as $etablissement) <option value="{{$etablissement->ETABCode}}">{{$etablissement->ETABCode}}</option> @endforeach
+                                            </select>
+                                        </td>
+
+                                </div>
 
                                 <br>
                                 <button  class="btn btn-light text-primary">Ajouter</button>
